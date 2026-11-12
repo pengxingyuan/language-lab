@@ -826,3 +826,109 @@ body.vocabulary-light {
     padding: 4px 14px 16px;
   }
 }
+
+/* ==================================================
+   Language Lab · Backup Buttons
+   Apple 风格：圆润、轻量、细腻
+   ================================================== */
+
+/* 一、备份按钮容器 */
+.vocabulary-backup-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 24px;
+}
+
+/* 二、按钮基础样式 */
+.backup-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  min-height: 42px;
+  padding: 0 20px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+
+  background: #202326;
+  color: #f5f5f7;
+
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.2px;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 2px 5px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* 三、鼠标悬停 */
+.backup-button:hover {
+  background: #292e32;
+  border-color: rgba(182, 255, 0, 0.35);
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.18),
+    0 0 0 3px rgba(182, 255, 0, 0.045);
+
+  transform: translateY(-1px);
+}
+
+/* 四、点击反馈 */
+.backup-button:active {
+  transform: scale(0.97);
+  box-shadow: none;
+}
+
+/* 五、键盘焦点 */
+.backup-button:focus-visible {
+  outline: 2px solid #b6ff00;
+  outline-offset: 3px;
+}
+
+/* 六、浅色主题 */
+body.vocabulary-light .backup-button {
+  background: #ffffff;
+  color: #252525;
+  border-color: rgba(0, 0, 0, 0.08);
+
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.045),
+    0 1px 2px rgba(0, 0, 0, 0.025);
+}
+
+body.vocabulary-light .backup-button:hover {
+  background: #f7f9f3;
+  border-color: rgba(130, 170, 40, 0.35);
+
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.07),
+    0 0 0 3px rgba(130, 170, 40, 0.06);
+}
+
+/* 七、移动端适配 */
+@media (max-width: 600px) {
+  .vocabulary-backup-actions {
+    gap: 9px;
+  }
+
+  .backup-button {
+    min-height: 40px;
+    padding: 0 16px;
+    border-radius: 13px;
+    font-size: 12px;
+  }
+}
