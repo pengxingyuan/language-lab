@@ -1177,7 +1177,7 @@ body.dark-theme .article-ru:hover {
 }
 
 /* =========================================================
-   页面背景图案 · icon.png
+   页面背景图案 · CAIBUDIAN.jpeg
    整页铺设，低透明度，不影响内容阅读
    ========================================================= */
 
@@ -1194,7 +1194,7 @@ body::before {
   inset: 0;
   z-index: -1;
 
-  background-image: url("icon.png");
+  background-image: url("CAIBUDIAN.jpeg");
   background-repeat: no-repeat;
   background-position: center;
   background-size: min(65vw, 760px);
