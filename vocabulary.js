@@ -698,30 +698,42 @@ function importVocabulary(file) {
 }
 
 // 创建备份按钮
+
+/* ==================================================
+   词汇库备份工具栏
+   提供 JSON 导入、导出及云端同步机制说明
+   ================================================== */
+
 function createBackupControls() {
+  // 创建备份工具栏
   const toolbar = document.createElement("div");
   toolbar.className = "vocabulary-backup-actions";
 
+  // ---------- 01. 导出按钮 ----------
   const exportButton = document.createElement("button");
   exportButton.type = "button";
   exportButton.textContent = "↓ Export Backup";
   exportButton.className = "backup-button";
   exportButton.addEventListener("click", exportVocabulary);
 
+  // ---------- 02. 导入按钮 ----------
   const importButton = document.createElement("button");
   importButton.type = "button";
   importButton.textContent = "↑ Import Backup";
   importButton.className = "backup-button";
 
+  // 隐藏文件选择框
   const fileInput = document.createElement("input");
   fileInput.type = "file";
   fileInput.accept = ".json,application/json";
   fileInput.hidden = true;
 
+  // 点击导入按钮，打开文件选择窗口
   importButton.addEventListener("click", () => {
     fileInput.click();
   });
 
+  // 选择 JSON 文件后执行导入
   fileInput.addEventListener("change", () => {
     const file = fileInput.files[0];
 
@@ -729,11 +741,39 @@ function createBackupControls() {
       importVocabulary(file);
     }
 
+    // 清空选择状态，允许重复选择同一个文件
     fileInput.value = "";
   });
 
-  toolbar.append(exportButton, importButton, fileInput);
+  // ---------- 03. 运行机制说明 ----------
+  const info = document.createElement("div");
+  info.className = "backup-info";
 
+  const infoTitle = document.createElement("div");
+  infoTitle.className = "backup-info-title";
+  infoTitle.textContent = "DATA BACKUP & CLOUD SYNC";
+
+  const infoDescription = document.createElement("p");
+  infoDescription.className = "backup-info-description";
+  infoDescription.textContent =
+    "词汇数据保存在当前设备，并通过 GitHub 仓库实现多设备同步。Cloudflare Worker 负责安全传输，不使用独立数据库。";
+
+  const infoTip = document.createElement("p");
+  infoTip.className = "backup-info-tip";
+  infoTip.textContent =
+    "Export 下载 JSON 备份；Import 从备份恢复数据。登录 GitHub 后，导入的数据也会自动同步到其他设备。";
+
+  info.append(infoTitle, infoDescription, infoTip);
+
+  // ---------- 04. 组合工具栏 ----------
+  toolbar.append(
+    exportButton,
+    importButton,
+    fileInput,
+    info
+  );
+
+  // 将工具栏插入词汇列表之前
   vocabularyList.parentElement.insertBefore(
     toolbar,
     vocabularyList

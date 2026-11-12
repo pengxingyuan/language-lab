@@ -932,3 +932,69 @@ body.vocabulary-light .backup-button:hover {
     font-size: 12px;
   }
 }
+
+/* ==================================================
+   Backup Info · 备份与同步机制说明
+   ================================================== */
+
+/* 工具栏整体布局 */
+.vocabulary-backup-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+/* 说明区域 */
+.backup-info {
+  flex: 1;
+  min-width: 220px;
+  margin-left: 12px;
+  padding-left: 18px;
+  border-left: 1px solid rgba(128, 128, 128, 0.22);
+}
+
+/* 说明标题 */
+.backup-info-title {
+  margin-bottom: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--neon, #b6ff00);
+}
+
+/* 说明正文 */
+.backup-info-description,
+.backup-info-tip {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.7;
+  color: var(--text-secondary, #929292);
+}
+
+/* 两段说明之间的间距 */
+.backup-info-tip {
+  margin-top: 3px;
+  opacity: 0.8;
+}
+
+/* 浅色主题 */
+body.vocabulary-light .backup-info-description,
+body.vocabulary-light .backup-info-tip {
+  color: #777777;
+}
+
+/* 手机端：说明区域换到按钮下方 */
+@media (max-width: 700px) {
+  .vocabulary-backup-actions {
+    align-items: flex-start;
+  }
+
+  .backup-info {
+    flex-basis: 100%;
+    margin: 8px 0 0;
+    padding: 12px 0 0;
+    border-left: none;
+    border-top: 1px solid rgba(128, 128, 128, 0.22);
+  }
+}
