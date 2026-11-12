@@ -134,6 +134,195 @@ function saveVocabulary() {
 }
 
 // ==================================================
+// 二、词汇库文件备份
+// ==================================================
+
+// 创建 JSON 文件备份
+function exportVocabulary() {
+  try {
+    // 整理备份文件的数据结构
+    const backupData = {
+      format: "language-lab-vocabulary",
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      data: vocabularyData
+    };
+
+    // 转换为 JSON 文本
+    const jsonText = JSON.stringify(backupData, null, 2);
+
+    // 创建可下载文件
+    const blob = new Blob(
+      [jsonText],
+      { type: "application/json;charset=utf-8" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    // 使用日期生成备份文件名
+    const date = new Date().toISOString().slice(0, 10);
+
+    link.href = url;
+    link.download = `languageLab_vocabulary_${date}.json`;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+
+    alert(`备份成功！共导出 ${vocabularyData.length} 条词汇。`);
+
+  } catch (error) {
+    console.error("导出词汇失败：", error);
+    alert("导出失败，请稍后重试。");
+  }
+}
+
+// 检查导入的数据格式
+function validateVocabularyData(data) {
+  if (!Array.isArray(data)) {
+    return false;
+  }
+
+  return data.every((entry) => {
+    return (
+      entry &&
+      typeof entry === "object" &&
+      !Array.isArray(entry) &&
+      typeof entry.concept === "string" &&
+      Array.isArray(entry.english) &&
+      Array.isArray(entry.french) &&
+      Array.isArray(entry.russian) &&
+      entry.examples &&
+      typeof entry.examples === "object"
+    );
+  });
+}
+
+// 从 JSON 文件恢复词汇
+function importVocabulary(file) {
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    try {
+      const parsedData = JSON.parse(reader.result);
+
+      // 兼容本系统导出的备份文件和纯数组格式
+      const importedData = Array.isArray(parsedData)
+        ? parsedData
+        : parsedData?.format === "language-lab-vocabulary" &&
+          parsedData?.version === 1
+          ? parsedData.data
+          : null;
+
+      // 检查备份文件是否完整
+      if (!validateVocabularyData(importedData)) {
+        alert("文件格式不正确，或不是有效的 Language Lab 词汇备份。");
+        return;
+      }
+
+      // 导入前显示确认信息
+      const confirmed = confirm(
+        `即将导入 ${importedData.length} 条词汇。\n\n` +
+        `注意：导入将覆盖当前浏览器中的全部词汇。\n` +
+        `建议先导出当前词汇作为备份。\n\n` +
+        `确定继续吗？`
+      );
+
+      if (!confirmed) return;
+
+      // 暂存原数据，防止导入失败造成数据丢失
+      const previousData = vocabularyData;
+
+      vocabularyData = importedData;
+
+      // 写入浏览器本地存储
+      if (!saveVocabulary()) {
+        vocabularyData = previousData;
+        renderVocabulary();
+        return;
+      }
+
+      // 更新页面
+      renderVocabulary();
+
+      alert(`恢复成功！已导入 ${vocabularyData.length} 条词汇。`);
+
+    } catch (error) {
+      console.error("导入词汇失败：", error);
+      alert("无法读取该文件，请确认它是有效的 JSON 文件。");
+    }
+  };
+
+  reader.onerror = () => {
+    alert("文件读取失败，请重新选择文件。");
+  };
+
+  reader.readAsText(file, "UTF-8");
+}
+
+// 创建备份操作区域
+function createBackupControls() {
+  const toolbar = document.createElement("div");
+
+  toolbar.className = "vocabulary-backup-actions";
+
+  // 导出按钮
+  const exportButton = document.createElement("button");
+
+  exportButton.type = "button";
+  exportButton.textContent = "↓ Export Backup";
+  exportButton.className = "backup-button";
+
+  exportButton.addEventListener("click", exportVocabulary);
+
+  // 导入按钮
+  const importButton = document.createElement("button");
+
+  importButton.type = "button";
+  importButton.textContent = "↑ Import Backup";
+  importButton.className = "backup-button";
+
+  // 隐藏文件选择框
+  const fileInput = document.createElement("input");
+
+  fileInput.type = "file";
+  fileInput.accept = ".json,application/json";
+  fileInput.hidden = true;
+
+  importButton.addEventListener("click", () => {
+    fileInput.click();
+  });
+
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files[0];
+
+    if (file) {
+      importVocabulary(file);
+    }
+
+    // 允许重复选择同一个文件
+    fileInput.value = "";
+  });
+
+  toolbar.append(exportButton, importButton, fileInput);
+
+  // 将备份按钮放在词汇列表上方
+  vocabularyList.parentElement.insertBefore(
+    toolbar,
+    vocabularyList
+  );
+}
+
+// 初始化备份按钮
+createBackupControls();
+
+
+// ==================================================
 // 三、页面显示与隐藏
 // ==================================================
 
