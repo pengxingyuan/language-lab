@@ -197,10 +197,28 @@ function createArticleElement(article) {
 
   date.textContent = formatNewsDate(article.pubDate);
 
+    // 创建媒体来源标识
   const source = document.createElement("span");
 
-  source.textContent = article.source;
+  source.className = "article-source";
 
+  // 获取原始媒体名称
+  const sourceName = String(article.source || "NEWS");
+
+  // 根据媒体名称生成简洁徽标
+  if (/rfi/i.test(sourceName)) {
+    source.textContent = "RFI";
+  } else if (/bbc/i.test(sourceName)) {
+    source.textContent = "BBC";
+  } else {
+    source.textContent = sourceName;
+  }
+
+  // 保留完整来源名称，方便辅助阅读
+  source.setAttribute("aria-label", `新闻来源：${sourceName}`);
+  source.title = sourceName;
+
+  // 添加到文章底部
   footer.append(date, source);
 
   // 组合文章内容

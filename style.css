@@ -810,3 +810,81 @@ button {
     font-size: 22px;
   }
 }
+/* =========================================================
+   十四、Today's Reading · 新闻媒体标识
+   BBC / RFI 简洁文字徽标
+   ========================================================= */
+
+/* 媒体来源徽标 */
+.article-source {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 34px;
+  padding: 3px 7px;
+
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+
+  background: var(--surface-hover);
+  color: var(--text-secondary);
+
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.8px;
+  line-height: 1.3;
+
+  white-space: nowrap;
+
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    color var(--transition);
+}
+
+/* 鼠标悬停时轻微强调 */
+.article-item:hover .article-source {
+  border-color: var(--accent-color);
+  color: var(--text-primary);
+}
+/* =========================================================
+   十五、Today's Reading · 外链指示图标
+   ========================================================= */
+
+/* 新闻卡片右侧外链图标 */
+.article-arrow {
+  flex-shrink: 0;
+
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  margin-left: auto;
+  padding: 0;
+
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+
+  background: var(--surface-hover);
+  color: var(--text-secondary);
+
+  font-size: 15px;
+
+  transition:
+    transform var(--transition),
+    background var(--transition),
+    color var(--transition),
+    border-color var(--transition);
+}
+
+/* 鼠标悬停时轻微移动 */
+.article-item:hover .article-arrow {
+  transform: translate(2px, -2px);
+
+  border-color: var(--accent-color);
+  background: var(--surface-color);
+  color: var(--text-primary);
+}
