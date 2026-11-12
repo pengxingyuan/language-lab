@@ -996,3 +996,53 @@ body.dark-theme .article-fr:hover {
 body.dark-theme .article-ru:hover {
   background: #453526;
 }
+
+/* =========================================================
+   十八、个人署名 · Sean
+   圆润字体与黑色 × 荧光绿配色
+   ========================================================= */
+
+.personal-signature {
+  position: fixed;
+  left: 24px;
+  bottom: 20px;
+  z-index: 100;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  font-family: "Nunito", "Noto Sans SC", sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+
+  color: #202124;
+
+  background: #b6ff00;
+  padding: 7px 14px;
+  border-radius: 999px;
+
+  box-shadow: 0 4px 14px rgba(182, 255, 0, 0.18);
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* 鼠标悬停时轻微上浮 */
+.personal-signature:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(182, 255, 0, 0.28);
+}
+
+/* 手机端适当缩小 */
+@media (max-width: 650px) {
+  .personal-signature {
+    left: 14px;
+    bottom: 14px;
+    font-size: 12px;
+    padding: 6px 11px;
+    text-decoration: none;
+  }
+}
