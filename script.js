@@ -133,6 +133,7 @@ function formatNewsDate(dateString) {
 
 
 
+
 /* =========================================================
    五、创建新闻卡片
    ========================================================= */
@@ -154,6 +155,33 @@ function createArticleElement(article) {
   item.setAttribute("role", "link");
   item.setAttribute("tabindex", "0");
   item.setAttribute("aria-label", article.title);
+
+  // 创建新闻配图
+  let image = null;
+
+  // 只允许加载安全的 HTTPS 图片地址
+  try {
+    if (article.image) {
+      const imageUrl = new URL(article.image);
+
+      if (imageUrl.protocol === "https:") {
+        image = document.createElement("img");
+
+        image.className = "article-image";
+        image.src = imageUrl.href;
+        image.alt = article.title || "News image";
+        image.loading = "lazy";
+        image.decoding = "async";
+
+        // 图片加载失败时移除图片，不影响卡片内容
+        image.addEventListener("error", function () {
+          image.remove();
+        }, { once: true });
+      }
+    }
+  } catch (error) {
+    console.warn("新闻配图地址无效：", error);
+  }
 
   // 创建语言标识
   const language = document.createElement("div");
@@ -197,7 +225,7 @@ function createArticleElement(article) {
 
   date.textContent = formatNewsDate(article.pubDate);
 
-    // 创建媒体来源标识
+  // 创建媒体来源标识
   const source = document.createElement("span");
 
   source.className = "article-source";
@@ -231,7 +259,11 @@ function createArticleElement(article) {
   arrow.textContent = "↗";
   arrow.setAttribute("aria-hidden", "true");
 
-  // 组合完整文章卡片
+  // 按顺序组合新闻配图、语言标识、文章内容和跳转图标
+  if (image) {
+    item.append(image);
+  }
+
   item.append(language, content, arrow);
 
   // 点击卡片打开新闻原文

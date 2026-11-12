@@ -888,3 +888,46 @@ button {
   background: var(--surface-color);
   color: var(--text-primary);
 }
+
+/* =========================================================
+   十六、Today's Reading · 新闻配图
+   统一图片尺寸，适配浅色与深色主题
+   ========================================================= */
+
+/* 新闻卡片左侧缩略图 */
+.article-image {
+  flex-shrink: 0;
+
+  width: 128px;
+  height: 88px;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+
+  border-radius: 10px;
+
+  background: var(--surface-hover);
+
+  transition:
+    transform var(--transition),
+    opacity var(--transition);
+}
+
+/* 鼠标悬停时轻微放大 */
+.article-item:hover .article-image {
+  transform: scale(1.02);
+}
+
+/* 手机端缩小图片，给标题留出空间 */
+@media (max-width: 650px) {
+
+  .article-image {
+    width: 82px;
+    height: 72px;
+
+    border-radius: 8px;
+  }
+
+}
