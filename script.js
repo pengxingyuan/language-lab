@@ -152,6 +152,9 @@ function createArticleElement(article) {
   const item = document.createElement("article");
 
   item.className = "article-item";
+
+// 根据语言为整张卡片添加专属样式
+  item.classList.add(`article-${article.language}`);
   item.setAttribute("role", "link");
   item.setAttribute("tabindex", "0");
   item.setAttribute("aria-label", article.title);
@@ -264,7 +267,9 @@ function createArticleElement(article) {
     item.append(image);
   }
 
-  item.append(language, content, arrow);
+  // 不再单独显示 EN / FR / RU 色块
+  // 语言颜色将应用于整张新闻卡片
+  item.append(content, arrow);
 
   // 点击卡片打开新闻原文
   function openArticle() {
