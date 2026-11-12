@@ -1,14 +1,28 @@
 
 /* ==================================================
    Language Lab · Vocabulary
-   四语词汇库：动态录入、本地保存、读取、搜索与展示
+   四语词汇库：动态录入、本地缓存、GitHub 云端同步、
+   搜索、主题管理与 JSON 文件备份
    ================================================== */
+
+// ==================================================
+// 一、基础配置
+// ==================================================
 
 // 本地存储名称
 const STORAGE_KEY = "languageLab_vocabulary";
 const THEME_STORAGE_KEY = "languageLab_vocabulary_theme";
 
-// 获取页面元素
+// Cloudflare Worker API 地址
+const SYNC_API = "https://sync.language.pengxingyuan.top";
+
+// 自动同步延迟（毫秒）
+const SYNC_DELAY = 800;
+
+// ==================================================
+// 二、获取页面元素
+// ==================================================
+
 const addEntryButton = document.getElementById("add-entry-button");
 const cancelEntryButton = document.getElementById("cancel-entry-button");
 const entryFormPanel = document.getElementById("entry-form-panel");
@@ -16,24 +30,22 @@ const vocabularyForm = document.getElementById("vocabulary-form");
 const vocabularyList = document.getElementById("vocabulary-list");
 const totalCount = document.getElementById("total-count");
 
-// 获取搜索区域元素
 const vocabularySearchInput = document.getElementById("vocabulary-search-input");
 const vocabularySearchLanguage = document.getElementById("vocabulary-search-language");
 const vocabularySearchStatus = document.getElementById("vocabulary-search-status");
 
-// 获取主题切换按钮
 const vocabularyThemeToggle = document.getElementById("vocabularyThemeToggle");
 const vocabularyThemeIcon = document.getElementById("vocabularyThemeIcon");
 const vocabularyThemeText = document.getElementById("vocabularyThemeText");
 
-// 获取三个语言的表达容器
+// 三种语言的表达容器
 const expressionContainers = {
   english: document.getElementById("english-words"),
   french: document.getElementById("french-words"),
   russian: document.getElementById("russian-words")
 };
 
-// 获取三个语言的例句容器
+// 三种语言的例句容器
 const exampleContainers = {
   english: document.getElementById("english-examples"),
   french: document.getElementById("french-examples"),
@@ -41,10 +53,471 @@ const exampleContainers = {
 };
 
 // ==================================================
-// 一、主题管理
+// 三、云端同步状态
 // ==================================================
 
-// 设置词汇本主题
+// GitHub 登录状态
+let isAuthenticated = false;
+
+// 云端文件是否已经读取
+let isCloudReady = false;
+
+// 是否发生版本冲突
+let hasSyncConflict = false;
+
+// 当前 GitHub 文件 SHA
+let cloudSHA = null;
+
+// 自动同步定时器
+let syncTimer = null;
+
+// 同步任务队列
+let syncPromise = Promise.resolve();
+
+// 本地数据修改版本
+let localRevision = 0;
+
+// 当前词汇数据
+let vocabularyData = loadVocabulary();
+
+// 同步状态文字
+let syncStatusElement = null;
+
+// ==================================================
+// 四、本地数据管理
+// ==================================================
+
+// 从浏览器读取词汇
+function loadVocabulary() {
+  try {
+    const savedData = localStorage.getItem(STORAGE_KEY);
+    const parsedData = savedData ? JSON.parse(savedData) : [];
+
+    return Array.isArray(parsedData) ? parsedData : [];
+
+  } catch (error) {
+    console.error("读取本地词汇失败：", error);
+    alert("读取本地词汇时发生错误，请检查浏览器数据。");
+    return [];
+  }
+}
+
+// 仅保存到本地，不触发云端同步
+function saveLocalVocabulary() {
+  try {
+    localStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify(vocabularyData)
+    );
+
+    return true;
+
+  } catch (error) {
+    console.error("保存本地词汇失败：", error);
+    alert("保存失败，可能是浏览器存储空间不足。");
+    return false;
+  }
+}
+
+// 保存本地数据，并安排云端同步
+function saveVocabulary() {
+  if (!saveLocalVocabulary()) {
+    return false;
+  }
+
+  localRevision++;
+
+  // 只有登录且完成云端读取后才允许自动同步
+  if (isAuthenticated && isCloudReady && !hasSyncConflict) {
+    scheduleCloudSync();
+  }
+
+  return true;
+}
+
+// ==================================================
+// 五、同步状态显示
+// ==================================================
+
+// 更新同步状态文字
+function setSyncStatus(message, state = "normal") {
+  if (!syncStatusElement) return;
+
+  syncStatusElement.textContent = message;
+  syncStatusElement.dataset.state = state;
+}
+
+// ==================================================
+// 六、创建同步操作区域
+// ==================================================
+
+function createSyncControls() {
+  const toolbar = document.createElement("div");
+  toolbar.className = "vocabulary-sync-toolbar";
+
+  // 登录按钮
+  const loginButton = document.createElement("button");
+  loginButton.type = "button";
+  loginButton.className = "backup-button";
+  loginButton.textContent = "↗ Connect GitHub";
+
+  loginButton.addEventListener("click", () => {
+    window.location.href = `${SYNC_API}/auth/login`;
+  });
+
+  // 退出登录按钮
+  const logoutButton = document.createElement("button");
+  logoutButton.type = "button";
+  logoutButton.className = "backup-button";
+  logoutButton.textContent = "Logout";
+  logoutButton.hidden = true;
+
+  logoutButton.addEventListener("click", async () => {
+    const confirmed = confirm(
+      "确定退出 GitHub 登录吗？\n\n本地词汇不会被删除。"
+    );
+
+    if (!confirmed) return;
+
+    try {
+      const response = await fetch(`${SYNC_API}/auth/logout`, {
+        method: "POST",
+        credentials: "include"
+      });
+
+      if (!response.ok) {
+        throw new Error("退出登录失败");
+      }
+
+      isAuthenticated = false;
+      isCloudReady = false;
+      hasSyncConflict = false;
+
+      loginButton.hidden = false;
+      logoutButton.hidden = true;
+
+      setSyncStatus("已退出 GitHub · 本地保存正常", "normal");
+
+    } catch (error) {
+      console.error("退出登录失败：", error);
+      alert("退出登录失败，请稍后重试。");
+    }
+  });
+
+  // 手动同步按钮
+  const syncButton = document.createElement("button");
+  syncButton.type = "button";
+  syncButton.className = "backup-button";
+  syncButton.textContent = "↻ Sync Now";
+
+  syncButton.addEventListener("click", async () => {
+    if (!isAuthenticated) {
+      alert("请先连接 GitHub。");
+      return;
+    }
+
+    if (!isCloudReady) {
+      alert("云端数据还在读取，请稍后重试。");
+      return;
+    }
+
+    if (hasSyncConflict) {
+      alert(
+        "检测到云端版本冲突。\n\n" +
+        "为了保护数据，自动同步已经暂停。\n" +
+        "请刷新页面，重新读取云端数据后再操作。"
+      );
+      return;
+    }
+
+    await syncVocabulary();
+  });
+
+  // 同步状态
+  syncStatusElement = document.createElement("span");
+  syncStatusElement.className = "vocabulary-sync-status";
+  syncStatusElement.textContent = "正在检查 GitHub...";
+
+  toolbar.append(
+    loginButton,
+    logoutButton,
+    syncButton,
+    syncStatusElement
+  );
+
+  // 将同步区域插入页面
+  vocabularyList.parentElement.insertBefore(
+    toolbar,
+    vocabularyList
+  );
+
+  return {
+    loginButton,
+    logoutButton,
+    syncButton
+  };
+}
+
+const syncControls = createSyncControls();
+
+// ==================================================
+// 七、GitHub API 请求
+// ==================================================
+
+// 检查 GitHub 登录状态
+async function checkGitHubAuth() {
+  const response = await fetch(`${SYNC_API}/auth/status`, {
+    credentials: "include"
+  });
+
+  if (!response.ok) {
+    throw new Error(`登录状态检查失败：${response.status}`);
+  }
+
+  return await response.json();
+}
+
+// 读取云端词汇
+async function fetchCloudVocabulary() {
+  const response = await fetch(`${SYNC_API}/api/vocabulary`, {
+    credentials: "include"
+  });
+
+  const result = await response.json();
+
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || "读取云端词汇失败");
+  }
+
+  return result;
+}
+
+// 上传词汇到 GitHub
+async function uploadCloudVocabulary(data, sha) {
+  const response = await fetch(`${SYNC_API}/api/vocabulary`, {
+    method: "POST",
+    credentials: "include",
+
+    // 使用 text/plain，避免不必要的 CORS 预检请求
+    headers: {
+      "Content-Type": "text/plain;charset=UTF-8"
+    },
+
+    body: JSON.stringify({
+      data,
+      sha
+    })
+  });
+
+  const result = await response.json();
+
+  // 版本冲突
+  if (response.status === 409 || result.conflict) {
+    hasSyncConflict = true;
+
+    setSyncStatus("版本冲突 · 同步已暂停", "error");
+
+    throw new Error(
+      "云端文件已被其他设备修改。为避免覆盖数据，已暂停同步。"
+    );
+  }
+
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || "云端保存失败");
+  }
+
+  return result;
+}
+
+// ==================================================
+// 八、自动同步管理
+// ==================================================
+
+// 安排自动同步
+function scheduleCloudSync() {
+  clearTimeout(syncTimer);
+
+  setSyncStatus("等待同步...", "pending");
+
+  syncTimer = setTimeout(() => {
+    syncVocabulary();
+  }, SYNC_DELAY);
+}
+
+// 执行云端同步
+function syncVocabulary() {
+  // 所有写入按顺序执行，避免同时提交旧 SHA
+  syncPromise = syncPromise
+    .catch(() => {})
+    .then(async () => {
+      if (!isAuthenticated || !isCloudReady || hasSyncConflict) {
+        return;
+      }
+
+      setSyncStatus("正在同步...", "pending");
+
+      try {
+        const dataToUpload = JSON.parse(
+          JSON.stringify(vocabularyData)
+        );
+
+        const revisionAtStart = localRevision;
+
+        const result = await uploadCloudVocabulary(
+          dataToUpload,
+          cloudSHA
+        );
+
+        cloudSHA = result.sha;
+
+        // 上传期间如果本地又发生修改，再安排一次同步
+        if (localRevision !== revisionAtStart) {
+          setSyncStatus("发现新修改，准备再次同步...", "pending");
+          scheduleCloudSync();
+          return;
+        }
+
+        setSyncStatus("已同步到 GitHub", "success");
+
+      } catch (error) {
+        console.error("云端同步失败：", error);
+
+        if (!hasSyncConflict) {
+          setSyncStatus("同步失败 · 本地数据已保留", "error");
+        }
+      }
+    });
+
+  return syncPromise;
+}
+
+// ==================================================
+// 九、初始化云端同步
+// ==================================================
+
+async function initializeCloudSync() {
+  setSyncStatus("正在检查 GitHub...", "pending");
+
+  try {
+    // 第一步：检查登录状态
+    const auth = await checkGitHubAuth();
+
+    if (!auth.authenticated) {
+      isAuthenticated = false;
+      isCloudReady = false;
+
+      syncControls.loginButton.hidden = false;
+      syncControls.logoutButton.hidden = true;
+
+      setSyncStatus("未连接 GitHub · 本地保存正常", "normal");
+      return;
+    }
+
+    isAuthenticated = true;
+
+    syncControls.loginButton.hidden = true;
+    syncControls.logoutButton.hidden = false;
+
+    setSyncStatus(
+      `已连接 GitHub · ${auth.username || ""}`,
+      "success"
+    );
+
+    // 第二步：读取云端词汇
+    const cloudResult = await fetchCloudVocabulary();
+
+    cloudSHA = cloudResult.sha;
+
+    if (!Array.isArray(cloudResult.data)) {
+      throw new Error("云端词汇文件格式不正确");
+    }
+
+    // 读取过程中若本地发生过修改，不直接覆盖
+    const localChangedDuringLoad = localRevision > 0;
+
+    if (localChangedDuringLoad) {
+      hasSyncConflict = true;
+
+      setSyncStatus(
+        "本地数据在云端读取期间发生修改，请刷新页面确认",
+        "error"
+      );
+
+      alert(
+        "云端读取期间本地数据发生了变化。\n\n" +
+        "为避免数据丢失，暂时停止自动同步。"
+      );
+
+      return;
+    }
+
+    // 云端为空，但本地存在数据
+    if (cloudResult.data.length === 0 && vocabularyData.length > 0) {
+      const confirmed = confirm(
+        `云端词汇库目前为空，但本地有 ${vocabularyData.length} 条词汇。\n\n` +
+        "是否将本地词汇上传到 GitHub？"
+      );
+
+      if (confirmed) {
+        isCloudReady = true;
+        await syncVocabulary();
+      } else {
+        setSyncStatus("本地与云端数据不同 · 同步暂停", "error");
+      }
+
+      return;
+    }
+
+    // 云端和本地都有数据，且内容不同
+    if (
+      cloudResult.data.length > 0 &&
+      vocabularyData.length > 0 &&
+      JSON.stringify(cloudResult.data) !== JSON.stringify(vocabularyData)
+    ) {
+      const confirmed = confirm(
+        `本地有 ${vocabularyData.length} 条词汇，` +
+        `云端有 ${cloudResult.data.length} 条词汇。\n\n` +
+        "确定使用云端数据替换本地数据吗？\n\n" +
+        "选择取消将保留本地数据并暂停同步。"
+      );
+
+      if (!confirmed) {
+        hasSyncConflict = true;
+
+        setSyncStatus("本地与云端数据不同 · 同步暂停", "error");
+        return;
+      }
+    }
+
+    // 云端数据作为正式数据源
+    vocabularyData = cloudResult.data;
+
+    if (!saveLocalVocabulary()) {
+      throw new Error("云端数据已读取，但写入本地缓存失败");
+    }
+
+    isCloudReady = true;
+
+    renderVocabulary();
+
+    setSyncStatus(
+      `已同步 · ${vocabularyData.length} 条词汇`,
+      "success"
+    );
+
+  } catch (error) {
+    console.error("初始化云端同步失败：", error);
+
+    isCloudReady = false;
+
+    setSyncStatus("云端连接失败 · 本地数据已保留", "error");
+  }
+}
+
+// ==================================================
+// 十、主题管理
+// ==================================================
+
 function setVocabularyTheme(theme) {
   const isLight = theme === "light";
 
@@ -74,7 +547,6 @@ function setVocabularyTheme(theme) {
   }
 }
 
-// 读取上次保存的主题
 function loadVocabularyTheme() {
   let savedTheme = "dark";
 
@@ -91,56 +563,21 @@ function loadVocabularyTheme() {
   setVocabularyTheme(savedTheme);
 }
 
-// 点击按钮切换主题
 if (vocabularyThemeToggle) {
   vocabularyThemeToggle.addEventListener("click", () => {
-    const isCurrentlyLight = document.body.classList.contains("vocabulary-light");
+    const isLight = document.body.classList.contains("vocabulary-light");
 
-    setVocabularyTheme(isCurrentlyLight ? "dark" : "light");
+    setVocabularyTheme(isLight ? "dark" : "light");
   });
 }
 
 // ==================================================
-// 二、本地数据管理
+// 十一、JSON 文件备份
 // ==================================================
 
-// 从浏览器读取已经保存的词汇
-function loadVocabulary() {
-  try {
-    const savedData = localStorage.getItem(STORAGE_KEY);
-    const parsedData = savedData ? JSON.parse(savedData) : [];
-
-    return Array.isArray(parsedData) ? parsedData : [];
-  } catch (error) {
-    console.error("读取词汇失败：", error);
-    alert("读取本地词汇时发生错误，请检查浏览器数据。");
-    return [];
-  }
-}
-
-// 当前词汇列表
-let vocabularyData = loadVocabulary();
-
-// 保存词汇到浏览器
-function saveVocabulary() {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(vocabularyData));
-    return true;
-  } catch (error) {
-    console.error("保存词汇失败：", error);
-    alert("保存失败，可能是浏览器存储空间不足。");
-    return false;
-  }
-}
-
-// ==================================================
-// 二、词汇库文件备份
-// ==================================================
-
-// 创建 JSON 文件备份
+// 导出 JSON 备份
 function exportVocabulary() {
   try {
-    // 整理备份文件的数据结构
     const backupData = {
       format: "language-lab-vocabulary",
       version: 1,
@@ -148,10 +585,8 @@ function exportVocabulary() {
       data: vocabularyData
     };
 
-    // 转换为 JSON 文本
     const jsonText = JSON.stringify(backupData, null, 2);
 
-    // 创建可下载文件
     const blob = new Blob(
       [jsonText],
       { type: "application/json;charset=utf-8" }
@@ -160,7 +595,6 @@ function exportVocabulary() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
 
-    // 使用日期生成备份文件名
     const date = new Date().toISOString().slice(0, 10);
 
     link.href = url;
@@ -170,7 +604,8 @@ function exportVocabulary() {
     link.click();
     link.remove();
 
-    URL.revokeObjectURL(url);
+    // 延迟释放下载地址
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
 
     alert(`备份成功！共导出 ${vocabularyData.length} 条词汇。`);
 
@@ -182,9 +617,7 @@ function exportVocabulary() {
 
 // 检查导入的数据格式
 function validateVocabularyData(data) {
-  if (!Array.isArray(data)) {
-    return false;
-  }
+  if (!Array.isArray(data)) return false;
 
   return data.every((entry) => {
     return (
@@ -201,7 +634,7 @@ function validateVocabularyData(data) {
   });
 }
 
-// 从 JSON 文件恢复词汇
+// 导入 JSON 文件
 function importVocabulary(file) {
   if (!file) return;
 
@@ -211,7 +644,6 @@ function importVocabulary(file) {
     try {
       const parsedData = JSON.parse(reader.result);
 
-      // 兼容本系统导出的备份文件和纯数组格式
       const importedData = Array.isArray(parsedData)
         ? parsedData
         : parsedData?.format === "language-lab-vocabulary" &&
@@ -219,38 +651,38 @@ function importVocabulary(file) {
           ? parsedData.data
           : null;
 
-      // 检查备份文件是否完整
       if (!validateVocabularyData(importedData)) {
         alert("文件格式不正确，或不是有效的 Language Lab 词汇备份。");
         return;
       }
 
-      // 导入前显示确认信息
       const confirmed = confirm(
         `即将导入 ${importedData.length} 条词汇。\n\n` +
-        `注意：导入将覆盖当前浏览器中的全部词汇。\n` +
-        `建议先导出当前词汇作为备份。\n\n` +
-        `确定继续吗？`
+        "导入将替换当前本地词汇，并在连接 GitHub 后同步到云端。\n" +
+        "建议先导出当前词汇作为备份。\n\n" +
+        "确定继续吗？"
       );
 
       if (!confirmed) return;
 
-      // 暂存原数据，防止导入失败造成数据丢失
       const previousData = vocabularyData;
 
       vocabularyData = importedData;
 
-      // 写入浏览器本地存储
       if (!saveVocabulary()) {
         vocabularyData = previousData;
         renderVocabulary();
         return;
       }
 
-      // 更新页面
       renderVocabulary();
 
-      alert(`恢复成功！已导入 ${vocabularyData.length} 条词汇。`);
+      alert(
+        `导入成功！已导入 ${vocabularyData.length} 条词汇。` +
+        (isAuthenticated && isCloudReady
+          ? "\n云端同步将在稍后自动进行。"
+          : "\n当前尚未连接云端，请连接 GitHub 后同步。")
+      );
 
     } catch (error) {
       console.error("导入词汇失败：", error);
@@ -265,31 +697,23 @@ function importVocabulary(file) {
   reader.readAsText(file, "UTF-8");
 }
 
-// 创建备份操作区域
+// 创建备份按钮
 function createBackupControls() {
   const toolbar = document.createElement("div");
-
   toolbar.className = "vocabulary-backup-actions";
 
-  // 导出按钮
   const exportButton = document.createElement("button");
-
   exportButton.type = "button";
   exportButton.textContent = "↓ Export Backup";
   exportButton.className = "backup-button";
-
   exportButton.addEventListener("click", exportVocabulary);
 
-  // 导入按钮
   const importButton = document.createElement("button");
-
   importButton.type = "button";
   importButton.textContent = "↑ Import Backup";
   importButton.className = "backup-button";
 
-  // 隐藏文件选择框
   const fileInput = document.createElement("input");
-
   fileInput.type = "file";
   fileInput.accept = ".json,application/json";
   fileInput.hidden = true;
@@ -305,47 +729,44 @@ function createBackupControls() {
       importVocabulary(file);
     }
 
-    // 允许重复选择同一个文件
     fileInput.value = "";
   });
 
   toolbar.append(exportButton, importButton, fileInput);
 
-  // 将备份按钮放在词汇列表上方
   vocabularyList.parentElement.insertBefore(
     toolbar,
     vocabularyList
   );
 }
 
-// 初始化备份按钮
 createBackupControls();
 
-
 // ==================================================
-// 三、页面显示与隐藏
+// 十二、页面显示与隐藏
 // ==================================================
 
-// 打开录入面板
-addEntryButton.addEventListener("click", () => {
-  entryFormPanel.hidden = false;
+if (addEntryButton) {
+  addEntryButton.addEventListener("click", () => {
+    entryFormPanel.hidden = false;
 
-  entryFormPanel.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
+    entryFormPanel.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
   });
-});
+}
 
-// 关闭录入面板
-cancelEntryButton.addEventListener("click", () => {
-  entryFormPanel.hidden = true;
-});
+if (cancelEntryButton) {
+  cancelEntryButton.addEventListener("click", () => {
+    entryFormPanel.hidden = true;
+  });
+}
 
 // ==================================================
-// 四、动态添加表达与例句
+// 十三、动态添加表达与例句
 // ==================================================
 
-// 创建删除按钮
 function createRemoveButton(wrapper) {
   const button = document.createElement("button");
 
@@ -360,7 +781,6 @@ function createRemoveButton(wrapper) {
   return button;
 }
 
-// 添加语言表达
 function addExpressionField(container) {
   const wrapper = document.createElement("div");
   wrapper.className = "dynamic-item";
@@ -372,19 +792,19 @@ function addExpressionField(container) {
   input.name = originalInput.name;
   input.placeholder = "Add another expression";
 
-  wrapper.appendChild(input);
-  wrapper.appendChild(createRemoveButton(wrapper));
+  wrapper.append(input, createRemoveButton(wrapper));
 
   container.appendChild(wrapper);
 }
 
-// 添加语言例句
 function addExampleField(container) {
   const wrapper = document.createElement("div");
   wrapper.className = "example-item";
 
   const originalTextarea = container.querySelector("textarea");
-  const originalTranslation = container.querySelector('input[name$="-translation"]');
+  const originalTranslation = container.querySelector(
+    'input[name$="-translation"]'
+  );
 
   const textarea = document.createElement("textarea");
   textarea.name = originalTextarea.name;
@@ -396,14 +816,15 @@ function addExampleField(container) {
   translation.name = originalTranslation.name;
   translation.placeholder = "中文对照（可选）";
 
-  wrapper.appendChild(textarea);
-  wrapper.appendChild(translation);
-  wrapper.appendChild(createRemoveButton(wrapper));
+  wrapper.append(
+    textarea,
+    translation,
+    createRemoveButton(wrapper)
+  );
 
   container.appendChild(wrapper);
 }
 
-// 为所有动态添加按钮绑定事件
 document.querySelectorAll(".add-field-button").forEach((button) => {
   button.addEventListener("click", () => {
     const container = document.getElementById(button.dataset.target);
@@ -419,27 +840,26 @@ document.querySelectorAll(".add-field-button").forEach((button) => {
 });
 
 // ==================================================
-// 五、收集表单数据
+// 十四、收集表单数据
 // ==================================================
 
-// 获取某种语言的所有表达
 function collectExpressions(container) {
   return Array.from(container.querySelectorAll("input"))
     .map(input => input.value.trim())
     .filter(value => value !== "");
 }
 
-// 获取某种语言的所有例句
 function collectExamples(container) {
   return Array.from(container.querySelectorAll(".example-item"))
     .map(item => ({
       text: item.querySelector("textarea").value.trim(),
-      translation: item.querySelector('input[name$="-translation"]').value.trim()
+      translation: item.querySelector(
+        'input[name$="-translation"]'
+      ).value.trim()
     }))
     .filter(item => item.text !== "" || item.translation !== "");
 }
 
-// 整理整张词汇记录
 function collectFormData() {
   return {
     id: Date.now().toString() + Math.random().toString(36).slice(2, 8),
@@ -465,7 +885,7 @@ function collectFormData() {
 }
 
 // ==================================================
-// 六、保存词汇
+// 十五、保存词汇
 // ==================================================
 
 vocabularyForm.addEventListener("submit", (event) => {
@@ -486,17 +906,21 @@ vocabularyForm.addEventListener("submit", (event) => {
 
     entryFormPanel.hidden = true;
 
-    alert("Vocabulary saved successfully!");
+    alert(
+      isAuthenticated && isCloudReady
+        ? "Vocabulary saved! Cloud sync scheduled."
+        : "Vocabulary saved locally. Connect GitHub to sync."
+    );
+
   } else {
     vocabularyData.shift();
   }
 });
 
 // ==================================================
-// 七、重置录入表单
+// 十六、重置录入表单
 // ==================================================
 
-// 重新创建一个初始例句区域
 function createInitialExample(textName, translationName, placeholder) {
   const wrapper = document.createElement("div");
   wrapper.className = "example-item";
@@ -511,17 +935,14 @@ function createInitialExample(textName, translationName, placeholder) {
   translation.name = translationName;
   translation.placeholder = "中文对照（可选）";
 
-  wrapper.appendChild(textarea);
-  wrapper.appendChild(translation);
+  wrapper.append(textarea, translation);
 
   return wrapper;
 }
 
-// 清空表单并恢复初始输入区域
 function resetForm() {
   vocabularyForm.reset();
 
-  // 恢复三个语言的初始表达输入框
   Object.values(expressionContainers).forEach((container) => {
     const inputName = container.querySelector("input").name;
 
@@ -533,10 +954,12 @@ function resetForm() {
     container.replaceChildren(input);
   });
 
-  // 恢复三个语言的初始例句输入区域
   Object.values(exampleContainers).forEach((container) => {
     const textareaName = container.querySelector("textarea").name;
-    const translationName = container.querySelector('input[name$="-translation"]').name;
+
+    const translationName = container.querySelector(
+      'input[name$="-translation"]'
+    ).name;
 
     const example = createInitialExample(
       textareaName,
@@ -549,10 +972,9 @@ function resetForm() {
 }
 
 // ==================================================
-// 八、通用展示元素
+// 十七、通用展示元素
 // ==================================================
 
-// 创建安全的文本元素
 function createTextElement(tagName, className, content) {
   const element = document.createElement(tagName);
 
@@ -560,22 +982,19 @@ function createTextElement(tagName, className, content) {
     element.className = className;
   }
 
-  // 使用 textContent，避免将用户输入当作 HTML 执行
   element.textContent = content ?? "";
 
   return element;
 }
 
 // ==================================================
-// 九、词汇卡片展示
+// 十八、词汇卡片展示
 // ==================================================
 
-// 创建三语并列区域
 function appendLanguageGrid(card, entry) {
   const grid = document.createElement("div");
   grid.className = "entry-language-grid";
 
-  // 三种语言分别对应一个独立栏目
   const languages = [
     { key: "english", title: "ENGLISH" },
     { key: "french", title: "FRANÇAIS" },
@@ -606,7 +1025,6 @@ function appendLanguageGrid(card, entry) {
   card.appendChild(grid);
 }
 
-// 创建例句区域
 function appendExampleSection(card, title, examples) {
   if (!examples || examples.length === 0) return;
 
@@ -637,12 +1055,10 @@ function appendExampleSection(card, title, examples) {
   card.appendChild(section);
 }
 
-// 创建完整词汇卡片
 function createVocabularyCard(entry) {
   const card = document.createElement("article");
   card.className = "vocabulary-card";
 
-  // 卡片顶部：概念名称与日期
   const header = document.createElement("div");
   header.className = "entry-header";
 
@@ -660,7 +1076,7 @@ function createVocabularyCard(entry) {
 
   card.appendChild(header);
 
-  // 中文释义：单独突出展示
+  // 中文释义
   if (entry.chinese) {
     const meaning = document.createElement("div");
     meaning.className = "entry-chinese-meaning";
@@ -676,16 +1092,30 @@ function createVocabularyCard(entry) {
     card.appendChild(meaning);
   }
 
-  // 英语、法语、俄语并列展示
+  // 三语表达
   appendLanguageGrid(card, entry);
 
-  // 三种语言的例句
+  // 三语例句
   const examples = document.createElement("div");
   examples.className = "entry-examples-group";
 
-  appendExampleSection(examples, "ENGLISH EXAMPLES", entry.examples?.english);
-  appendExampleSection(examples, "FRANÇAIS EXAMPLES", entry.examples?.french);
-  appendExampleSection(examples, "РУССКИЙ EXAMPLES", entry.examples?.russian);
+  appendExampleSection(
+    examples,
+    "ENGLISH EXAMPLES",
+    entry.examples?.english
+  );
+
+  appendExampleSection(
+    examples,
+    "FRANÇAIS EXAMPLES",
+    entry.examples?.french
+  );
+
+  appendExampleSection(
+    examples,
+    "РУССКИЙ EXAMPLES",
+    entry.examples?.russian
+  );
 
   if (examples.children.length > 0) {
     card.appendChild(examples);
@@ -707,7 +1137,7 @@ function createVocabularyCard(entry) {
     card.appendChild(notes);
   }
 
-  // 删除词汇按钮
+  // 删除按钮
   const actions = document.createElement("div");
   actions.className = "entry-actions";
 
@@ -721,14 +1151,16 @@ function createVocabularyCard(entry) {
 
     if (!confirmed) return;
 
-    const oldData = vocabularyData;
+    const previousData = vocabularyData;
 
-    vocabularyData = vocabularyData.filter(item => item.id !== entry.id);
+    vocabularyData = vocabularyData.filter(
+      item => item.id !== entry.id
+    );
 
     if (saveVocabulary()) {
       renderVocabulary();
     } else {
-      vocabularyData = oldData;
+      vocabularyData = previousData;
     }
   });
 
@@ -739,20 +1171,16 @@ function createVocabularyCard(entry) {
 }
 
 // ==================================================
-// 十、词汇搜索
+// 十九、词汇搜索
 // ==================================================
 
-// 将待搜索内容转换为统一的小写字符串
 function normalizeSearchText(value) {
   return String(value ?? "").trim().toLocaleLowerCase();
 }
 
-// 获取某条词汇记录中指定语言的搜索内容
 function getEntrySearchText(entry, language) {
-  // 概念名称始终参与搜索
   const contents = [entry.concept];
 
-  // 搜索全部语言
   if (language === "all") {
     contents.push(
       entry.chinese,
@@ -769,7 +1197,6 @@ function getEntrySearchText(entry, language) {
     });
   }
 
-  // 搜索英语
   else if (language === "english") {
     contents.push(...(entry.english || []));
 
@@ -778,7 +1205,6 @@ function getEntrySearchText(entry, language) {
     });
   }
 
-  // 搜索法语
   else if (language === "french") {
     contents.push(...(entry.french || []));
 
@@ -787,7 +1213,6 @@ function getEntrySearchText(entry, language) {
     });
   }
 
-  // 搜索俄语
   else if (language === "russian") {
     contents.push(...(entry.russian || []));
 
@@ -796,7 +1221,6 @@ function getEntrySearchText(entry, language) {
     });
   }
 
-  // 搜索中文
   else if (language === "chinese") {
     contents.push(entry.chinese);
 
@@ -807,54 +1231,43 @@ function getEntrySearchText(entry, language) {
     });
   }
 
-  return normalizeSearchText(contents.filter(Boolean).join(" "));
+  return normalizeSearchText(
+    contents.filter(Boolean).join(" ")
+  );
 }
 
-// 根据搜索条件筛选词汇
 function filterVocabulary() {
   const keyword = normalizeSearchText(vocabularySearchInput?.value);
   const language = vocabularySearchLanguage?.value || "all";
 
   return vocabularyData.filter((entry) => {
-    // 没有输入关键词时，保留全部记录
     if (!keyword) return true;
 
-    const searchText = getEntrySearchText(entry, language);
-
-    return searchText.includes(keyword);
+    return getEntrySearchText(entry, language).includes(keyword);
   });
 }
 
 // ==================================================
-// 十一、渲染整个词汇列表
+// 二十、渲染词汇列表
 // ==================================================
 
 function renderVocabulary() {
-  // 更新词汇总数：始终显示实际保存的总量
   totalCount.textContent = vocabularyData.length;
 
-  // 根据搜索条件获取需要展示的词汇
   const filteredData = filterVocabulary();
 
-  // 更新搜索结果提示
   if (vocabularySearchStatus) {
     const hasSearchCondition =
       normalizeSearchText(vocabularySearchInput?.value) !== "" ||
       (vocabularySearchLanguage?.value || "all") !== "all";
 
-    if (hasSearchCondition) {
-      vocabularySearchStatus.textContent =
-        `找到 ${filteredData.length} / ${vocabularyData.length} 条词汇`;
-    } else {
-      vocabularySearchStatus.textContent =
-        `共 ${vocabularyData.length} 条词汇`;
-    }
+    vocabularySearchStatus.textContent = hasSearchCondition
+      ? `找到 ${filteredData.length} / ${vocabularyData.length} 条词汇`
+      : `共 ${vocabularyData.length} 条词汇`;
   }
 
-  // 清空旧列表
   vocabularyList.replaceChildren();
 
-  // 整个词汇库为空时显示初始提示
   if (vocabularyData.length === 0) {
     vocabularyList.appendChild(
       createTextElement(
@@ -867,7 +1280,6 @@ function renderVocabulary() {
     return;
   }
 
-  // 有词汇但搜索没有匹配结果
   if (filteredData.length === 0) {
     vocabularyList.appendChild(
       createTextElement(
@@ -880,28 +1292,32 @@ function renderVocabulary() {
     return;
   }
 
-  // 展示筛选后的词汇
   filteredData.forEach((entry) => {
-    vocabularyList.appendChild(createVocabularyCard(entry));
+    vocabularyList.appendChild(
+      createVocabularyCard(entry)
+    );
   });
 }
 
-// 搜索框输入时立即更新列表
+// 搜索输入
 if (vocabularySearchInput) {
   vocabularySearchInput.addEventListener("input", renderVocabulary);
 }
 
-// 切换搜索语言时立即更新列表
+// 切换搜索语言
 if (vocabularySearchLanguage) {
   vocabularySearchLanguage.addEventListener("change", renderVocabulary);
 }
 
 // ==================================================
-// 十二、页面初始化
+// 二十一、页面初始化
 // ==================================================
 
 // 恢复上次选择的主题
 loadVocabularyTheme();
 
-// 读取并展示已经保存的词汇
+// 先展示本地缓存
 renderVocabulary();
+
+// 检查 GitHub 登录状态并读取云端数据
+initializeCloudSync();
