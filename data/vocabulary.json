@@ -1,41 +1,1107 @@
 [
   {
-    "id": "demo-20261112-resilience",
-    "concept": "Resilience",
+    "id": "demo-20261112-rowdier",
+    "concept": "Rowdier",
     "english": [
-      "resilience",
-      "to bounce back"
+      "rowdier"
     ],
-    "french": [
-      "résilience",
-      "rebondir après une difficulté"
-    ],
-    "russian": [
-      "устойчивость",
-      "способность восстанавливаться"
-    ],
-    "chinese": "韧性；恢复能力；从困难中重新振作的能力",
+    "french": [],
+    "russian": [],
+    "chinese": "adj.吵闹的；粗暴的（rowdy 的变形）",
     "examples": {
-      "english": [
-        {
-          "text": "Resilience helps people recover from difficult experiences.",
-          "translation": "韧性帮助人们从困难的经历中恢复过来。"
-        }
-      ],
-      "french": [
-        {
-          "text": "La résilience permet de surmonter les difficultés.",
-          "translation": "韧性使人能够克服困难。"
-        }
-      ],
-      "russian": [
-        {
-          "text": "Устойчивость помогает человеку справляться с трудностями.",
-          "translation": "韧性帮助一个人应对困难。"
-        }
-      ]
+      "english": [],
+      "french": [],
+      "russian": []
     },
-    "notes": "名词。常用于心理学、个人成长和社会议题。注意 resilience 不只是“坚强”，还包含经历挫折后恢复和适应的能力。",
+    "notes": "形容词，rowdy的比较级形式。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-obedient",
+    "concept": "Obedient",
+    "english": [
+      "obedient"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.服从的，顺从的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-reprimand",
+    "concept": "Reprimand",
+    "english": [
+      "reprimand"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "vt.谴责",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词，也可作名词表示训斥、斥责。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-roam",
+    "concept": "Roam",
+    "english": [
+      "roam"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "v.漫步，闲逛；（眼睛）扫视，（手）扫过；（思绪，想象力）遨游",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-blatantly",
+    "concept": "Blatantly",
+    "english": [
+      "blatantly"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adv.公然地；喧闹地；看穿了地",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "副词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-syllabus",
+    "concept": "Syllabus",
+    "english": [
+      "syllabus"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.教学大纲；（罗马天主教会用教令宣布的）事项举要",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词。复数形式 syllabi / syllabuses。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-rigorously",
+    "concept": "Rigorously",
+    "english": [
+      "rigorously"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adv.严厉地；残酷地",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "副词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-national-anthem",
+    "concept": "National anthem",
+    "english": [
+      "national anthem"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "国歌",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词短语。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-regime",
+    "concept": "Regime",
+    "english": [
+      "regime"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.（尤指独裁的）政府，政权；（机构、公司、经济等的）管理制度，组织方法；饮食起居制度，养生法",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-compulsory",
+    "concept": "Compulsory",
+    "english": [
+      "compulsory"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.必须做的，义务的，强制的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-gruelling",
+    "concept": "Gruelling",
+    "english": [
+      "gruelling"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.折磨人的；繁重累人的；使人精疲力尽的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词，美式也写作 grueling。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-renaissance",
+    "concept": "Renaissance",
+    "english": [
+      "renaissance"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.复兴，再生；文艺复兴（时期）（the Renaissance）；文艺复兴文化，文艺复兴风格（Renaissance）",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词，特指欧洲文艺复兴时首字母大写。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-mitigate",
+    "concept": "Mitigate",
+    "english": [
+      "mitigate"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "v.<正式>减轻，缓和",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词，正式书面用语。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-aggravated",
+    "concept": "Aggravated",
+    "english": [
+      "aggravated"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.加重的；恶化的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词；动词aggravate的过去分词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-proactively",
+    "concept": "Proactively",
+    "english": [
+      "proactively"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adv.主动地",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "副词。原释义“前提地”为错误释义，修正为主动地。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-incompatible",
+    "concept": "Incompatible",
+    "english": [
+      "incompatible"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.不相容的，不能共存的；不能和谐相处的，合不来的；不兼容的，互斥的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-adjacent",
+    "concept": "Adjacent",
+    "english": [
+      "adjacent"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.邻近的，毗连的；（几何）（两个角）相邻的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-unroll",
+    "concept": "Unroll",
+    "english": [
+      "unroll"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "vt.展开，铺开；显示",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-restive",
+    "concept": "Restive",
+    "english": [
+      "restive"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.难驾驭的；焦躁不安的，不耐烦的；（马）倔头倔脑不肯往前的，停下闹别扭的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-dire",
+    "concept": "Dire",
+    "english": [
+      "dire"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.极其严重的，极可怕的；<非正式>极糟的，极差的；预示灾难的；紧急的，急迫的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-strangle",
+    "concept": "Strangle",
+    "english": [
+      "strangle"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "v.扼死，勒死，绞死；抑制，扼杀；抑制，压制（冲动，行动，声音）",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-massacre",
+    "concept": "Massacre",
+    "english": [
+      "massacre"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.屠杀，残杀；<非正式>（运动或比赛中的）惨败",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词，也可用作动词表示大肆屠杀。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-grip",
+    "concept": "Grip",
+    "english": [
+      "grip"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.紧握；掌握，控制；理解；不打滑，走得稳；手柄；紧握（或抓牢）的方式；（拍摄电影时）摄影机工作人员",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词，也可作动词表示握紧。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-depict",
+    "concept": "Depict",
+    "english": [
+      "depict"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "v.描述，描绘",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-discord",
+    "concept": "Discord",
+    "english": [
+      "discord"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.意见分歧，不和；不和谐音，不协和弦",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-rift",
+    "concept": "Rift",
+    "english": [
+      "rift"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.（人际关系）不和，分歧；裂缝，裂口；地堑，裂谷",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-terse",
+    "concept": "Terse",
+    "english": [
+      "terse"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.简洁的，精练的，扼要的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-reservations",
+    "concept": "Reservations",
+    "english": [
+      "reservations"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.保留；预定（reservation 的复数形式）",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词复数，单数 reservation。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-whim",
+    "concept": "Whim",
+    "english": [
+      "whim"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.一时的兴致，突发的奇想",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-tactical",
+    "concept": "Tactical",
+    "english": [
+      "tactical"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.战术的；策略的；善于策略的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-stand-down",
+    "concept": "Stand down",
+    "english": [
+      "stand down"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "离开证人席；退出，下台",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词短语。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-plausible",
+    "concept": "Plausible",
+    "english": [
+      "plausible"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.似乎是真的，貌似有理的；（人）花言巧语的，貌似可信的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-dictatorial",
+    "concept": "Dictatorial",
+    "english": [
+      "dictatorial"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.独裁的，专政的；专横傲慢的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-prim",
+    "concept": "Prim",
+    "english": [
+      "prim"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.拘谨的；整洁的；呆板的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-ghastly",
+    "concept": "Ghastly",
+    "english": [
+      "ghastly"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.可怕的；惨白的；惊人的；极坏的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-relegate",
+    "concept": "Relegate",
+    "english": [
+      "relegate"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "v.贬低，使降级；<英>把（球队）降级；<正式>托付，交付",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-relinquish",
+    "concept": "Relinquish",
+    "english": [
+      "relinquish"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "v.<正式>（尤指不情愿地）放弃，交出（权力、职位等）；<正式>（不情愿地）松开",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词，正式书面用词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-pretentious",
+    "concept": "Pretentious",
+    "english": [
+      "pretentious"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.自命不凡的，做作的；（书、电影等）矫饰的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-unveiled",
+    "concept": "Unveiled",
+    "english": [
+      "unveiled"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "v.（首次）公开，揭示；为……揭幕，揭去……上的覆盖物；除去面纱，显露（unveil 的过去式和过去分词）",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词过去式/过去分词，原形 unveil。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-penetrate",
+    "concept": "Penetrate",
+    "english": [
+      "penetrate"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "v.刺入，穿透；打进（某地区或国家的市场）；渗入，打入（组织、团体等）；洞察，了解",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-air-raid",
+    "concept": "Air‑raid",
+    "english": [
+      "air‑raid"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.空袭的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词，连字符写法。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-flaunt",
+    "concept": "Flaunt",
+    "english": [
+      "flaunt"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "vt.炫耀，卖弄；无视，藐视",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-prodigy",
+    "concept": "Prodigy",
+    "english": [
+      "prodigy"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.（尤指年幼的）奇才，神童；奇迹，奇观；奇事，异兆",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-competent",
+    "concept": "Competent",
+    "english": [
+      "competent"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.能干的，能胜任的；合格的，过得去的；精神正常的，智力无缺陷的；有决定权的；有法定资格的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-oppressive",
+    "concept": "Oppressive",
+    "english": [
+      "oppressive"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.（社会、法律、习俗等）压迫的，暴虐的，不公的；（天气、空气等）闷热的，难以忍受的；使人压抑的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-sarcasm",
+    "concept": "Sarcasm",
+    "english": [
+      "sarcasm"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.讽刺，挖苦",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-solemn",
+    "concept": "Solemn",
+    "english": [
+      "solemn"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.表情严肃的，庄严的；（承诺、协定等）庄严的，郑重的；（仪式）庄严的，隆重的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-aspiration",
+    "concept": "Aspiration",
+    "english": [
+      "aspiration"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.渴望，抱负，志向；送气音；吸引术，抽吸",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-veritable",
+    "concept": "Veritable",
+    "english": [
+      "veritable"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.真正的，名副其实的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-drab",
+    "concept": "Drab",
+    "english": [
+      "drab"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.单调的；土褐色的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-sordid",
+    "concept": "Sordid",
+    "english": [
+      "sordid"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.肮脏的；卑鄙的；利欲熏心的；色彩暗淡的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-distaste",
+    "concept": "Distaste",
+    "english": [
+      "distaste"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.反感，不喜欢",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-futile",
+    "concept": "Futile",
+    "english": [
+      "futile"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "adj.徒劳的，无用的；不重要的；没有出息的",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "形容词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-assert",
+    "concept": "Assert",
+    "english": [
+      "assert"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "v.坚称，断言；维护，坚持（权利或权威）；坚持自己的主张，表现坚定；生效，起作用",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-tap",
+    "concept": "Tap",
+    "english": [
+      "tap"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.水龙头",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词；也可作动词表示轻敲。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-envoy",
+    "concept": "Envoy",
+    "english": [
+      "envoy"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.使者",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-refinery",
+    "concept": "Refinery",
+    "english": [
+      "refinery"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.炼油厂",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-kyiv",
+    "concept": "Kyiv",
+    "english": [
+      "kyiv"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "n.基辅",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "专有名词，城市名。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-suck-out",
+    "concept": "Suck out",
+    "english": [
+      "suck out"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "抽出",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词短语。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-smothering-homes",
+    "concept": "Smothering homes",
+    "english": [
+      "smothering homes"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "令人窒息的房屋环境；原释义“扑灭”不准确",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词短语，smother 动词意为窒息、扑灭。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-trolley-bus",
+    "concept": "Trolley bus",
+    "english": [
+      "trolley bus"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "无轨电车",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词短语。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-devast",
+    "concept": "Devast",
+    "english": [
+      "devast"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "v.摧毁（为 devastate 的简写，非完整标准单词）",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "非标准完整英文单词，完整形式为 devastate。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-the-enormous-plant",
+    "concept": "The enormous plant",
+    "english": [
+      "the enormous plant"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "巨大的工厂",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词短语。plant此处指工厂，也可指植物。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-hamper",
+    "concept": "Hamper",
+    "english": [
+      "hamper"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "v.阻碍",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "动词；也可作名词表示大篮子。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  },
+  {
+    "id": "demo-20261112-air-raid-phrase",
+    "concept": "Air raid",
+    "english": [
+      "air raid"
+    ],
+    "french": [],
+    "russian": [],
+    "chinese": "空袭",
+    "examples": {
+      "english": [],
+      "french": [],
+      "russian": []
+    },
+    "notes": "名词短语，无连字符。",
     "createdAt": "2026-11-12T10:00:00.000Z"
   }
 ]
