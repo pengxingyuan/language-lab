@@ -695,3 +695,134 @@ body.vocabulary-light {
     height: 44px;
   }
 }
+
+/* ==================================================
+   词汇录入面板 · 折叠分组
+   ================================================== */
+
+/* 折叠分组外观 */
+.form-accordion {
+  margin: 16px 0;
+  border: 1px solid var(--neon, #b6ff00);
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* 分组标题 */
+.form-accordion summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 20px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+/* 隐藏浏览器默认箭头 */
+.form-accordion summary::-webkit-details-marker {
+  display: none;
+}
+
+/* 自定义展开箭头 */
+.form-accordion summary::after {
+  content: "+";
+  margin-left: auto;
+  color: var(--neon, #b6ff00);
+  font-size: 22px;
+  transition: transform 0.2s ease;
+}
+
+/* 展开时箭头变化 */
+.form-accordion[open] summary::after {
+  content: "−";
+}
+
+/* 分组编号 */
+.accordion-number {
+  color: var(--neon, #b6ff00);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* 分组标题 */
+.accordion-title {
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* 分组副标题 */
+.accordion-description {
+  color: var(--text-secondary, #888);
+  font-size: 12px;
+}
+
+/* 展开内容 */
+.accordion-content {
+  padding: 4px 20px 20px;
+  border-top: 1px solid rgba(182, 255, 0, 0.15);
+}
+
+/* 内容提示 */
+.accordion-hint {
+  margin: 12px 0 20px;
+  color: var(--text-secondary, #888);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* 鼠标悬停 */
+.form-accordion summary:hover {
+  background: rgba(182, 255, 0, 0.045);
+}
+
+/* 展开动画 */
+.form-accordion[open] .accordion-content {
+  animation: accordionFade 0.2s ease;
+}
+
+@keyframes accordionFade {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 浅色主题适配 */
+.vocabulary-light .form-accordion {
+  background: #ffffff;
+  border-color: rgba(30, 30, 30, 0.12);
+}
+
+.vocabulary-light .form-accordion summary::after,
+.vocabulary-light .accordion-number {
+  color: #648d00;
+}
+
+.vocabulary-light .accordion-content {
+  border-top-color: rgba(30, 30, 30, 0.1);
+}
+
+/* 手机端布局 */
+@media (max-width: 600px) {
+  .form-accordion summary {
+    gap: 8px;
+    padding: 16px 14px;
+    flex-wrap: wrap;
+  }
+
+  .accordion-description {
+    width: 100%;
+    padding-left: 28px;
+  }
+
+  .accordion-content {
+    padding: 4px 14px 16px;
+  }
+}

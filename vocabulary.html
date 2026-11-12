@@ -67,6 +67,8 @@
     </section>
 
     <!-- 新词录入面板：默认隐藏，由 JavaScript 控制展开 -->
+        
+    <!-- 新词录入面板：默认隐藏，由 JavaScript 控制展开 -->
     <section id="entry-form-panel" class="entry-form-panel" hidden>
 
       <div class="section-heading">
@@ -76,130 +78,171 @@
 
       <form id="vocabulary-form">
 
-        <!-- 概念名称 -->
-        <div class="form-group">
-          <label for="concept">Concept / 概念名称 *</label>
-          <input
-            type="text"
-            id="concept"
-            name="concept"
-            placeholder="例如：Knowledge"
-            required
-          >
-        </div>
+        <!-- 01. 基本信息：默认展开 -->
+        <details class="form-accordion" open>
+          <summary>
+            <span class="accordion-number">01</span>
+            <span class="accordion-title">Basic Information</span>
+            <span class="accordion-description">基本信息</span>
+          </summary>
 
-        <!-- 四种语言的对应表达 -->
-        <div class="form-divider">
-          <h3>Translations / 对应表达</h3>
-          <p>同一种语言可以记录多个词语或短语。</p>
-        </div>
+          <div class="accordion-content">
 
-        <!-- 英语表达 -->
-        <div class="form-group">
-          <label for="english-words">English / 英语</label>
-          <div id="english-words" class="dynamic-fields">
-            <input type="text" name="english" placeholder="English expression">
-          </div>
-          <button type="button" class="add-field-button" data-target="english-words">
-            + Add another
-          </button>
-        </div>
-
-        <!-- 法语表达 -->
-        <div class="form-group">
-          <label for="french-words">Français / 法语</label>
-          <div id="french-words" class="dynamic-fields">
-            <input type="text" name="french" placeholder="Expression française">
-          </div>
-          <button type="button" class="add-field-button" data-target="french-words">
-            + Add another
-          </button>
-        </div>
-
-        <!-- 俄语表达 -->
-        <div class="form-group">
-          <label for="russian-words">Русский / 俄语</label>
-          <div id="russian-words" class="dynamic-fields">
-            <input type="text" name="russian" placeholder="Русское выражение">
-          </div>
-          <button type="button" class="add-field-button" data-target="russian-words">
-            + Add another
-          </button>
-        </div>
-
-        <!-- 中文释义 -->
-        <div class="form-group">
-          <label for="chinese-meaning">中文 / Chinese</label>
-          <textarea
-            id="chinese-meaning"
-            name="chinese"
-            rows="2"
-            placeholder="填写中文释义，可以包含多个意思。"
-          ></textarea>
-        </div>
-
-        <!-- 多语言例句 -->
-        <div class="form-divider">
-          <h3>Examples / 例句</h3>
-          <p>不同语言可以分别记录多条例句及其中文意思。</p>
-        </div>
-
-        <!-- 英语例句 -->
-        <div class="form-group example-group">
-          <label>English Examples / 英语例句</label>
-          <div id="english-examples" class="dynamic-fields">
-            <div class="example-item">
-              <textarea name="english-example" rows="2" placeholder="Write an English example..."></textarea>
-              <input type="text" name="english-example-translation" placeholder="中文对照（可选）">
+            <div class="form-group">
+              <label for="concept">Concept / 概念名称 *</label>
+              <input
+                type="text"
+                id="concept"
+                name="concept"
+                placeholder="例如：Knowledge"
+                required
+              >
             </div>
-          </div>
-          <button type="button" class="add-field-button" data-target="english-examples" data-type="example">
-            + Add example
-          </button>
-        </div>
 
-        <!-- 法语例句 -->
-        <div class="form-group example-group">
-          <label>Français Examples / 法语例句</label>
-          <div id="french-examples" class="dynamic-fields">
-            <div class="example-item">
-              <textarea name="french-example" rows="2" placeholder="Écrivez un exemple en français..."></textarea>
-              <input type="text" name="french-example-translation" placeholder="中文对照（可选）">
+            <div class="form-group">
+              <label for="chinese-meaning">中文 / Chinese</label>
+              <textarea
+                id="chinese-meaning"
+                name="chinese"
+                rows="2"
+                placeholder="填写中文释义，可以包含多个意思。"
+              ></textarea>
             </div>
-          </div>
-          <button type="button" class="add-field-button" data-target="french-examples" data-type="example">
-            + Add example
-          </button>
-        </div>
 
-        <!-- 俄语例句 -->
-        <div class="form-group example-group">
-          <label>Русский Examples / 俄语例句</label>
-          <div id="russian-examples" class="dynamic-fields">
-            <div class="example-item">
-              <textarea name="russian-example" rows="2" placeholder="Напишите пример на русском..."></textarea>
-              <input type="text" name="russian-example-translation" placeholder="中文对照（可选）">
+          </div>
+        </details>
+
+        <!-- 02. 对应表达：默认折叠 -->
+        <details class="form-accordion">
+          <summary>
+            <span class="accordion-number">02</span>
+            <span class="accordion-title">Expressions</span>
+            <span class="accordion-description">对应表达 · EN / FR / RU</span>
+          </summary>
+
+          <div class="accordion-content">
+
+            <p class="accordion-hint">
+              同一种语言可以记录多个词语或短语。
+            </p>
+
+            <!-- 英语表达 -->
+            <div class="form-group">
+              <label for="english-words">English / 英语</label>
+              <div id="english-words" class="dynamic-fields">
+                <input type="text" name="english" placeholder="English expression">
+              </div>
+              <button type="button" class="add-field-button" data-target="english-words">
+                + Add another
+              </button>
             </div>
+
+            <!-- 法语表达 -->
+            <div class="form-group">
+              <label for="french-words">Français / 法语</label>
+              <div id="french-words" class="dynamic-fields">
+                <input type="text" name="french" placeholder="Expression française">
+              </div>
+              <button type="button" class="add-field-button" data-target="french-words">
+                + Add another
+              </button>
+            </div>
+
+            <!-- 俄语表达 -->
+            <div class="form-group">
+              <label for="russian-words">Русский / 俄语</label>
+              <div id="russian-words" class="dynamic-fields">
+                <input type="text" name="russian" placeholder="Русское выражение">
+              </div>
+              <button type="button" class="add-field-button" data-target="russian-words">
+                + Add another
+              </button>
+            </div>
+
           </div>
-          <button type="button" class="add-field-button" data-target="russian-examples" data-type="example">
-            + Add example
-          </button>
-        </div>
+        </details>
 
-        <!-- 个人备注 -->
-        <div class="form-divider">
-          <h3>My Notes / 我的笔记</h3>
-        </div>
+        <!-- 03. 例句：默认折叠 -->
+        <details class="form-accordion">
+          <summary>
+            <span class="accordion-number">03</span>
+            <span class="accordion-title">Examples</span>
+            <span class="accordion-description">例句与中文对照</span>
+          </summary>
 
-        <div class="form-group">
-          <label for="personal-notes">Personal Notes</label>
-          <textarea
-            id="personal-notes"
-            name="notes"
-            rows="4"
-            placeholder="记录自己的理解、语法区别、使用场景或联想……"
-          ></textarea>
-        </div>
+          <div class="accordion-content">
+
+            <p class="accordion-hint">
+              可以为每种语言分别添加多条例句。
+            </p>
+
+            <!-- 英语例句 -->
+            <div class="form-group example-group">
+              <label>English Examples / 英语例句</label>
+              <div id="english-examples" class="dynamic-fields">
+                <div class="example-item">
+                  <textarea name="english-example" rows="2" placeholder="Write an English example..."></textarea>
+                  <input type="text" name="english-example-translation" placeholder="中文对照（可选）">
+                </div>
+              </div>
+              <button type="button" class="add-field-button" data-target="english-examples" data-type="example">
+                + Add example
+              </button>
+            </div>
+
+            <!-- 法语例句 -->
+            <div class="form-group example-group">
+              <label>Français Examples / 法语例句</label>
+              <div id="french-examples" class="dynamic-fields">
+                <div class="example-item">
+                  <textarea name="french-example" rows="2" placeholder="Écrivez un exemple en français..."></textarea>
+                  <input type="text" name="french-example-translation" placeholder="中文对照（可选）">
+                </div>
+              </div>
+              <button type="button" class="add-field-button" data-target="french-examples" data-type="example">
+                + Add example
+              </button>
+            </div>
+
+            <!-- 俄语例句 -->
+            <div class="form-group example-group">
+              <label>Русский Examples / 俄语例句</label>
+              <div id="russian-examples" class="dynamic-fields">
+                <div class="example-item">
+                  <textarea name="russian-example" rows="2" placeholder="Напишите пример на русском..."></textarea>
+                  <input type="text" name="russian-example-translation" placeholder="中文对照（可选）">
+                </div>
+              </div>
+              <button type="button" class="add-field-button" data-target="russian-examples" data-type="example">
+                + Add example
+              </button>
+            </div>
+
+          </div>
+        </details>
+
+        <!-- 04. 个人笔记：默认折叠 -->
+        <details class="form-accordion">
+          <summary>
+            <span class="accordion-number">04</span>
+            <span class="accordion-title">Personal Notes</span>
+            <span class="accordion-description">我的笔记</span>
+          </summary>
+
+          <div class="accordion-content">
+
+            <div class="form-group">
+              <label for="personal-notes">Personal Notes</label>
+              <textarea
+                id="personal-notes"
+                name="notes"
+                rows="4"
+                placeholder="记录自己的理解、语法区别、使用场景或联想……"
+              ></textarea>
+            </div>
+
+          </div>
+        </details>
 
         <!-- 表单操作 -->
         <div class="form-actions">
@@ -214,6 +257,7 @@
 
       </form>
     </section>
+
 
         <!-- 词汇列表与搜索区域 -->
     <section class="vocabulary-list-section">
