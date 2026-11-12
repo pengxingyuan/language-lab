@@ -931,3 +931,68 @@ button {
   }
 
 }
+
+/* =========================================================
+   十七、Today's Reading · 语言卡片主题
+   整张卡片按语言区分颜色，适配浅色与深色主题
+   ========================================================= */
+
+/* ---------- 01. 浅色主题 ---------- */
+
+.article-en {
+  background: #edf4fc;
+  border-color: #dce9f8;
+}
+
+.article-fr {
+  background: #f3effb;
+  border-color: #e6dcf7;
+}
+
+.article-ru {
+  background: #fbf2e8;
+  border-color: #f3e2ce;
+}
+
+/* ---------- 02. 深色主题 ---------- */
+
+body.dark-theme .article-en {
+  background: #202e40;
+  border-color: #30445e;
+}
+
+body.dark-theme .article-fr {
+  background: #30283e;
+  border-color: #46385e;
+}
+
+body.dark-theme .article-ru {
+  background: #3a2d22;
+  border-color: #57402e;
+}
+
+/* ---------- 03. 鼠标悬停效果 ---------- */
+
+.article-en:hover {
+  background: #e3eefb;
+}
+
+.article-fr:hover {
+  background: #ece5f8;
+}
+
+.article-ru:hover {
+  background: #f7e9d9;
+}
+
+body.dark-theme .article-en:hover {
+  background: #263950;
+}
+
+body.dark-theme .article-fr:hover {
+  background: #392f4b;
+}
+
+body.dark-theme .article-ru:hover {
+  background: #453526;
+}
