@@ -1,1 +1,41 @@
-[]
+[
+  {
+    "id": "demo-20261112-resilience",
+    "concept": "Resilience",
+    "english": [
+      "resilience",
+      "to bounce back"
+    ],
+    "french": [
+      "résilience",
+      "rebondir après une difficulté"
+    ],
+    "russian": [
+      "устойчивость",
+      "способность восстанавливаться"
+    ],
+    "chinese": "韧性；恢复能力；从困难中重新振作的能力",
+    "examples": {
+      "english": [
+        {
+          "text": "Resilience helps people recover from difficult experiences.",
+          "translation": "韧性帮助人们从困难的经历中恢复过来。"
+        }
+      ],
+      "french": [
+        {
+          "text": "La résilience permet de surmonter les difficultés.",
+          "translation": "韧性使人能够克服困难。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Устойчивость помогает человеку справляться с трудностями.",
+          "translation": "韧性帮助一个人应对困难。"
+        }
+      ]
+    },
+    "notes": "名词。常用于心理学、个人成长和社会议题。注意 resilience 不只是“坚强”，还包含经历挫折后恢复和适应的能力。",
+    "createdAt": "2026-11-12T10:00:00.000Z"
+  }
+]
