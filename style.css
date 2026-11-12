@@ -1199,7 +1199,7 @@ body::before {
   background-position: center;
   background-size: min(65vw, 760px);
 
-  opacity: 0.045;
+  opacity: 0.145;
 
   pointer-events: none;
 }
@@ -1213,7 +1213,7 @@ body.dark-theme::before {
 @media (max-width: 650px) {
   body::before {
     background-size: 90vw;
-    background-position: center 45%;
+    background-position: center 50%;
   }
 }
 
