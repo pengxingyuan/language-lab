@@ -1,0 +1,395 @@
+
+/* =========================================================
+   Language Lab
+   首页交互逻辑
+   功能：主题切换、每日新闻获取与展示
+   ========================================================= */
+
+
+/* =========================================================
+   一、获取页面元素
+   ========================================================= */
+
+const themeToggle = document.getElementById("themeToggle");
+const themeIcon = document.getElementById("themeIcon");
+const themeColor = document.querySelector('meta[name="theme-color"]');
+
+const dailyArticles = document.getElementById("dailyArticles");
+const dailyUpdateTime = document.getElementById("dailyUpdateTime");
+
+
+/* =========================================================
+   二、主题切换
+   ========================================================= */
+
+// 根据用户选择应用浅色或深色主题
+function applyTheme(theme) {
+
+  // 判断是否启用深色模式
+  const isDark = theme === "dark";
+
+  document.body.classList.toggle("dark-theme", isDark);
+
+  // 更新主题按钮图标
+  themeIcon.textContent = isDark ? "☀" : "☾";
+
+  // 更新浏览器地址栏主题颜色
+  themeColor.setAttribute(
+    "content",
+    isDark ? "#151619" : "#ffffff"
+  );
+
+  // 保存用户的主题选择
+  localStorage.setItem("language-lab-theme", theme);
+}
+
+
+// 优先读取用户上次保存的主题
+const savedTheme = localStorage.getItem("language-lab-theme");
+
+// 如果没有保存过主题，则跟随系统设置
+const systemPrefersDark = window.matchMedia(
+  "(prefers-color-scheme: dark)"
+).matches;
+
+// 确定页面初始主题
+const initialTheme = savedTheme || (
+  systemPrefersDark ? "dark" : "light"
+);
+
+// 页面加载时应用主题
+applyTheme(initialTheme);
+
+
+// 监听主题切换按钮
+themeToggle.addEventListener("click", function () {
+
+  // 判断当前主题
+  const isDark = document.body.classList.contains("dark-theme");
+
+  // 切换主题
+  applyTheme(isDark ? "light" : "dark");
+
+});
+
+
+/* =========================================================
+   三、每日新闻接口配置
+   ========================================================= */
+
+// Language Lab 独立 Cloudflare Worker 地址
+const NEWS_API_URL =
+  "https://language-lab-api.pxy33310.workers.dev/news";
+
+// 三种语言的显示信息
+const LANGUAGE_CONFIG = {
+  en: {
+    code: "EN",
+    name: "ENGLISH",
+    labelClass: "english-label"
+  },
+
+  fr: {
+    code: "FR",
+    name: "FRANÇAIS",
+    labelClass: "french-label"
+  },
+
+  ru: {
+    code: "RU",
+    name: "РУССКИЙ",
+    labelClass: "russian-label"
+  }
+};
+
+
+/* =========================================================
+   四、日期格式化
+   ========================================================= */
+
+// 将 RSS 发布时间转换为简洁的日期格式
+
+/* 将 RSS 发布时间转换为本地日期和时间 */
+function formatNewsDate(dateString) {
+
+  const date = new Date(dateString);
+
+  // 如果日期无效，则显示备用文字
+  if (Number.isNaN(date.getTime())) {
+    return "日期未知";
+  }
+
+  // 按照访问者设备的本地时区显示
+  return new Intl.DateTimeFormat("zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23"
+  }).format(date);
+}
+
+
+
+
+/* =========================================================
+   五、创建新闻卡片
+   ========================================================= */
+
+// 使用 DOM 方法创建元素，避免直接插入 RSS 原始 HTML
+function createArticleElement(article) {
+
+  const config = LANGUAGE_CONFIG[article.language];
+
+  // 忽略不支持的语言数据
+  if (!config) {
+    return null;
+  }
+
+  // 创建可点击的文章卡片
+  const item = document.createElement("article");
+
+  item.className = "article-item";
+  item.setAttribute("role", "link");
+  item.setAttribute("tabindex", "0");
+  item.setAttribute("aria-label", article.title);
+
+  // 创建语言标识
+  const language = document.createElement("div");
+
+  language.className =
+    `article-language ${config.labelClass}`;
+
+  language.textContent = config.code;
+
+  // 创建文章内容区域
+  const content = document.createElement("div");
+
+  content.className = "article-content";
+
+  // 创建文章元信息
+  const meta = document.createElement("div");
+
+  meta.className = "article-meta";
+
+  const languageName = document.createElement("span");
+
+  languageName.textContent = config.name;
+
+  const readingLabel = document.createElement("span");
+
+  readingLabel.textContent = "TODAY'S READING";
+
+  meta.append(languageName, readingLabel);
+
+  // 创建文章标题
+  const title = document.createElement("h3");
+
+  title.textContent = article.title;
+
+  // 创建文章底部信息
+  const footer = document.createElement("div");
+
+  footer.className = "article-footer";
+
+  const date = document.createElement("span");
+
+  date.textContent = formatNewsDate(article.pubDate);
+
+  const source = document.createElement("span");
+
+  source.textContent = article.source;
+
+  footer.append(date, source);
+
+  // 组合文章内容
+  content.append(meta, title, footer);
+
+  // 创建右侧跳转图标
+  const arrow = document.createElement("span");
+
+  arrow.className = "article-arrow";
+  arrow.textContent = "↗";
+  arrow.setAttribute("aria-hidden", "true");
+
+  // 组合完整文章卡片
+  item.append(language, content, arrow);
+
+  // 点击卡片打开新闻原文
+  function openArticle() {
+
+    // 只允许安全的 HTTPS 新闻链接
+    try {
+      const articleUrl = new URL(article.link);
+
+      if (articleUrl.protocol !== "https:") {
+        return;
+      }
+
+      window.open(
+        articleUrl.href,
+        "_blank",
+        "noopener,noreferrer"
+      );
+
+    } catch (error) {
+      console.error("新闻链接无效：", error);
+    }
+  }
+
+  item.addEventListener("click", openArticle);
+
+  // 支持键盘 Enter 和空格键访问
+  item.addEventListener("keydown", function (event) {
+
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      openArticle();
+    }
+
+  });
+
+  return item;
+}
+
+
+/* =========================================================
+   六、显示新闻获取失败状态
+   ========================================================= */
+
+// 在新闻列表中显示友好的提示
+function showNewsError(message) {
+
+  dailyArticles.replaceChildren();
+
+  const error = document.createElement("div");
+
+  error.className = "daily-error";
+  error.textContent = message;
+
+  dailyArticles.appendChild(error);
+
+  dailyUpdateTime.textContent = "RSS · UNAVAILABLE";
+}
+
+
+/* =========================================================
+   七、从 Cloudflare Worker 获取新闻
+   ========================================================= */
+
+async function loadDailyNews() {
+
+  // 显示加载提示
+  dailyArticles.replaceChildren();
+
+  const loading = document.createElement("div");
+
+  loading.className = "daily-loading";
+  loading.textContent = "正在获取今日文章……";
+
+  dailyArticles.appendChild(loading);
+
+  try {
+
+    // 请求 Worker 新闻接口
+    const response = await fetch(NEWS_API_URL, {
+      method: "GET",
+      headers: {
+        "Accept": "application/json"
+      },
+      cache: "no-cache"
+    });
+
+    // 检查 HTTP 请求状态
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    // 解析 JSON 数据
+    const data = await response.json();
+
+    // 检查接口返回结果
+    if (!data || !Array.isArray(data.news)) {
+      throw new Error("新闻数据格式不正确");
+    }
+
+    // 清除加载提示
+    dailyArticles.replaceChildren();
+
+    // 记录成功显示的文章数量
+    let displayedCount = 0;
+
+    // 按照英语、法语、俄语的顺序展示新闻
+    const languageOrder = ["en", "fr", "ru"];
+
+    languageOrder.forEach(function (language) {
+
+      // 找到对应语言的新闻
+      const result = data.news.find(function (item) {
+        return item.language === language;
+      });
+
+      // 如果该语言获取失败，显示单独的提示
+      if (
+        !result ||
+        result.status !== "success" ||
+        !result.article
+      ) {
+
+        const error = document.createElement("div");
+
+        error.className = "daily-error";
+        error.textContent =
+          `${LANGUAGE_CONFIG[language].name} · 暂时无法获取文章`;
+
+        dailyArticles.appendChild(error);
+
+        return;
+      }
+
+      // 创建新闻卡片
+      const articleElement = createArticleElement(
+        result.article
+      );
+
+      if (articleElement) {
+        dailyArticles.appendChild(articleElement);
+        displayedCount++;
+      }
+
+    });
+
+    // 更新底部状态
+    if (displayedCount > 0) {
+
+      dailyUpdateTime.textContent =
+        `${displayedCount} ARTICLES · RSS`;
+
+    } else {
+
+      showNewsError("暂时没有获取到新闻，请稍后再试。");
+
+    }
+
+  } catch (error) {
+
+    // 输出错误信息，方便后续排查
+    console.error("Language Lab 新闻获取失败：", error);
+
+    // 显示友好的错误提示
+    showNewsError(
+      "暂时无法获取今日文章，请检查网络或稍后再试。"
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   八、页面初始化
+   ========================================================= */
+
+// 页面加载后自动获取每日新闻
+loadDailyNews();

@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+<!-- Language Lab 首页：多语言个人学习平台 -->
+
+<html lang="zh-CN">
+<head>
+  <!-- 一、基础页面设置 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+
+  <title>Language Lab | Personal Learning Space</title>
+  <meta name="description" content="A personal space for learning English, French and Russian.">
+
+  <!-- 二、引入页面样式 -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- 三、页面顶部导航 -->
+  <header class="site-header">
+    <a class="brand" href="./">
+      <span class="brand-mark">L</span>
+      <span>Language Lab</span>
+    </a>
+
+    <!-- 浅色 / 深色主题切换按钮 -->
+    <button
+      class="theme-toggle"
+      id="themeToggle"
+      type="button"
+      aria-label="切换主题"
+    >
+      <span id="themeIcon">☾</span>
+    </button>
+  </header>
+
+  <!-- 四、首页主要内容 -->
+  <main class="main-content">
+
+    <!-- 欢迎区域 -->
+    <section class="hero">
+      <p class="eyebrow">PERSONAL LEARNING SPACE</p>
+
+      <h1>Learn something new.</h1>
+
+      <p class="hero-description">
+        让每一次学习，都留下记录。
+        <br>
+        A little progress every day.
+      </p>
+    </section>
+
+    <!-- 五、三种语言入口 -->
+    <section class="language-section">
+      <div class="section-heading">
+        <h2>My Languages</h2>
+        <span>我的语言</span>
+      </div>
+
+      <div class="language-grid">
+
+        <!-- 英语 -->
+        <a href="#" class="language-card english">
+          <span class="language-code">EN</span>
+          <span class="language-name">English</span>
+          <span class="language-description">IELTS · Daily English</span>
+          <span class="card-arrow">↗</span>
+        </a>
+
+        <!-- 法语 -->
+        <a href="#" class="language-card french">
+          <span class="language-code">FR</span>
+          <span class="language-name">Français</span>
+          <span class="language-description">Vocabulary · Grammar</span>
+          <span class="card-arrow">↗</span>
+        </a>
+
+        <!-- 俄语 -->
+        <a href="#" class="language-card russian">
+          <span class="language-code">RU</span>
+          <span class="language-name">Русский</span>
+          <span class="language-description">Alphabet · Conversation</span>
+          <span class="card-arrow">↗</span>
+        </a>
+
+      </div>
+    </section>
+
+    <!-- 六、个人四语词汇库入口 -->
+    <section class="vocabulary-entry-section">
+      <a href="vocabulary.html" class="vocabulary-entry">
+        <div>
+          <p class="eyebrow">PERSONAL WORD COLLECTION</p>
+          <h2>My Vocabulary.</h2>
+          <p>我的四语词汇库 · English · Français · Русский · 中文</p>
+        </div>
+
+        <span class="vocabulary-entry-arrow">↗</span>
+      </a>
+    </section>
+
+    <!-- 七、每日阅读推荐 -->
+    <section class="daily-section">
+
+      <!-- 推荐区域标题 -->
+      <div class="daily-heading">
+        <div>
+          <p class="eyebrow">CURATED FOR YOUR LEARNING</p>
+          <h2>Today's Reading.</h2>
+          <p class="daily-subtitle">
+            每天三篇文章，从真实世界中学习语言。
+          </p>
+        </div>
+
+        <!-- 保留 CAIBUDIAN 品牌标识 -->
+        <div class="daily-brand">
+          <span class="daily-brand-dot"></span>
+          <span>CAIBUDIAN</span>
+        </div>
+      </div>
+
+      <!-- 新闻列表：由 JavaScript 从 Worker 动态加载 -->
+      <div class="article-list" id="dailyArticles">
+
+        <!-- 初始加载提示 -->
+        <div class="daily-loading">
+          正在获取今日文章……
+        </div>
+
+      </div>
+
+      <!-- 推荐区域底部说明 -->
+      <div class="daily-footer">
+        <span>3 LANGUAGES · 3 ARTICLES</span>
+        <span id="dailyUpdateTime">RSS · LIVE FEED</span>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- 八、页面底部 -->
+  <footer class="site-footer">
+    <span>LANGUAGE LAB</span>
+    <span>Learn · Practice · Grow</span>
+  </footer>
+
+  <!-- 九、引入交互逻辑 -->
+  <script src="script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<!-- Language Lab 个人四语词汇库 -->
+
+<html lang="zh-CN">
+<head>
+  <!-- 页面基础设置 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Vocabulary · Language Lab</title>
+
+  <!-- 引入网站全局样式与词汇库专属样式 -->
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="vocabulary.css">
+</head>
+
+<body>
+
+  <!-- 词汇库主容器 -->
+  <main class="vocabulary-page">
+
+    <!-- 页面顶部 -->
+    <header class="vocabulary-header">
+
+      <div class="vocabulary-topbar">
+        <a href="index.html" class="back-link">← Language Lab</a>
+
+        <!-- 词汇本独立主题切换 -->
+        <button
+          type="button"
+          class="vocabulary-theme-toggle"
+          id="vocabularyThemeToggle"
+          aria-label="切换词汇本主题"
+          aria-pressed="false"
+        >
+          <span id="vocabularyThemeIcon">◐</span>
+          <span id="vocabularyThemeText">Black / Green</span>
+        </button>
+      </div>
+
+      <div class="vocabulary-heading">
+        <p class="section-label">PERSONAL COLLECTION</p>
+        <h1>My Vocabulary.</h1>
+        <p>Collect words. Connect languages.</p>
+      </div>
+    </header>
+
+    <!-- 词汇统计 -->
+    <section class="vocabulary-overview">
+      <div>
+        <span class="overview-number" id="total-count">0</span>
+        <span class="overview-label">Words & Expressions</span>
+      </div>
+    </section>
+
+    <!-- 新增词汇入口 -->
+    <section class="vocabulary-add">
+      <div class="section-heading">
+        <h2>Add New Entry</h2>
+        <p>记录一个新的概念与它在不同语言中的表达。</p>
+      </div>
+
+      <button id="add-entry-button" type="button">
+        + New Entry
+      </button>
+    </section>
+
+    <!-- 新词录入面板：默认隐藏，由 JavaScript 控制展开 -->
+    <section id="entry-form-panel" class="entry-form-panel" hidden>
+
+      <div class="section-heading">
+        <h2>New Vocabulary</h2>
+        <p>填写一个概念，以及它在不同语言中的表达。</p>
+      </div>
+
+      <form id="vocabulary-form">
+
+        <!-- 概念名称 -->
+        <div class="form-group">
+          <label for="concept">Concept / 概念名称 *</label>
+          <input
+            type="text"
+            id="concept"
+            name="concept"
+            placeholder="例如：Knowledge"
+            required
+          >
+        </div>
+
+        <!-- 四种语言的对应表达 -->
+        <div class="form-divider">
+          <h3>Translations / 对应表达</h3>
+          <p>同一种语言可以记录多个词语或短语。</p>
+        </div>
+
+        <!-- 英语表达 -->
+        <div class="form-group">
+          <label for="english-words">English / 英语</label>
+          <div id="english-words" class="dynamic-fields">
+            <input type="text" name="english" placeholder="English expression">
+          </div>
+          <button type="button" class="add-field-button" data-target="english-words">
+            + Add another
+          </button>
+        </div>
+
+        <!-- 法语表达 -->
+        <div class="form-group">
+          <label for="french-words">Français / 法语</label>
+          <div id="french-words" class="dynamic-fields">
+            <input type="text" name="french" placeholder="Expression française">
+          </div>
+          <button type="button" class="add-field-button" data-target="french-words">
+            + Add another
+          </button>
+        </div>
+
+        <!-- 俄语表达 -->
+        <div class="form-group">
+          <label for="russian-words">Русский / 俄语</label>
+          <div id="russian-words" class="dynamic-fields">
+            <input type="text" name="russian" placeholder="Русское выражение">
+          </div>
+          <button type="button" class="add-field-button" data-target="russian-words">
+            + Add another
+          </button>
+        </div>
+
+        <!-- 中文释义 -->
+        <div class="form-group">
+          <label for="chinese-meaning">中文 / Chinese</label>
+          <textarea
+            id="chinese-meaning"
+            name="chinese"
+            rows="2"
+            placeholder="填写中文释义，可以包含多个意思。"
+          ></textarea>
+        </div>
+
+        <!-- 多语言例句 -->
+        <div class="form-divider">
+          <h3>Examples / 例句</h3>
+          <p>不同语言可以分别记录多条例句及其中文意思。</p>
+        </div>
+
+        <!-- 英语例句 -->
+        <div class="form-group example-group">
+          <label>English Examples / 英语例句</label>
+          <div id="english-examples" class="dynamic-fields">
+            <div class="example-item">
+              <textarea name="english-example" rows="2" placeholder="Write an English example..."></textarea>
+              <input type="text" name="english-example-translation" placeholder="中文对照（可选）">
+            </div>
+          </div>
+          <button type="button" class="add-field-button" data-target="english-examples" data-type="example">
+            + Add example
+          </button>
+        </div>
+
+        <!-- 法语例句 -->
+        <div class="form-group example-group">
+          <label>Français Examples / 法语例句</label>
+          <div id="french-examples" class="dynamic-fields">
+            <div class="example-item">
+              <textarea name="french-example" rows="2" placeholder="Écrivez un exemple en français..."></textarea>
+              <input type="text" name="french-example-translation" placeholder="中文对照（可选）">
+            </div>
+          </div>
+          <button type="button" class="add-field-button" data-target="french-examples" data-type="example">
+            + Add example
+          </button>
+        </div>
+
+        <!-- 俄语例句 -->
+        <div class="form-group example-group">
+          <label>Русский Examples / 俄语例句</label>
+          <div id="russian-examples" class="dynamic-fields">
+            <div class="example-item">
+              <textarea name="russian-example" rows="2" placeholder="Напишите пример на русском..."></textarea>
+              <input type="text" name="russian-example-translation" placeholder="中文对照（可选）">
+            </div>
+          </div>
+          <button type="button" class="add-field-button" data-target="russian-examples" data-type="example">
+            + Add example
+          </button>
+        </div>
+
+        <!-- 个人备注 -->
+        <div class="form-divider">
+          <h3>My Notes / 我的笔记</h3>
+        </div>
+
+        <div class="form-group">
+          <label for="personal-notes">Personal Notes</label>
+          <textarea
+            id="personal-notes"
+            name="notes"
+            rows="4"
+            placeholder="记录自己的理解、语法区别、使用场景或联想……"
+          ></textarea>
+        </div>
+
+        <!-- 表单操作 -->
+        <div class="form-actions">
+          <button type="button" id="cancel-entry-button">
+            Cancel
+          </button>
+
+          <button type="submit" id="save-entry-button">
+            Save Entry
+          </button>
+        </div>
+
+      </form>
+    </section>
+
+        <!-- 词汇列表与搜索区域 -->
+    <section class="vocabulary-list-section">
+
+      <div class="section-heading">
+        <h2>My Collection</h2>
+        <p>你的个人四语词汇收藏。</p>
+      </div>
+
+      <!-- 词汇搜索与语言筛选 -->
+      <div class="vocabulary-search">
+
+        <input
+          type="search"
+          id="vocabulary-search-input"
+          placeholder="Search words, meanings, examples..."
+          aria-label="搜索词汇"
+        >
+
+        <select
+          id="vocabulary-search-language"
+          aria-label="选择搜索语言"
+        >
+          <option value="all">All Languages / 全部语言</option>
+          <option value="english">English / 英语</option>
+          <option value="french">Français / 法语</option>
+          <option value="russian">Русский / 俄语</option>
+          <option value="chinese">中文 / Chinese</option>
+        </select>
+
+      </div>
+
+      <!-- 搜索结果数量 -->
+      <p id="vocabulary-search-status" class="vocabulary-search-status"></p>
+
+      <!-- 词汇卡片列表 -->
+      <div id="vocabulary-list">
+        <p class="empty-message">
+          Your collection starts here.
+        </p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- 页面交互逻辑 -->
+  <script src="vocabulary.js"></script>
+
+</body>
+</html>

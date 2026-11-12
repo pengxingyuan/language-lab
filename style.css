@@ -1,0 +1,812 @@
+
+/* =========================================================
+   Language Lab
+   全局页面样式与主题配置
+   ========================================================= */
+
+/* 一、全局变量：浅色主题 */
+:root {
+  color-scheme: light;
+
+  --bg-color: #f7f8fa;
+  --surface-color: #ffffff;
+  --surface-hover: #f2f3f5;
+
+  --text-primary: #202124;
+  --text-secondary: #777d87;
+  --text-muted: #a0a5ae;
+
+  --border-color: #e9ebef;
+  --shadow-color: rgba(0, 0, 0, 0.04);
+
+  --accent-color: #3978c6;
+
+  --english-bg: #edf4ff;
+  --english-color: #3474c5;
+
+  --french-bg: #f1efff;
+  --french-color: #7765c4;
+
+  --russian-bg: #fff2e9;
+  --russian-color: #c47a48;
+
+  --radius-large: 20px;
+  --radius-medium: 14px;
+
+  --transition: 0.25s ease;
+}
+
+/* 二、深色主题变量 */
+body.dark-theme {
+  color-scheme: dark;
+
+  --bg-color: #151619;
+  --surface-color: #202226;
+  --surface-hover: #292c31;
+
+  --text-primary: #f0f1f3;
+  --text-secondary: #a0a5ae;
+  --text-muted: #737983;
+
+  --border-color: #30343a;
+  --shadow-color: rgba(0, 0, 0, 0.16);
+
+  --accent-color: #83b5f4;
+
+  --english-bg: #26364b;
+  --english-color: #a5c9fa;
+
+  --french-bg: #342e4b;
+  --french-color: #c0b5fa;
+
+  --russian-bg: #49362b;
+  --russian-color: #f0b58b;
+}
+
+/* 三、基础样式 */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+
+  background: var(--bg-color);
+  color: var(--text-primary);
+
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    "PingFang SC",
+    "Microsoft YaHei",
+    sans-serif;
+
+  transition:
+    background var(--transition),
+    color var(--transition);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+/* 四、顶部导航 */
+.site-header {
+  width: min(1120px, calc(100% - 48px));
+  height: 76px;
+
+  margin: 0 auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  font-size: 17px;
+  font-weight: 650;
+  letter-spacing: -0.4px;
+}
+
+.brand-mark {
+  width: 34px;
+  height: 34px;
+
+  display: grid;
+  place-items: center;
+
+  background: var(--text-primary);
+  color: var(--bg-color);
+
+  border-radius: 11px;
+
+  font-size: 17px;
+  font-weight: 750;
+}
+
+/* 主题切换按钮 */
+.theme-toggle {
+  width: 40px;
+  height: 40px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--border-color);
+  border-radius: 50%;
+
+  background: var(--surface-color);
+  color: var(--text-primary);
+
+  cursor: pointer;
+
+  font-size: 19px;
+
+  transition:
+    background var(--transition),
+    transform var(--transition);
+}
+
+.theme-toggle:hover {
+  background: var(--surface-hover);
+  transform: rotate(12deg);
+}
+
+/* 五、首页主体 */
+.main-content {
+  width: min(1000px, calc(100% - 48px));
+  margin: 0 auto;
+}
+
+/* 欢迎区域 */
+.hero {
+  padding: 92px 0 75px;
+}
+
+.eyebrow {
+  margin: 0 0 20px;
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+}
+
+.hero h1 {
+  margin: 0;
+
+  font-size: clamp(38px, 6vw, 64px);
+  line-height: 1.12;
+  letter-spacing: -2.8px;
+  font-weight: 700;
+}
+
+.hero-description {
+  margin-top: 22px;
+
+  color: var(--text-secondary);
+
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+/* 六、通用区块标题 */
+.language-section,
+.overview-section,
+.activity-section {
+  margin-bottom: 65px;
+}
+
+.section-heading {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+
+  margin-bottom: 22px;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.5px;
+}
+
+.section-heading span {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* 七、三语言卡片 */
+.language-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.language-card {
+  position: relative;
+
+  min-height: 185px;
+  padding: 25px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  border-radius: var(--radius-large);
+
+  transition:
+    transform var(--transition),
+    box-shadow var(--transition);
+}
+
+.language-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px var(--shadow-color);
+}
+
+.english {
+  background: var(--english-bg);
+  color: var(--english-color);
+}
+
+.french {
+  background: var(--french-bg);
+  color: var(--french-color);
+}
+
+.russian {
+  background: var(--russian-bg);
+  color: var(--russian-color);
+}
+
+.language-code {
+  font-size: 35px;
+  font-weight: 750;
+  letter-spacing: -1.5px;
+}
+
+.language-name {
+  margin-top: 12px;
+
+  font-size: 17px;
+  font-weight: 650;
+}
+
+.language-description {
+  margin-top: 6px;
+
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.card-arrow {
+  position: absolute;
+  right: 22px;
+  top: 22px;
+
+  font-size: 17px;
+  opacity: 0.65;
+}
+
+/* 八、学习数据卡片 */
+.overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.overview-card {
+  min-height: 125px;
+  padding: 23px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-medium);
+
+  box-shadow: 0 4px 15px var(--shadow-color);
+}
+
+.overview-label {
+  color: var(--text-secondary);
+  font-size: 12px;
+}
+
+.overview-card strong {
+  font-size: 30px;
+  font-weight: 650;
+  letter-spacing: -1px;
+}
+
+.overview-card small {
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* 九、最近学习记录 */
+.empty-state {
+  min-height: 170px;
+  padding: 30px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-large);
+}
+
+.empty-icon {
+  color: var(--text-muted);
+  font-size: 25px;
+}
+
+.empty-state p {
+  margin: 15px 0 5px;
+
+  font-size: 14px;
+  font-weight: 550;
+}
+
+.empty-state span:last-child {
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* 十、页面底部 */
+.site-footer {
+  width: min(1000px, calc(100% - 48px));
+
+  margin: 0 auto;
+  padding: 25px 0 35px;
+
+  display: flex;
+  justify-content: space-between;
+
+  border-top: 1px solid var(--border-color);
+
+  color: var(--text-muted);
+
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+/* 十一、手机端适配 */
+@media (max-width: 650px) {
+
+  .site-header {
+    width: calc(100% - 36px);
+    height: 65px;
+  }
+
+  .main-content {
+    width: calc(100% - 36px);
+  }
+
+  .hero {
+    padding: 65px 0 55px;
+  }
+
+  .hero h1 {
+    letter-spacing: -1.8px;
+  }
+
+  .language-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .language-card {
+    min-height: 145px;
+  }
+
+  .overview-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .overview-card {
+    min-height: 105px;
+  }
+
+  .language-section,
+  .overview-section,
+  .activity-section {
+    margin-bottom: 48px;
+  }
+
+  .site-footer {
+    width: calc(100% - 36px);
+    gap: 15px;
+    flex-wrap: wrap;
+  }
+}
+
+/* =========================================================
+   十二、CAIBUDIAN 每日文章推荐
+   ========================================================= */
+
+/* 推荐区域整体 */
+.daily-section {
+  margin-bottom: 75px;
+}
+
+/* 推荐区域标题 */
+.daily-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+
+  margin-bottom: 28px;
+}
+
+.daily-heading .eyebrow {
+  margin-bottom: 13px;
+}
+
+.daily-heading h2 {
+  margin: 0;
+
+  font-size: 30px;
+  font-weight: 680;
+  letter-spacing: -1.2px;
+}
+
+.daily-subtitle {
+  margin: 12px 0 0;
+
+  color: var(--text-secondary);
+  font-size: 13px;
+}
+
+/* CAIBUDIAN 标识 */
+.daily-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding-bottom: 5px;
+
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.3px;
+  white-space: nowrap;
+}
+
+.daily-brand-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+  background: #7da98a;
+}
+
+/* 文章列表 */
+.article-list {
+  overflow: hidden;
+
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-large);
+
+  box-shadow: 0 5px 22px var(--shadow-color);
+}
+
+/* 单篇文章 */
+.article-item {
+  position: relative;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+
+  padding: 26px;
+
+  border-bottom: 1px solid var(--border-color);
+
+  transition: background var(--transition);
+}
+
+.article-item:last-child {
+  border-bottom: none;
+}
+
+.article-item:hover {
+  background: var(--surface-hover);
+}
+
+/* 语言标识 */
+.article-language {
+  flex-shrink: 0;
+
+  width: 43px;
+  height: 43px;
+
+  display: grid;
+  place-items: center;
+
+  border-radius: 12px;
+
+  font-size: 15px;
+  font-weight: 750;
+}
+
+.english-label {
+  background: var(--english-bg);
+  color: var(--english-color);
+}
+
+.french-label {
+  background: var(--french-bg);
+  color: var(--french-color);
+}
+
+.russian-label {
+  background: var(--russian-bg);
+  color: var(--russian-color);
+}
+
+/* 文章文字信息 */
+.article-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  color: var(--text-muted);
+
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.article-content h3 {
+  margin: 12px 0 7px;
+
+  color: var(--text-primary);
+
+  font-size: 16px;
+  font-weight: 620;
+  letter-spacing: -0.3px;
+}
+
+.article-content > p {
+  margin: 0;
+
+  color: var(--text-secondary);
+
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* 文章难度和来源 */
+.article-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+
+  margin-top: 16px;
+
+  color: var(--text-muted);
+  font-size: 10px;
+}
+
+.article-level {
+  color: var(--accent-color);
+  font-weight: 650;
+}
+
+.article-arrow {
+  margin-left: auto;
+  padding-top: 4px;
+
+  color: var(--text-muted);
+  font-size: 17px;
+}
+
+/* 推荐区域底部 */
+.daily-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+
+  margin-top: 17px;
+
+  color: var(--text-muted);
+
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
+/* 手机端适配 */
+@media (max-width: 650px) {
+
+  .daily-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .daily-heading h2 {
+    font-size: 27px;
+  }
+
+  .article-item {
+    gap: 13px;
+    padding: 21px 16px;
+  }
+
+  .article-language {
+    width: 38px;
+    height: 38px;
+    font-size: 13px;
+  }
+
+  .article-content h3 {
+    font-size: 14px;
+  }
+
+  .daily-footer {
+    font-size: 8px;
+  }
+}
+
+/* =========================================================
+   十三、每日阅读动态加载状态
+   ========================================================= */
+
+/* 新闻加载提示 */
+.daily-loading {
+  padding: 38px 20px;
+
+  color: var(--text-muted);
+  text-align: center;
+
+  font-size: 12px;
+}
+
+/* 新闻加载失败提示 */
+.daily-error {
+  padding: 38px 20px;
+
+  color: var(--text-secondary);
+  text-align: center;
+
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* 文章卡片可点击 */
+.article-item {
+  cursor: pointer;
+}
+
+/* 键盘访问时显示清晰的焦点状态 */
+.article-item:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: -3px;
+}
+
+/* 新闻标题允许自然换行 */
+.article-content h3 {
+  overflow-wrap: anywhere;
+}
+
+/* 手机端加载状态 */
+@media (max-width: 650px) {
+  .daily-loading,
+  .daily-error {
+    padding: 30px 16px;
+  }
+}
+
+/* ==============================
+   My Vocabulary：首页词汇本入口
+   独立黑绿配色，不影响其他区域
+   ============================== */
+
+.vocabulary-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 28px 32px;
+  margin-top: 24px;
+
+  background: #101310;
+  border: 1px solid #283b2a;
+  border-radius: 16px;
+
+  color: #f2f5f0;
+  text-decoration: none;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* 鼠标悬停：荧光绿边框与轻微上浮 */
+.vocabulary-entry:hover {
+  transform: translateY(-3px);
+  border-color: #a6ff4d;
+  box-shadow: 0 8px 28px rgba(166, 255, 77, 0.10);
+}
+
+/* 英文小标题 */
+.vocabulary-entry .eyebrow {
+  margin: 0 0 10px;
+  color: #a6ff4d;
+  letter-spacing: 2px;
+  font-size: 10px;
+}
+
+/* 词汇本标题 */
+.vocabulary-entry h2 {
+  margin: 0 0 9px;
+  color: #a6ff4d;
+  font-size: 25px;
+  font-weight: 600;
+}
+
+/* 中文与语言说明 */
+.vocabulary-entry p:last-child {
+  margin: 0;
+  color: #a8b2a5;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* 右侧箭头 */
+.vocabulary-entry-arrow {
+  flex-shrink: 0;
+  color: #a6ff4d;
+  font-size: 27px;
+  transition: transform 0.25s ease;
+}
+
+.vocabulary-entry:hover .vocabulary-entry-arrow {
+  transform: translate(4px, -4px);
+}
+
+/* 手机端适配 */
+@media (max-width: 600px) {
+  .vocabulary-entry {
+    padding: 23px 20px;
+  }
+
+  .vocabulary-entry h2 {
+    font-size: 22px;
+  }
+}
