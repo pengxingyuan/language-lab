@@ -1213,7 +1213,7 @@ body.dark-theme::before {
 @media (max-width: 650px) {
   body::before {
     background-size: 90vw;
-    background-position: center 50%;
+    background-position: center 100%;
   }
 }
 
