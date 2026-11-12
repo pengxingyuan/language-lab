@@ -1276,13 +1276,135 @@ function getEntrySearchText(entry, language) {
   );
 }
 
+// ==================================================
+// 十九、词汇搜索与语言分类
+// ==================================================
+
+// 统一搜索文本格式
+function normalizeSearchText(value) {
+  return String(value ?? "").trim().toLocaleLowerCase();
+}
+
+// 判断词条是否属于指定语言
+function hasLanguageContent(entry, language) {
+  // 全部语言
+  if (language === "all") {
+    return true;
+  }
+
+  // 英语、法语、俄语：检查表达或例句
+  if (["english", "french", "russian"].includes(language)) {
+    const expressions = entry[language] || [];
+    const examples = entry.examples?.[language] || [];
+
+    return (
+      expressions.some(item => String(item).trim() !== "") ||
+      examples.some(item =>
+        String(item.text || "").trim() !== ""
+      )
+    );
+  }
+
+  // 中文：检查中文释义或中文例句对照
+  if (language === "chinese") {
+    const hasMeaning = String(entry.chinese || "").trim() !== "";
+
+    const hasTranslation = [
+      "english",
+      "french",
+      "russian"
+    ].some(key =>
+      (entry.examples?.[key] || []).some(example =>
+        String(example.translation || "").trim() !== ""
+      )
+    );
+
+    return hasMeaning || hasTranslation;
+  }
+
+  return true;
+}
+
+// 获取指定语言的搜索内容
+function getEntrySearchText(entry, language) {
+  const contents = [entry.concept];
+
+  if (language === "all") {
+    contents.push(
+      entry.chinese,
+      entry.notes,
+      ...(entry.english || []),
+      ...(entry.french || []),
+      ...(entry.russian || [])
+    );
+
+    ["english", "french", "russian"].forEach(key => {
+      (entry.examples?.[key] || []).forEach(example => {
+        contents.push(example.text, example.translation);
+      });
+    });
+  }
+
+  else if (language === "english") {
+    contents.push(...(entry.english || []));
+
+    (entry.examples?.english || []).forEach(example => {
+      contents.push(example.text);
+    });
+  }
+
+  else if (language === "french") {
+    contents.push(...(entry.french || []));
+
+    (entry.examples?.french || []).forEach(example => {
+      contents.push(example.text);
+    });
+  }
+
+  else if (language === "russian") {
+    contents.push(...(entry.russian || []));
+
+    (entry.examples?.russian || []).forEach(example => {
+      contents.push(example.text);
+    });
+  }
+
+  else if (language === "chinese") {
+    contents.push(entry.chinese);
+
+    ["english", "french", "russian"].forEach(key => {
+      (entry.examples?.[key] || []).forEach(example => {
+        contents.push(example.translation);
+      });
+    });
+  }
+
+  return normalizeSearchText(
+    contents.filter(Boolean).join(" ")
+  );
+}
+
+// 执行词汇分类与搜索
 function filterVocabulary() {
-  const keyword = normalizeSearchText(vocabularySearchInput?.value);
+  const keyword = normalizeSearchText(
+    vocabularySearchInput?.value
+  );
+
   const language = vocabularySearchLanguage?.value || "all";
 
-  return vocabularyData.filter((entry) => {
-    if (!keyword) return true;
+  return vocabularyData.filter(entry => {
 
+    // 第一步：检查是否属于当前语言分类
+    if (!hasLanguageContent(entry, language)) {
+      return false;
+    }
+
+    // 第二步：没有关键词时，直接显示该语言的全部词条
+    if (!keyword) {
+      return true;
+    }
+
+    // 第三步：根据关键词搜索
     return getEntrySearchText(entry, language).includes(keyword);
   });
 }
@@ -1353,11 +1475,43 @@ if (vocabularySearchLanguage) {
 // 二十一、页面初始化
 // ==================================================
 
+// ==================================================
+// 二十一、页面初始化
+// ==================================================
+
+// 根据 URL 参数自动选择语言分类
+function initializeLanguageFilter() {
+  const params = new URLSearchParams(window.location.search);
+
+  const requestedLanguage = params.get("language");
+
+  const supportedLanguages = [
+    "all",
+    "english",
+    "french",
+    "russian",
+    "chinese"
+  ];
+
+  if (
+    requestedLanguage &&
+    supportedLanguages.includes(requestedLanguage)
+  ) {
+    vocabularySearchLanguage.value = requestedLanguage;
+  }
+}
+
 // 恢复上次选择的主题
 loadVocabularyTheme();
 
+// 读取 URL 参数并设置语言分类
+initializeLanguageFilter();
+
 // 先展示本地缓存
 renderVocabulary();
+
+// 检查 GitHub 登录状态并读取云端数据
+initializeCloudSync();
 
 // 检查 GitHub 登录状态并读取云端数据
 initializeCloudSync();
