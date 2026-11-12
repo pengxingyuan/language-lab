@@ -4,7 +4,10 @@
    全局页面样式与主题配置
    ========================================================= */
 
-/* 一、全局变量：浅色主题 */
+/* =========================================================
+   一、全局变量：浅色主题
+   ========================================================= */
+
 :root {
   color-scheme: light;
 
@@ -36,7 +39,10 @@
   --transition: 0.25s ease;
 }
 
-/* 二、深色主题变量 */
+/* =========================================================
+   二、深色主题变量
+   ========================================================= */
+
 body.dark-theme {
   color-scheme: dark;
 
@@ -63,7 +69,10 @@ body.dark-theme {
   --russian-color: #f0b58b;
 }
 
-/* 三、基础样式 */
+/* =========================================================
+   三、基础样式
+   ========================================================= */
+
 * {
   box-sizing: border-box;
 }
@@ -80,6 +89,8 @@ body {
   color: var(--text-primary);
 
   font-family:
+    "Nunito",
+    "Noto Sans SC",
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
@@ -101,7 +112,10 @@ button {
   font: inherit;
 }
 
-/* 四、顶部导航 */
+/* =========================================================
+   四、顶部导航与品牌标识
+   ========================================================= */
+
 .site-header {
   width: min(1120px, calc(100% - 48px));
   height: 76px;
@@ -113,67 +127,144 @@ button {
   justify-content: space-between;
 }
 
+/* Language Lab 品牌名称 */
 .brand {
-  display: flex;
+  position: relative;
+
+  display: inline-flex;
   align-items: center;
-  gap: 11px;
 
+  font-family: "Nunito", "Noto Sans SC", sans-serif;
   font-size: 17px;
-  font-weight: 650;
+  font-weight: 800;
   letter-spacing: -0.4px;
+
+  text-decoration: none;
 }
 
-.brand-mark {
-  width: 34px;
-  height: 34px;
+/* 使用 icon.png 作为品牌背景水印 */
+.brand::before {
+  content: "";
 
-  display: grid;
-  place-items: center;
+  position: absolute;
+  left: -7px;
+  top: 50%;
 
-  background: var(--text-primary);
-  color: var(--bg-color);
+  width: 42px;
+  height: 42px;
 
-  border-radius: 11px;
+  transform: translateY(-50%);
 
-  font-size: 17px;
-  font-weight: 750;
+  background-image: url("icon.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+
+  opacity: 0.22;
+
+  pointer-events: none;
 }
 
-/* 主题切换按钮 */
+/* 确保品牌文字显示在图标上方 */
+.brand span {
+  position: relative;
+  z-index: 1;
+}
+
+/* =========================================================
+   五、主题切换：滑动开关
+   左侧浅色，右侧深色
+   ========================================================= */
+
+/* 开关轨道 */
 .theme-toggle {
-  width: 40px;
-  height: 40px;
+  position: relative;
 
-  display: grid;
-  place-items: center;
+  width: 54px;
+  height: 30px;
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+
+  flex-shrink: 0;
 
   border: 1px solid var(--border-color);
-  border-radius: 50%;
+  border-radius: 999px;
 
-  background: var(--surface-color);
-  color: var(--text-primary);
+  background: #e2e5e9;
 
   cursor: pointer;
 
-  font-size: 19px;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+/* 圆形滑块 */
+.theme-toggle #themeIcon {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+
+  width: 22px;
+  height: 22px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+  background: #ffffff;
+
+  /* 隐藏原来的月亮或太阳字符 */
+  font-size: 0;
+  color: transparent;
+
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
 
   transition:
-    background var(--transition),
-    transform var(--transition);
+    transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 0.3s ease;
 }
 
+/* 深色模式：荧光绿轨道 */
+body.dark-theme .theme-toggle {
+  background: #b6ff00;
+  border-color: #b6ff00;
+}
+
+/* 深色模式：滑块移动到右侧 */
+body.dark-theme .theme-toggle #themeIcon {
+  transform: translateX(24px);
+  background: #202124;
+}
+
+/* 鼠标悬停 */
 .theme-toggle:hover {
-  background: var(--surface-hover);
-  transform: rotate(12deg);
+  box-shadow: 0 0 0 4px rgba(182, 255, 0, 0.15);
 }
 
-/* 五、首页主体 */
+/* 键盘焦点 */
+.theme-toggle:focus-visible {
+  outline: 2px solid #b6ff00;
+  outline-offset: 4px;
+}
+
+/* =========================================================
+   六、首页主体
+   ========================================================= */
+
 .main-content {
   width: min(1000px, calc(100% - 48px));
   margin: 0 auto;
 }
 
-/* 欢迎区域 */
+/* =========================================================
+   七、欢迎区域 Hero
+   ========================================================= */
+
 .hero {
   padding: 92px 0 75px;
 }
@@ -188,6 +279,7 @@ button {
   letter-spacing: 2.5px;
 }
 
+/* Hero 普通标题基础样式 */
 .hero h1 {
   margin: 0;
 
@@ -206,7 +298,76 @@ button {
   line-height: 1.9;
 }
 
-/* 六、通用区块标题 */
+/* ---------- 三语彩色欢迎标题 ---------- */
+
+.hero .hero-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 12px;
+
+  font-family: "Nunito", "Noto Sans SC", sans-serif;
+  font-size: clamp(34px, 5vw, 56px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.3;
+}
+
+/* 英语：蓝色 */
+.hello-en {
+  color: #3978c6;
+}
+
+/* 法语：紫色 */
+.hello-fr {
+  color: #8b65bd;
+}
+
+/* 俄语：橙色 */
+.hello-ru {
+  color: #d58a3c;
+}
+
+/* 个人英文署名 */
+.hero-name {
+  display: inline-block;
+  margin-top: 5px;
+
+  font-family: "Nunito", "Noto Sans SC", sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+
+  color: var(--text-primary);
+}
+
+/* Sean 使用荧光绿 */
+.hero-name span {
+  color: #8dbb00;
+  font-weight: 800;
+}
+
+/* 深色主题下的欢迎标题 */
+body.dark-theme .hello-en {
+  color: #76aaf0;
+}
+
+body.dark-theme .hello-fr {
+  color: #b99be8;
+}
+
+body.dark-theme .hello-ru {
+  color: #e9ad70;
+}
+
+body.dark-theme .hero-name span {
+  color: #b6ff00;
+}
+
+/* =========================================================
+   八、通用区块标题
+   ========================================================= */
+
 .language-section,
 .overview-section,
 .activity-section {
@@ -234,7 +395,10 @@ button {
   font-size: 12px;
 }
 
-/* 七、三语言卡片 */
+/* =========================================================
+   九、三语言卡片
+   ========================================================= */
+
 .language-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -263,16 +427,19 @@ button {
   box-shadow: 0 12px 30px var(--shadow-color);
 }
 
+/* 英语 */
 .english {
   background: var(--english-bg);
   color: var(--english-color);
 }
 
+/* 法语 */
 .french {
   background: var(--french-bg);
   color: var(--french-color);
 }
 
+/* 俄语 */
 .russian {
   background: var(--russian-bg);
   color: var(--russian-color);
@@ -307,7 +474,10 @@ button {
   opacity: 0.65;
 }
 
-/* 八、学习数据卡片 */
+/* =========================================================
+   十、学习数据卡片
+   ========================================================= */
+
 .overview-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -347,7 +517,10 @@ button {
   letter-spacing: 0;
 }
 
-/* 九、最近学习记录 */
+/* =========================================================
+   十一、最近学习记录
+   ========================================================= */
+
 .empty-state {
   min-height: 170px;
   padding: 30px;
@@ -379,77 +552,8 @@ button {
   font-size: 12px;
 }
 
-/* 十、页面底部 */
-.site-footer {
-  width: min(1000px, calc(100% - 48px));
-
-  margin: 0 auto;
-  padding: 25px 0 35px;
-
-  display: flex;
-  justify-content: space-between;
-
-  border-top: 1px solid var(--border-color);
-
-  color: var(--text-muted);
-
-  font-size: 10px;
-  letter-spacing: 1px;
-}
-
-/* 十一、手机端适配 */
-@media (max-width: 650px) {
-
-  .site-header {
-    width: calc(100% - 36px);
-    height: 65px;
-  }
-
-  .main-content {
-    width: calc(100% - 36px);
-  }
-
-  .hero {
-    padding: 65px 0 55px;
-  }
-
-  .hero h1 {
-    letter-spacing: -1.8px;
-  }
-
-  .language-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
-  }
-
-  .language-card {
-    min-height: 145px;
-  }
-
-  .overview-grid {
-    grid-template-columns: 1fr;
-    gap: 10px;
-  }
-
-  .overview-card {
-    min-height: 105px;
-  }
-
-  .language-section,
-  .overview-section,
-  .activity-section {
-    margin-bottom: 48px;
-  }
-
-  .site-footer {
-    width: calc(100% - 36px);
-    gap: 15px;
-    flex-wrap: wrap;
-  }
-}
-
 /* =========================================================
-   十二、CAIBUDIAN 每日文章推荐
+   十二、Today's Reading · 每日文章推荐
    ========================================================= */
 
 /* 推荐区域整体 */
@@ -509,7 +613,7 @@ button {
   background: #7da98a;
 }
 
-/* 文章列表 */
+/* 新闻列表外框 */
 .article-list {
   overflow: hidden;
 
@@ -520,7 +624,7 @@ button {
   box-shadow: 0 5px 22px var(--shadow-color);
 }
 
-/* 单篇文章 */
+/* 新闻卡片 */
 .article-item {
   position: relative;
 
@@ -532,49 +636,24 @@ button {
 
   border-bottom: 1px solid var(--border-color);
 
-  transition: background var(--transition);
+  cursor: pointer;
+
+  transition:
+    background var(--transition),
+    border-color var(--transition);
 }
 
 .article-item:last-child {
   border-bottom: none;
 }
 
-.article-item:hover {
-  background: var(--surface-hover);
+/* 键盘访问焦点 */
+.article-item:focus-visible {
+  outline: 2px solid var(--accent-color);
+  outline-offset: -3px;
 }
 
-/* 语言标识 */
-.article-language {
-  flex-shrink: 0;
-
-  width: 43px;
-  height: 43px;
-
-  display: grid;
-  place-items: center;
-
-  border-radius: 12px;
-
-  font-size: 15px;
-  font-weight: 750;
-}
-
-.english-label {
-  background: var(--english-bg);
-  color: var(--english-color);
-}
-
-.french-label {
-  background: var(--french-bg);
-  color: var(--french-color);
-}
-
-.russian-label {
-  background: var(--russian-bg);
-  color: var(--russian-color);
-}
-
-/* 文章文字信息 */
+/* 新闻标题 */
 .article-content {
   flex: 1;
   min-width: 0;
@@ -600,6 +679,8 @@ button {
   font-size: 16px;
   font-weight: 620;
   letter-spacing: -0.3px;
+
+  overflow-wrap: anywhere;
 }
 
 .article-content > p {
@@ -611,10 +692,11 @@ button {
   line-height: 1.8;
 }
 
-/* 文章难度和来源 */
+/* 新闻底部信息 */
 .article-footer {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 14px;
 
   margin-top: 16px;
@@ -627,193 +709,6 @@ button {
   color: var(--accent-color);
   font-weight: 650;
 }
-
-.article-arrow {
-  margin-left: auto;
-  padding-top: 4px;
-
-  color: var(--text-muted);
-  font-size: 17px;
-}
-
-/* 推荐区域底部 */
-.daily-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 15px;
-
-  margin-top: 17px;
-
-  color: var(--text-muted);
-
-  font-size: 9px;
-  letter-spacing: 1px;
-}
-
-/* 手机端适配 */
-@media (max-width: 650px) {
-
-  .daily-heading {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
-  .daily-heading h2 {
-    font-size: 27px;
-  }
-
-  .article-item {
-    gap: 13px;
-    padding: 21px 16px;
-  }
-
-  .article-language {
-    width: 38px;
-    height: 38px;
-    font-size: 13px;
-  }
-
-  .article-content h3 {
-    font-size: 14px;
-  }
-
-  .daily-footer {
-    font-size: 8px;
-  }
-}
-
-/* =========================================================
-   十三、每日阅读动态加载状态
-   ========================================================= */
-
-/* 新闻加载提示 */
-.daily-loading {
-  padding: 38px 20px;
-
-  color: var(--text-muted);
-  text-align: center;
-
-  font-size: 12px;
-}
-
-/* 新闻加载失败提示 */
-.daily-error {
-  padding: 38px 20px;
-
-  color: var(--text-secondary);
-  text-align: center;
-
-  font-size: 12px;
-  line-height: 1.8;
-}
-
-/* 文章卡片可点击 */
-.article-item {
-  cursor: pointer;
-}
-
-/* 键盘访问时显示清晰的焦点状态 */
-.article-item:focus-visible {
-  outline: 2px solid var(--accent-color);
-  outline-offset: -3px;
-}
-
-/* 新闻标题允许自然换行 */
-.article-content h3 {
-  overflow-wrap: anywhere;
-}
-
-/* 手机端加载状态 */
-@media (max-width: 650px) {
-  .daily-loading,
-  .daily-error {
-    padding: 30px 16px;
-  }
-}
-
-/* ==============================
-   My Vocabulary：首页词汇本入口
-   独立黑绿配色，不影响其他区域
-   ============================== */
-
-.vocabulary-entry {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 28px 32px;
-  margin-top: 24px;
-
-  background: #101310;
-  border: 1px solid #283b2a;
-  border-radius: 16px;
-
-  color: #f2f5f0;
-  text-decoration: none;
-
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-/* 鼠标悬停：荧光绿边框与轻微上浮 */
-.vocabulary-entry:hover {
-  transform: translateY(-3px);
-  border-color: #a6ff4d;
-  box-shadow: 0 8px 28px rgba(166, 255, 77, 0.10);
-}
-
-/* 英文小标题 */
-.vocabulary-entry .eyebrow {
-  margin: 0 0 10px;
-  color: #a6ff4d;
-  letter-spacing: 2px;
-  font-size: 10px;
-}
-
-/* 词汇本标题 */
-.vocabulary-entry h2 {
-  margin: 0 0 9px;
-  color: #a6ff4d;
-  font-size: 25px;
-  font-weight: 600;
-}
-
-/* 中文与语言说明 */
-.vocabulary-entry p:last-child {
-  margin: 0;
-  color: #a8b2a5;
-  font-size: 13px;
-  line-height: 1.7;
-}
-
-/* 右侧箭头 */
-.vocabulary-entry-arrow {
-  flex-shrink: 0;
-  color: #a6ff4d;
-  font-size: 27px;
-  transition: transform 0.25s ease;
-}
-
-.vocabulary-entry:hover .vocabulary-entry-arrow {
-  transform: translate(4px, -4px);
-}
-
-/* 手机端适配 */
-@media (max-width: 600px) {
-  .vocabulary-entry {
-    padding: 23px 20px;
-  }
-
-  .vocabulary-entry h2 {
-    font-size: 22px;
-  }
-}
-/* =========================================================
-   十四、Today's Reading · 新闻媒体标识
-   BBC / RFI 简洁文字徽标
-   ========================================================= */
 
 /* 媒体来源徽标 */
 .article-source {
@@ -843,16 +738,28 @@ button {
     color var(--transition);
 }
 
-/* 鼠标悬停时轻微强调 */
-.article-item:hover .article-source {
-  border-color: var(--accent-color);
-  color: var(--text-primary);
-}
-/* =========================================================
-   十五、Today's Reading · 外链指示图标
-   ========================================================= */
+/* 新闻缩略图 */
+.article-image {
+  flex-shrink: 0;
 
-/* 新闻卡片右侧外链图标 */
+  width: 128px;
+  height: 88px;
+
+  display: block;
+
+  object-fit: cover;
+  object-position: center;
+
+  border-radius: 10px;
+
+  background: var(--surface-hover);
+
+  transition:
+    transform var(--transition),
+    opacity var(--transition);
+}
+
+/* 右侧外链指示图标 */
 .article-arrow {
   flex-shrink: 0;
 
@@ -880,7 +787,78 @@ button {
     border-color var(--transition);
 }
 
-/* 鼠标悬停时轻微移动 */
+/* ---------- 新闻卡片：英语蓝色 ---------- */
+
+.article-en {
+  background: #edf4fc;
+  border-color: #dce9f8;
+}
+
+.article-en:hover {
+  background: #e3eefb;
+}
+
+/* ---------- 新闻卡片：法语紫色 ---------- */
+
+.article-fr {
+  background: #f3effb;
+  border-color: #e6dcf7;
+}
+
+.article-fr:hover {
+  background: #ece5f8;
+}
+
+/* ---------- 新闻卡片：俄语橙色 ---------- */
+
+.article-ru {
+  background: #fbf2e8;
+  border-color: #f3e2ce;
+}
+
+.article-ru:hover {
+  background: #f7e9d9;
+}
+
+/* ---------- 深色主题新闻卡片 ---------- */
+
+body.dark-theme .article-en {
+  background: #202e40;
+  border-color: #30445e;
+}
+
+body.dark-theme .article-en:hover {
+  background: #263950;
+}
+
+body.dark-theme .article-fr {
+  background: #30283e;
+  border-color: #46385e;
+}
+
+body.dark-theme .article-fr:hover {
+  background: #392f4b;
+}
+
+body.dark-theme .article-ru {
+  background: #3a2d22;
+  border-color: #57402e;
+}
+
+body.dark-theme .article-ru:hover {
+  background: #453526;
+}
+
+/* 新闻卡片悬停反馈 */
+.article-item:hover .article-image {
+  transform: scale(1.02);
+}
+
+.article-item:hover .article-source {
+  border-color: var(--accent-color);
+  color: var(--text-primary);
+}
+
 .article-item:hover .article-arrow {
   transform: translate(2px, -2px);
 
@@ -889,117 +867,124 @@ button {
   color: var(--text-primary);
 }
 
+/* 新闻加载提示 */
+.daily-loading {
+  padding: 38px 20px;
+
+  color: var(--text-muted);
+  text-align: center;
+
+  font-size: 12px;
+}
+
+/* 新闻加载失败提示 */
+.daily-error {
+  padding: 38px 20px;
+
+  color: var(--text-secondary);
+  text-align: center;
+
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+/* 新闻推荐区域底部 */
+.daily-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+
+  margin-top: 17px;
+
+  color: var(--text-muted);
+
+  font-size: 9px;
+  letter-spacing: 1px;
+}
+
 /* =========================================================
-   十六、Today's Reading · 新闻配图
-   统一图片尺寸，适配浅色与深色主题
+   十三、My Vocabulary · 首页词汇本入口
+   独立黑色 × 荧光绿配色
    ========================================================= */
 
-/* 新闻卡片左侧缩略图 */
-.article-image {
-  flex-shrink: 0;
+.vocabulary-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
 
-  width: 128px;
-  height: 88px;
+  padding: 28px 32px;
+  margin-top: 24px;
 
-  display: block;
+  background: #101310;
+  border: 1px solid #283b2a;
+  border-radius: 16px;
 
-  object-fit: cover;
-  object-position: center;
-
-  border-radius: 10px;
-
-  background: var(--surface-hover);
+  color: #f2f5f0;
+  text-decoration: none;
 
   transition:
-    transform var(--transition),
-    opacity var(--transition);
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-/* 鼠标悬停时轻微放大 */
-.article-item:hover .article-image {
-  transform: scale(1.02);
+/* 鼠标悬停 */
+.vocabulary-entry:hover {
+  transform: translateY(-3px);
+
+  border-color: #a6ff4d;
+
+  box-shadow: 0 8px 28px rgba(166, 255, 77, 0.10);
 }
 
-/* 手机端缩小图片，给标题留出空间 */
-@media (max-width: 650px) {
+/* 英文小标题 */
+.vocabulary-entry .eyebrow {
+  margin: 0 0 10px;
 
-  .article-image {
-    width: 82px;
-    height: 72px;
+  color: #a6ff4d;
 
-    border-radius: 8px;
-  }
-
+  letter-spacing: 2px;
+  font-size: 10px;
 }
 
-/* =========================================================
-   十七、Today's Reading · 语言卡片主题
-   整张卡片按语言区分颜色，适配浅色与深色主题
-   ========================================================= */
+/* 词汇本标题 */
+.vocabulary-entry h2 {
+  margin: 0 0 9px;
 
-/* ---------- 01. 浅色主题 ---------- */
+  color: #a6ff4d;
 
-.article-en {
-  background: #edf4fc;
-  border-color: #dce9f8;
+  font-size: 25px;
+  font-weight: 600;
 }
 
-.article-fr {
-  background: #f3effb;
-  border-color: #e6dcf7;
+/* 中文与语言说明 */
+.vocabulary-entry p:last-child {
+  margin: 0;
+
+  color: #a8b2a5;
+
+  font-size: 13px;
+  line-height: 1.7;
 }
 
-.article-ru {
-  background: #fbf2e8;
-  border-color: #f3e2ce;
+/* 右侧箭头 */
+.vocabulary-entry-arrow {
+  flex-shrink: 0;
+
+  color: #a6ff4d;
+  font-size: 27px;
+
+  transition: transform 0.25s ease;
 }
 
-/* ---------- 02. 深色主题 ---------- */
-
-body.dark-theme .article-en {
-  background: #202e40;
-  border-color: #30445e;
-}
-
-body.dark-theme .article-fr {
-  background: #30283e;
-  border-color: #46385e;
-}
-
-body.dark-theme .article-ru {
-  background: #3a2d22;
-  border-color: #57402e;
-}
-
-/* ---------- 03. 鼠标悬停效果 ---------- */
-
-.article-en:hover {
-  background: #e3eefb;
-}
-
-.article-fr:hover {
-  background: #ece5f8;
-}
-
-.article-ru:hover {
-  background: #f7e9d9;
-}
-
-body.dark-theme .article-en:hover {
-  background: #263950;
-}
-
-body.dark-theme .article-fr:hover {
-  background: #392f4b;
-}
-
-body.dark-theme .article-ru:hover {
-  background: #453526;
+.vocabulary-entry:hover .vocabulary-entry-arrow {
+  transform: translate(4px, -4px);
 }
 
 /* =========================================================
-   十八、个人署名 · Sean
-   圆润字体与黑色 × 荧光绿配色
+   十四、个人署名 · 彭星源 Ben Sean
+   左下角固定显示，黑色 × 荧光绿
    ========================================================= */
 
 .personal-signature {
@@ -1018,8 +1003,10 @@ body.dark-theme .article-ru:hover {
   letter-spacing: 0.4px;
 
   color: #202124;
+  text-decoration: none;
 
   background: #b6ff00;
+
   padding: 7px 14px;
   border-radius: 999px;
 
@@ -1030,101 +1017,69 @@ body.dark-theme .article-ru:hover {
     box-shadow 0.25s ease;
 }
 
-/* 鼠标悬停时轻微上浮 */
+/* 鼠标悬停 */
 .personal-signature:hover {
   transform: translateY(-3px);
+
   box-shadow: 0 7px 20px rgba(182, 255, 0, 0.28);
 }
 
-/* 手机端适当缩小 */
-@media (max-width: 650px) {
-  .personal-signature {
-    left: 14px;
-    bottom: 14px;
-    font-size: 12px;
-    padding: 6px 11px;
-    text-decoration: none;
-  }
+/* 键盘焦点 */
+.personal-signature:focus-visible {
+  outline: 2px solid #202124;
+  outline-offset: 4px;
 }
 
 /* =========================================================
-   十九、Hero · 三语欢迎标题
-   英语蓝、法语紫、俄语橙，个人署名黑绿
+   十五、页面底部
    ========================================================= */
 
-/* ---------- 01. 三语主标题 ---------- */
+.site-footer {
+  width: min(1000px, calc(100% - 48px));
 
-.hero-title {
+  margin: 0 auto;
+  padding: 25px 0 35px;
+
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0 12px;
+  justify-content: space-between;
 
-  font-family: "Nunito", "Noto Sans SC", sans-serif;
-  font-size: clamp(34px, 5vw, 56px);
-  font-weight: 800;
-  letter-spacing: -1.5px;
-  line-height: 1.3;
+  border-top: 1px solid var(--border-color);
+
+  color: var(--text-muted);
+
+  font-size: 10px;
+  letter-spacing: 1px;
 }
 
-.hello-en {
-  color: #3978c6;
-}
-
-.hello-fr {
-  color: #8b65bd;
-}
-
-.hello-ru {
-  color: #d58a3c;
-}
-
-/* ---------- 02. 个人介绍 ---------- */
-
-.hero-description {
-  line-height: 1.9;
-}
-
-.hero-name {
-  display: inline-block;
-  margin-top: 5px;
-
-  font-family: "Nunito", "Noto Sans SC", sans-serif;
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: 0.5px;
-
-  color: var(--text-primary);
-}
-
-.hero-name span {
-  color: #8dbb00;
-  font-weight: 800;
-}
-
-/* ---------- 03. 深色主题 ---------- */
-
-body.dark-theme .hello-en {
-  color: #76aaf0;
-}
-
-body.dark-theme .hello-fr {
-  color: #b99be8;
-}
-
-body.dark-theme .hello-ru {
-  color: #e9ad70;
-}
-
-body.dark-theme .hero-name span {
-  color: #b6ff00;
-}
-
-/* ---------- 04. 手机端 ---------- */
+/* =========================================================
+   十六、移动端适配
+   ========================================================= */
 
 @media (max-width: 650px) {
-  .hero-title {
+
+  /* 顶部导航 */
+  .site-header {
+    width: calc(100% - 36px);
+    height: 65px;
+  }
+
+  /* 页面主体 */
+  .main-content {
+    width: calc(100% - 36px);
+  }
+
+  /* 欢迎区域 */
+  .hero {
+    padding: 65px 0 55px;
+  }
+
+  .hero h1 {
+    letter-spacing: -1.8px;
+  }
+
+  .hero .hero-title {
     gap: 4px 9px;
+
     font-size: clamp(29px, 8vw, 40px);
     letter-spacing: -1px;
   }
@@ -1132,5 +1087,114 @@ body.dark-theme .hero-name span {
   .hero-name {
     font-size: 16px;
   }
+
+  /* 三语言卡片 */
+  .language-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .language-card {
+    min-height: 145px;
+  }
+
+  /* 学习数据卡片 */
+  .overview-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .overview-card {
+    min-height: 105px;
+  }
+
+  /* 通用区块间距 */
+  .language-section,
+  .overview-section,
+  .activity-section {
+    margin-bottom: 48px;
+  }
+
+  /* 每日阅读标题 */
+  .daily-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .daily-heading h2 {
+    font-size: 27px;
+  }
+
+  /* 新闻卡片 */
+  .article-item {
+    gap: 13px;
+    padding: 21px 16px;
+  }
+
+  /* 新闻图片 */
+  .article-image {
+    width: 82px;
+    height: 72px;
+
+    border-radius: 8px;
+  }
+
+  /* 新闻标题 */
+  .article-content h3 {
+    font-size: 14px;
+  }
+
+  /* 新闻加载状态 */
+  .daily-loading,
+  .daily-error {
+    padding: 30px 16px;
+  }
+
+  /* 新闻底部 */
+  .daily-footer {
+    font-size: 8px;
+  }
+
+  /* 词汇本入口 */
+  .vocabulary-entry {
+    padding: 23px 20px;
+  }
+
+  .vocabulary-entry h2 {
+    font-size: 22px;
+  }
+
+  /* 个人署名 */
+  .personal-signature {
+    left: 14px;
+    bottom: 14px;
+
+    font-size: 12px;
+    padding: 6px 11px;
+  }
+
+  /* 页面底部 */
+  .site-footer {
+    width: calc(100% - 36px);
+
+    gap: 15px;
+    flex-wrap: wrap;
+  }
 }
 
+/* =========================================================
+   十七、动效辅助：尊重系统减少动态效果设置
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+}
