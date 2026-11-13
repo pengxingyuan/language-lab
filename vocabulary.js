@@ -1757,3 +1757,4 @@ renderVocabulary();
 
 // 检查 GitHub 登录状态并读取云端数据
 initializeCloudSync();
+// 读取本地缓存数据
