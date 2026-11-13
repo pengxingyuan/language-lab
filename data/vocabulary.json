@@ -1,1107 +1,4802 @@
 [
   {
-    "id": "demo-20261112-rowdier",
-    "concept": "Rowdier",
-    "english": [
-      "rowdier"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.吵闹的；粗暴的（rowdy 的变形）",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词，rowdy的比较级形式。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-obedient",
-    "concept": "Obedient",
-    "english": [
-      "obedient"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.服从的，顺从的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-reprimand",
-    "concept": "Reprimand",
-    "english": [
-      "reprimand"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "vt.谴责",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词，也可作名词表示训斥、斥责。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-roam",
-    "concept": "Roam",
-    "english": [
-      "roam"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "v.漫步，闲逛；（眼睛）扫视，（手）扫过；（思绪，想象力）遨游",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-blatantly",
-    "concept": "Blatantly",
-    "english": [
-      "blatantly"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adv.公然地；喧闹地；看穿了地",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "副词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-syllabus",
-    "concept": "Syllabus",
-    "english": [
-      "syllabus"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.教学大纲；（罗马天主教会用教令宣布的）事项举要",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词。复数形式 syllabi / syllabuses。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-rigorously",
-    "concept": "Rigorously",
-    "english": [
-      "rigorously"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adv.严厉地；残酷地",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "副词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-national-anthem",
-    "concept": "National anthem",
-    "english": [
-      "national anthem"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "国歌",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词短语。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-regime",
-    "concept": "Regime",
-    "english": [
-      "regime"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.（尤指独裁的）政府，政权；（机构、公司、经济等的）管理制度，组织方法；饮食起居制度，养生法",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-compulsory",
-    "concept": "Compulsory",
-    "english": [
-      "compulsory"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.必须做的，义务的，强制的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-gruelling",
-    "concept": "Gruelling",
-    "english": [
-      "gruelling"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.折磨人的；繁重累人的；使人精疲力尽的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词，美式也写作 grueling。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-renaissance",
-    "concept": "Renaissance",
-    "english": [
-      "renaissance"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.复兴，再生；文艺复兴（时期）（the Renaissance）；文艺复兴文化，文艺复兴风格（Renaissance）",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词，特指欧洲文艺复兴时首字母大写。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-mitigate",
-    "concept": "Mitigate",
-    "english": [
-      "mitigate"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "v.<正式>减轻，缓和",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词，正式书面用语。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-aggravated",
-    "concept": "Aggravated",
-    "english": [
-      "aggravated"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.加重的；恶化的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词；动词aggravate的过去分词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-proactively",
-    "concept": "Proactively",
-    "english": [
-      "proactively"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adv.主动地",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "副词。原释义“前提地”为错误释义，修正为主动地。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-incompatible",
-    "concept": "Incompatible",
-    "english": [
-      "incompatible"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.不相容的，不能共存的；不能和谐相处的，合不来的；不兼容的，互斥的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-adjacent",
-    "concept": "Adjacent",
-    "english": [
-      "adjacent"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.邻近的，毗连的；（几何）（两个角）相邻的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-unroll",
-    "concept": "Unroll",
-    "english": [
-      "unroll"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "vt.展开，铺开；显示",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-restive",
-    "concept": "Restive",
-    "english": [
-      "restive"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.难驾驭的；焦躁不安的，不耐烦的；（马）倔头倔脑不肯往前的，停下闹别扭的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-dire",
-    "concept": "Dire",
-    "english": [
-      "dire"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.极其严重的，极可怕的；<非正式>极糟的，极差的；预示灾难的；紧急的，急迫的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-strangle",
-    "concept": "Strangle",
-    "english": [
-      "strangle"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "v.扼死，勒死，绞死；抑制，扼杀；抑制，压制（冲动，行动，声音）",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-massacre",
-    "concept": "Massacre",
-    "english": [
-      "massacre"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.屠杀，残杀；<非正式>（运动或比赛中的）惨败",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词，也可用作动词表示大肆屠杀。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-grip",
-    "concept": "Grip",
-    "english": [
-      "grip"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.紧握；掌握，控制；理解；不打滑，走得稳；手柄；紧握（或抓牢）的方式；（拍摄电影时）摄影机工作人员",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词，也可作动词表示握紧。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-depict",
-    "concept": "Depict",
-    "english": [
-      "depict"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "v.描述，描绘",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-discord",
-    "concept": "Discord",
-    "english": [
-      "discord"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.意见分歧，不和；不和谐音，不协和弦",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-rift",
-    "concept": "Rift",
-    "english": [
-      "rift"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.（人际关系）不和，分歧；裂缝，裂口；地堑，裂谷",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-terse",
-    "concept": "Terse",
-    "english": [
-      "terse"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.简洁的，精练的，扼要的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-reservations",
-    "concept": "Reservations",
-    "english": [
-      "reservations"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.保留；预定（reservation 的复数形式）",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词复数，单数 reservation。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-whim",
-    "concept": "Whim",
-    "english": [
-      "whim"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.一时的兴致，突发的奇想",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-tactical",
-    "concept": "Tactical",
-    "english": [
-      "tactical"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.战术的；策略的；善于策略的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-stand-down",
-    "concept": "Stand down",
-    "english": [
-      "stand down"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "离开证人席；退出，下台",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词短语。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-plausible",
-    "concept": "Plausible",
-    "english": [
-      "plausible"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.似乎是真的，貌似有理的；（人）花言巧语的，貌似可信的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-dictatorial",
-    "concept": "Dictatorial",
-    "english": [
-      "dictatorial"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.独裁的，专政的；专横傲慢的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-prim",
-    "concept": "Prim",
-    "english": [
-      "prim"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.拘谨的；整洁的；呆板的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-ghastly",
-    "concept": "Ghastly",
-    "english": [
-      "ghastly"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.可怕的；惨白的；惊人的；极坏的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-relegate",
-    "concept": "Relegate",
-    "english": [
-      "relegate"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "v.贬低，使降级；<英>把（球队）降级；<正式>托付，交付",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-relinquish",
-    "concept": "Relinquish",
-    "english": [
-      "relinquish"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "v.<正式>（尤指不情愿地）放弃，交出（权力、职位等）；<正式>（不情愿地）松开",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词，正式书面用词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-pretentious",
-    "concept": "Pretentious",
-    "english": [
-      "pretentious"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.自命不凡的，做作的；（书、电影等）矫饰的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-unveiled",
-    "concept": "Unveiled",
-    "english": [
-      "unveiled"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "v.（首次）公开，揭示；为……揭幕，揭去……上的覆盖物；除去面纱，显露（unveil 的过去式和过去分词）",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词过去式/过去分词，原形 unveil。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-penetrate",
-    "concept": "Penetrate",
-    "english": [
-      "penetrate"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "v.刺入，穿透；打进（某地区或国家的市场）；渗入，打入（组织、团体等）；洞察，了解",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-air-raid",
-    "concept": "Air‑raid",
-    "english": [
-      "air‑raid"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.空袭的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词，连字符写法。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-flaunt",
-    "concept": "Flaunt",
-    "english": [
-      "flaunt"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "vt.炫耀，卖弄；无视，藐视",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-prodigy",
-    "concept": "Prodigy",
-    "english": [
-      "prodigy"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.（尤指年幼的）奇才，神童；奇迹，奇观；奇事，异兆",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-competent",
-    "concept": "Competent",
-    "english": [
-      "competent"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.能干的，能胜任的；合格的，过得去的；精神正常的，智力无缺陷的；有决定权的；有法定资格的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-oppressive",
-    "concept": "Oppressive",
-    "english": [
-      "oppressive"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.（社会、法律、习俗等）压迫的，暴虐的，不公的；（天气、空气等）闷热的，难以忍受的；使人压抑的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-sarcasm",
-    "concept": "Sarcasm",
-    "english": [
-      "sarcasm"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.讽刺，挖苦",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-solemn",
-    "concept": "Solemn",
-    "english": [
-      "solemn"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.表情严肃的，庄严的；（承诺、协定等）庄严的，郑重的；（仪式）庄严的，隆重的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-aspiration",
-    "concept": "Aspiration",
-    "english": [
-      "aspiration"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.渴望，抱负，志向；送气音；吸引术，抽吸",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-veritable",
-    "concept": "Veritable",
-    "english": [
-      "veritable"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.真正的，名副其实的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-drab",
-    "concept": "Drab",
-    "english": [
-      "drab"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.单调的；土褐色的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-sordid",
-    "concept": "Sordid",
-    "english": [
-      "sordid"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.肮脏的；卑鄙的；利欲熏心的；色彩暗淡的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-distaste",
-    "concept": "Distaste",
-    "english": [
-      "distaste"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.反感，不喜欢",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-futile",
-    "concept": "Futile",
-    "english": [
-      "futile"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "adj.徒劳的，无用的；不重要的；没有出息的",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "形容词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-assert",
-    "concept": "Assert",
-    "english": [
-      "assert"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "v.坚称，断言；维护，坚持（权利或权威）；坚持自己的主张，表现坚定；生效，起作用",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-tap",
-    "concept": "Tap",
-    "english": [
-      "tap"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.水龙头",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词；也可作动词表示轻敲。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-envoy",
-    "concept": "Envoy",
-    "english": [
-      "envoy"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.使者",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-refinery",
-    "concept": "Refinery",
-    "english": [
-      "refinery"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.炼油厂",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-kyiv",
-    "concept": "Kyiv",
-    "english": [
-      "kyiv"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "n.基辅",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "专有名词，城市名。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-suck-out",
-    "concept": "Suck out",
-    "english": [
-      "suck out"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "抽出",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词短语。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-smothering-homes",
-    "concept": "Smothering homes",
-    "english": [
-      "smothering homes"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "令人窒息的房屋环境；原释义“扑灭”不准确",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词短语，smother 动词意为窒息、扑灭。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-trolley-bus",
-    "concept": "Trolley bus",
-    "english": [
-      "trolley bus"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "无轨电车",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词短语。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-devast",
-    "concept": "Devast",
-    "english": [
-      "devast"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "v.摧毁（为 devastate 的简写，非完整标准单词）",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "非标准完整英文单词，完整形式为 devastate。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-the-enormous-plant",
-    "concept": "The enormous plant",
-    "english": [
-      "the enormous plant"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "巨大的工厂",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词短语。plant此处指工厂，也可指植物。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-hamper",
-    "concept": "Hamper",
-    "english": [
-      "hamper"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "v.阻碍",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "动词；也可作名词表示大篮子。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
-  },
-  {
-    "id": "demo-20261112-air-raid-phrase",
-    "concept": "Air raid",
-    "english": [
-      "air raid"
-    ],
-    "french": [],
-    "russian": [],
-    "chinese": "空袭",
-    "examples": {
-      "english": [],
-      "french": [],
-      "russian": []
-    },
-    "notes": "名词短语，无连字符。",
-    "createdAt": "2026-11-12T10:00:00.000Z"
+    "id": "ll-vocab-001-001",
+    "concept": "人",
+    "english": [
+      "person"
+    ],
+    "french": [
+      "personne"
+    ],
+    "russian": [
+      "человек"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈpɜːrsən/"
+      ],
+      "french": [
+        "/pɛʁ.sɔn/"
+      ],
+      "russian": [
+        "/tɕɪlɐˈvʲek/"
+      ]
+    },
+    "chinese": "人",
+    "examples": {
+      "english": [
+        {
+          "text": "There is a person at the door.",
+          "translation": "门口有一个人。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Il y a une personne à la porte.",
+          "translation": "门口有一个人。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "У двери стоит человек.",
+          "translation": "门口站着一个人。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-002",
+    "concept": "家庭",
+    "english": [
+      "family"
+    ],
+    "french": [
+      "famille"
+    ],
+    "russian": [
+      "семья"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈfæməli/"
+      ],
+      "french": [
+        "/fa.mij/"
+      ],
+      "russian": [
+        "/sʲɪˈmʲja/"
+      ]
+    },
+    "chinese": "家庭",
+    "examples": {
+      "english": [
+        {
+          "text": "My family eats dinner together.",
+          "translation": "我的家人一起吃晚饭。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Ma famille dîne ensemble.",
+          "translation": "我的家人一起吃晚饭。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Моя семья ужинает вместе.",
+          "translation": "我的家人一起吃晚饭。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-003",
+    "concept": "朋友",
+    "english": [
+      "friend"
+    ],
+    "french": [
+      "ami"
+    ],
+    "russian": [
+      "друг"
+    ],
+    "pronunciations": {
+      "english": [
+        "/frend/"
+      ],
+      "french": [
+        "/a.mi/"
+      ],
+      "russian": [
+        "/druk/"
+      ]
+    },
+    "chinese": "朋友",
+    "examples": {
+      "english": [
+        {
+          "text": "My friend lives nearby.",
+          "translation": "我的朋友住在附近。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Mon ami habite près d’ici.",
+          "translation": "我的朋友住在附近。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Мой друг живёт неподалёку.",
+          "translation": "我的朋友住在附近。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-004",
+    "concept": "孩子",
+    "english": [
+      "child"
+    ],
+    "french": [
+      "enfant"
+    ],
+    "russian": [
+      "ребёнок"
+    ],
+    "pronunciations": {
+      "english": [
+        "/tʃaɪld/"
+      ],
+      "french": [
+        "/ɑ̃.fɑ̃/"
+      ],
+      "russian": [
+        "/rʲɪˈbʲɵnək/"
+      ]
+    },
+    "chinese": "孩子",
+    "examples": {
+      "english": [
+        {
+          "text": "The child is playing outside.",
+          "translation": "孩子正在外面玩。"
+        }
+      ],
+      "french": [
+        {
+          "text": "L’enfant joue dehors.",
+          "translation": "孩子正在外面玩。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Ребёнок играет на улице.",
+          "translation": "孩子正在外面玩。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-005",
+    "concept": "母亲",
+    "english": [
+      "mother"
+    ],
+    "french": [
+      "mère"
+    ],
+    "russian": [
+      "мать"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈmʌðər/"
+      ],
+      "french": [
+        "/mɛʁ/"
+      ],
+      "russian": [
+        "/matʲ/"
+      ]
+    },
+    "chinese": "母亲",
+    "examples": {
+      "english": [
+        {
+          "text": "My mother is at home.",
+          "translation": "我妈妈在家。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Ma mère est à la maison.",
+          "translation": "我妈妈在家。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Моя мама дома.",
+          "translation": "我妈妈在家。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-006",
+    "concept": "父亲",
+    "english": [
+      "father"
+    ],
+    "french": [
+      "père"
+    ],
+    "russian": [
+      "отец"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈfɑːðər/"
+      ],
+      "french": [
+        "/pɛʁ/"
+      ],
+      "russian": [
+        "/ɐˈtʲets/"
+      ]
+    },
+    "chinese": "父亲",
+    "examples": {
+      "english": [
+        {
+          "text": "His father works in a hospital.",
+          "translation": "他的父亲在医院工作。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Son père travaille dans un hôpital.",
+          "translation": "他的父亲在医院工作。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Его отец работает в больнице.",
+          "translation": "他的父亲在医院工作。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-007",
+    "concept": "妈妈",
+    "english": [
+      "mom"
+    ],
+    "french": [
+      "maman"
+    ],
+    "russian": [
+      "мама"
+    ],
+    "pronunciations": {
+      "english": [
+        "/mɑːm/"
+      ],
+      "french": [
+        "/ma.mɑ̃/"
+      ],
+      "russian": [
+        "/ˈmamə/"
+      ]
+    },
+    "chinese": "妈妈",
+    "examples": {
+      "english": [
+        {
+          "text": "Mom is making breakfast.",
+          "translation": "妈妈正在做早餐。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Maman prépare le petit-déjeuner.",
+          "translation": "妈妈正在做早餐。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Мама готовит завтрак.",
+          "translation": "妈妈正在做早餐。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-008",
+    "concept": "爸爸",
+    "english": [
+      "dad"
+    ],
+    "french": [
+      "papa"
+    ],
+    "russian": [
+      "папа"
+    ],
+    "pronunciations": {
+      "english": [
+        "/dæd/"
+      ],
+      "french": [
+        "/pa.pa/"
+      ],
+      "russian": [
+        "/ˈpapə/"
+      ]
+    },
+    "chinese": "爸爸",
+    "examples": {
+      "english": [
+        {
+          "text": "Dad is reading a book.",
+          "translation": "爸爸正在看书。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Papa lit un livre.",
+          "translation": "爸爸正在看书。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Папа читает книгу.",
+          "translation": "爸爸正在看书。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-009",
+    "concept": "兄弟",
+    "english": [
+      "brother"
+    ],
+    "french": [
+      "frère"
+    ],
+    "russian": [
+      "брат"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈbrʌðər/"
+      ],
+      "french": [
+        "/fʁɛʁ/"
+      ],
+      "russian": [
+        "/brat/"
+      ]
+    },
+    "chinese": "兄弟",
+    "examples": {
+      "english": [
+        {
+          "text": "My brother is older than me.",
+          "translation": "我哥哥比我大。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Mon frère est plus âgé que moi.",
+          "translation": "我哥哥比我大。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Мой брат старше меня.",
+          "translation": "我哥哥比我大。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-010",
+    "concept": "姐妹",
+    "english": [
+      "sister"
+    ],
+    "french": [
+      "sœur"
+    ],
+    "russian": [
+      "сестра"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈsɪstər/"
+      ],
+      "french": [
+        "/sœʁ/"
+      ],
+      "russian": [
+        "/sʲɪˈstra/"
+      ]
+    },
+    "chinese": "姐妹",
+    "examples": {
+      "english": [
+        {
+          "text": "My sister studies French.",
+          "translation": "我姐姐学习法语。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Ma sœur étudie le français.",
+          "translation": "我姐姐学习法语。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Моя сестра изучает французский.",
+          "translation": "我姐姐学习法语。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-011",
+    "concept": "家",
+    "english": [
+      "home"
+    ],
+    "french": [
+      "maison"
+    ],
+    "russian": [
+      "дом"
+    ],
+    "pronunciations": {
+      "english": [
+        "/hoʊm/"
+      ],
+      "french": [
+        "/mɛ.zɔ̃/"
+      ],
+      "russian": [
+        "/dom/"
+      ]
+    },
+    "chinese": "家",
+    "examples": {
+      "english": [
+        {
+          "text": "I want to go home.",
+          "translation": "我想回家。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je veux rentrer à la maison.",
+          "translation": "我想回家。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я хочу пойти домой.",
+          "translation": "我想回家。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-012",
+    "concept": "房子",
+    "english": [
+      "house"
+    ],
+    "french": [
+      "maison"
+    ],
+    "russian": [
+      "дом"
+    ],
+    "pronunciations": {
+      "english": [
+        "/haʊs/"
+      ],
+      "french": [
+        "/mɛ.zɔ̃/"
+      ],
+      "russian": [
+        "/dom/"
+      ]
+    },
+    "chinese": "房子",
+    "examples": {
+      "english": [
+        {
+          "text": "Their house has a small garden.",
+          "translation": "他们的房子有一个小花园。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Leur maison a un petit jardin.",
+          "translation": "他们的房子有一个小花园。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "У их дома есть небольшой сад.",
+          "translation": "他们的房子有一个小花园。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-013",
+    "concept": "房间",
+    "english": [
+      "room"
+    ],
+    "french": [
+      "chambre"
+    ],
+    "russian": [
+      "комната"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ruːm/"
+      ],
+      "french": [
+        "/ʃɑ̃bʁ/"
+      ],
+      "russian": [
+        "/ˈkomnətə/"
+      ]
+    },
+    "chinese": "房间",
+    "examples": {
+      "english": [
+        {
+          "text": "My room is clean and bright.",
+          "translation": "我的房间干净明亮。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Ma chambre est propre et lumineuse.",
+          "translation": "我的房间干净明亮。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Моя комната чистая и светлая.",
+          "translation": "我的房间干净明亮。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-014",
+    "concept": "门",
+    "english": [
+      "door"
+    ],
+    "french": [
+      "porte"
+    ],
+    "russian": [
+      "дверь"
+    ],
+    "pronunciations": {
+      "english": [
+        "/dɔːr/"
+      ],
+      "french": [
+        "/pɔʁt/"
+      ],
+      "russian": [
+        "/dvʲerʲ/"
+      ]
+    },
+    "chinese": "门",
+    "examples": {
+      "english": [
+        {
+          "text": "Please close the door.",
+          "translation": "请把门关上。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Ferme la porte, s’il te plaît.",
+          "translation": "请把门关上。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Пожалуйста, закрой дверь.",
+          "translation": "请把门关上。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-015",
+    "concept": "窗户",
+    "english": [
+      "window"
+    ],
+    "french": [
+      "fenêtre"
+    ],
+    "russian": [
+      "окно"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈwɪndoʊ/"
+      ],
+      "french": [
+        "/fə.nɛtʁ/"
+      ],
+      "russian": [
+        "/ɐkˈno/"
+      ]
+    },
+    "chinese": "窗户",
+    "examples": {
+      "english": [
+        {
+          "text": "Please open the window.",
+          "translation": "请把窗户打开。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Ouvre la fenêtre, s’il te plaît.",
+          "translation": "请把窗户打开。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Пожалуйста, открой окно.",
+          "translation": "请把窗户打开。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-016",
+    "concept": "桌子",
+    "english": [
+      "table"
+    ],
+    "french": [
+      "table"
+    ],
+    "russian": [
+      "стол"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈteɪbəl/"
+      ],
+      "french": [
+        "/tabl/"
+      ],
+      "russian": [
+        "/stol/"
+      ]
+    },
+    "chinese": "桌子",
+    "examples": {
+      "english": [
+        {
+          "text": "The keys are on the table.",
+          "translation": "钥匙在桌子上。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Les clés sont sur la table.",
+          "translation": "钥匙在桌子上。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Ключи лежат на столе.",
+          "translation": "钥匙在桌子上。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-017",
+    "concept": "椅子",
+    "english": [
+      "chair"
+    ],
+    "french": [
+      "chaise"
+    ],
+    "russian": [
+      "стул"
+    ],
+    "pronunciations": {
+      "english": [
+        "/tʃer/"
+      ],
+      "french": [
+        "/ʃɛz/"
+      ],
+      "russian": [
+        "/stul/"
+      ]
+    },
+    "chinese": "椅子",
+    "examples": {
+      "english": [
+        {
+          "text": "This chair is very comfortable.",
+          "translation": "这把椅子很舒服。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Cette chaise est très confortable.",
+          "translation": "这把椅子很舒服。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Этот стул очень удобный.",
+          "translation": "这把椅子很舒服。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-018",
+    "concept": "床",
+    "english": [
+      "bed"
+    ],
+    "french": [
+      "lit"
+    ],
+    "russian": [
+      "кровать"
+    ],
+    "pronunciations": {
+      "english": [
+        "/bed/"
+      ],
+      "french": [
+        "/li/"
+      ],
+      "russian": [
+        "/krɐˈvatʲ/"
+      ]
+    },
+    "chinese": "床",
+    "examples": {
+      "english": [
+        {
+          "text": "The cat is sleeping on the bed.",
+          "translation": "猫正在床上睡觉。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le chat dort sur le lit.",
+          "translation": "猫正在床上睡觉。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Кошка спит на кровати.",
+          "translation": "猫正在床上睡觉。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-019",
+    "concept": "厨房",
+    "english": [
+      "kitchen"
+    ],
+    "french": [
+      "cuisine"
+    ],
+    "russian": [
+      "кухня"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈkɪtʃən/"
+      ],
+      "french": [
+        "/kɥi.zin/"
+      ],
+      "russian": [
+        "/ˈkuxnʲə/"
+      ]
+    },
+    "chinese": "厨房",
+    "examples": {
+      "english": [
+        {
+          "text": "My father is in the kitchen.",
+          "translation": "我爸爸在厨房里。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Mon père est dans la cuisine.",
+          "translation": "我爸爸在厨房里。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Мой папа на кухне.",
+          "translation": "我爸爸在厨房里。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-020",
+    "concept": "浴室",
+    "english": [
+      "bathroom"
+    ],
+    "french": [
+      "salle de bains"
+    ],
+    "russian": [
+      "ванная"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈbæθruːm/"
+      ],
+      "french": [
+        "/sal də bɛ̃/"
+      ],
+      "russian": [
+        "/ˈvanːəjə/"
+      ]
+    },
+    "chinese": "浴室",
+    "examples": {
+      "english": [
+        {
+          "text": "The bathroom is upstairs.",
+          "translation": "浴室在楼上。"
+        }
+      ],
+      "french": [
+        {
+          "text": "La salle de bains est à l’étage.",
+          "translation": "浴室在楼上。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Ванная находится наверху.",
+          "translation": "浴室在楼上。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-021",
+    "concept": "水",
+    "english": [
+      "water"
+    ],
+    "french": [
+      "eau"
+    ],
+    "russian": [
+      "вода"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈwɔːtər/"
+      ],
+      "french": [
+        "/o/"
+      ],
+      "russian": [
+        "/vɐˈda/"
+      ]
+    },
+    "chinese": "水",
+    "examples": {
+      "english": [
+        {
+          "text": "I drink water every morning.",
+          "translation": "我每天早上喝水。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je bois de l’eau chaque matin.",
+          "translation": "我每天早上喝水。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я пью воду каждое утро.",
+          "translation": "我每天早上喝水。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-022",
+    "concept": "茶",
+    "english": [
+      "tea"
+    ],
+    "french": [
+      "thé"
+    ],
+    "russian": [
+      "чай"
+    ],
+    "pronunciations": {
+      "english": [
+        "/tiː/"
+      ],
+      "french": [
+        "/te/"
+      ],
+      "russian": [
+        "/tɕaj/"
+      ]
+    },
+    "chinese": "茶",
+    "examples": {
+      "english": [
+        {
+          "text": "Would you like some tea?",
+          "translation": "你想喝点茶吗？"
+        }
+      ],
+      "french": [
+        {
+          "text": "Tu veux du thé ?",
+          "translation": "你想喝点茶吗？"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Хочешь чаю?",
+          "translation": "你想喝点茶吗？"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-023",
+    "concept": "咖啡",
+    "english": [
+      "coffee"
+    ],
+    "french": [
+      "café"
+    ],
+    "russian": [
+      "кофе"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈkɔːfi/"
+      ],
+      "french": [
+        "/ka.fe/"
+      ],
+      "russian": [
+        "/ˈ kofʲɪ/"
+      ]
+    },
+    "chinese": "咖啡",
+    "examples": {
+      "english": [
+        {
+          "text": "I usually drink coffee at work.",
+          "translation": "我通常在工作时喝咖啡。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je bois généralement du café au travail.",
+          "translation": "我通常在工作时喝咖啡。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я обычно пью кофе на работе.",
+          "translation": "我通常在工作时喝咖啡。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-024",
+    "concept": "牛奶",
+    "english": [
+      "milk"
+    ],
+    "french": [
+      "lait"
+    ],
+    "russian": [
+      "молоко"
+    ],
+    "pronunciations": {
+      "english": [
+        "/mɪlk/"
+      ],
+      "french": [
+        "/lɛ/"
+      ],
+      "russian": [
+        "/məɫɐˈko/"
+      ]
+    },
+    "chinese": "牛奶",
+    "examples": {
+      "english": [
+        {
+          "text": "The child drinks milk before bed.",
+          "translation": "孩子睡前喝牛奶。"
+        }
+      ],
+      "french": [
+        {
+          "text": "L’enfant boit du lait avant de dormir.",
+          "translation": "孩子睡前喝牛奶。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Ребёнок пьёт молоко перед сном.",
+          "translation": "孩子睡前喝牛奶。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-025",
+    "concept": "面包",
+    "english": [
+      "bread"
+    ],
+    "french": [
+      "pain"
+    ],
+    "russian": [
+      "хлеб"
+    ],
+    "pronunciations": {
+      "english": [
+        "/bred/"
+      ],
+      "french": [
+        "/pɛ̃/"
+      ],
+      "russian": [
+        "/xlʲep/"
+      ]
+    },
+    "chinese": "面包",
+    "examples": {
+      "english": [
+        {
+          "text": "I bought fresh bread today.",
+          "translation": "我今天买了新鲜面包。"
+        }
+      ],
+      "french": [
+        {
+          "text": "J’ai acheté du pain frais aujourd’hui.",
+          "translation": "我今天买了新鲜面包。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Сегодня я купил свежий хлеб.",
+          "translation": "我今天买了新鲜面包。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-026",
+    "concept": "米饭",
+    "english": [
+      "rice"
+    ],
+    "french": [
+      "riz"
+    ],
+    "russian": [
+      "рис"
+    ],
+    "pronunciations": {
+      "english": [
+        "/raɪs/"
+      ],
+      "french": [
+        "/ʁi/"
+      ],
+      "russian": [
+        "/rʲis/"
+      ]
+    },
+    "chinese": "米饭",
+    "examples": {
+      "english": [
+        {
+          "text": "We eat rice for lunch.",
+          "translation": "我们午餐吃米饭。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Nous mangeons du riz au déjeuner.",
+          "translation": "我们午餐吃米饭。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "На обед мы едим рис.",
+          "translation": "我们午餐吃米饭。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-027",
+    "concept": "鸡蛋",
+    "english": [
+      "egg"
+    ],
+    "french": [
+      "œuf"
+    ],
+    "russian": [
+      "яйцо"
+    ],
+    "pronunciations": {
+      "english": [
+        "/eɡ/"
+      ],
+      "french": [
+        "/œf/"
+      ],
+      "russian": [
+        "/jɪtˈso/"
+      ]
+    },
+    "chinese": "鸡蛋",
+    "examples": {
+      "english": [
+        {
+          "text": "I would like two eggs.",
+          "translation": "我想要两个鸡蛋。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je voudrais deux œufs.",
+          "translation": "我想要两个鸡蛋。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я бы хотел два яйца.",
+          "translation": "我想要两个鸡蛋。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-028",
+    "concept": "苹果",
+    "english": [
+      "apple"
+    ],
+    "french": [
+      "pomme"
+    ],
+    "russian": [
+      "яблоко"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈæpəl/"
+      ],
+      "french": [
+        "/pɔm/"
+      ],
+      "russian": [
+        "/ˈjabləkə/"
+      ]
+    },
+    "chinese": "苹果",
+    "examples": {
+      "english": [
+        {
+          "text": "She eats an apple every day.",
+          "translation": "她每天吃一个苹果。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Elle mange une pomme chaque jour.",
+          "translation": "她每天吃一个苹果。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Она каждый день ест яблоко.",
+          "translation": "她每天吃一个苹果。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-029",
+    "concept": "香蕉",
+    "english": [
+      "banana"
+    ],
+    "french": [
+      "banane"
+    ],
+    "russian": [
+      "банан"
+    ],
+    "pronunciations": {
+      "english": [
+        "/bəˈnænə/"
+      ],
+      "french": [
+        "/ba.nan/"
+      ],
+      "russian": [
+        "/bɐˈnan/"
+      ]
+    },
+    "chinese": "香蕉",
+    "examples": {
+      "english": [
+        {
+          "text": "The banana is ripe.",
+          "translation": "香蕉熟了。"
+        }
+      ],
+      "french": [
+        {
+          "text": "La banane est mûre.",
+          "translation": "香蕉熟了。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Банан спелый.",
+          "translation": "香蕉熟了。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-030",
+    "concept": "橙子",
+    "english": [
+      "orange"
+    ],
+    "french": [
+      "orange"
+    ],
+    "russian": [
+      "апельсин"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈɔːrɪndʒ/"
+      ],
+      "french": [
+        "/ɔ.ʁɑ̃ʒ/"
+      ],
+      "russian": [
+        "/ɐpʲɪlʲˈsʲin/"
+      ]
+    },
+    "chinese": "橙子",
+    "examples": {
+      "english": [
+        {
+          "text": "He peeled an orange.",
+          "translation": "他剥了一个橙子。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Il a épluché une orange.",
+          "translation": "他剥了一个橙子。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Он почистил апельсин.",
+          "translation": "他剥了一个橙子。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-031",
+    "concept": "蔬菜",
+    "english": [
+      "vegetable"
+    ],
+    "french": [
+      "légume"
+    ],
+    "russian": [
+      "овощ"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈvedʒtəbəl/"
+      ],
+      "french": [
+        "/le.ɡym/"
+      ],
+      "russian": [
+        "/ˈovəɕː/"
+      ]
+    },
+    "chinese": "蔬菜",
+    "examples": {
+      "english": [
+        {
+          "text": "We need more vegetables.",
+          "translation": "我们需要更多蔬菜。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Nous avons besoin de plus de légumes.",
+          "translation": "我们需要更多蔬菜。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Нам нужно больше овощей.",
+          "translation": "我们需要更多蔬菜。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-032",
+    "concept": "水果",
+    "english": [
+      "fruit"
+    ],
+    "french": [
+      "fruit"
+    ],
+    "russian": [
+      "фрукты"
+    ],
+    "pronunciations": {
+      "english": [
+        "/fruːt/"
+      ],
+      "french": [
+        "/fʁɥi/"
+      ],
+      "russian": [
+        "/ˈfruktɨ/"
+      ]
+    },
+    "chinese": "水果",
+    "examples": {
+      "english": [
+        {
+          "text": "Fresh fruit is good for you.",
+          "translation": "新鲜水果对身体有好处。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Les fruits frais sont bons pour la santé.",
+          "translation": "新鲜水果对身体有好处。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Свежие фрукты полезны для здоровья.",
+          "translation": "新鲜水果对身体有好处。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-033",
+    "concept": "肉",
+    "english": [
+      "meat"
+    ],
+    "french": [
+      "viande"
+    ],
+    "russian": [
+      "мясо"
+    ],
+    "pronunciations": {
+      "english": [
+        "/miːt/"
+      ],
+      "french": [
+        "/vjɑ̃d/"
+      ],
+      "russian": [
+        "/ˈmʲasə/"
+      ]
+    },
+    "chinese": "肉",
+    "examples": {
+      "english": [
+        {
+          "text": "We don't eat meat every day.",
+          "translation": "我们不是每天都吃肉。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Nous ne mangeons pas de viande tous les jours.",
+          "translation": "我们不是每天都吃肉。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Мы не едим мясо каждый день.",
+          "translation": "我们不是每天都吃肉。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-034",
+    "concept": "鱼",
+    "english": [
+      "fish"
+    ],
+    "french": [
+      "poisson"
+    ],
+    "russian": [
+      "рыба"
+    ],
+    "pronunciations": {
+      "english": [
+        "/fɪʃ/"
+      ],
+      "french": [
+        "/pwa.sɔ̃/"
+      ],
+      "russian": [
+        "/ˈrɨbə/"
+      ]
+    },
+    "chinese": "鱼",
+    "examples": {
+      "english": [
+        {
+          "text": "The fish is fresh.",
+          "translation": "鱼很新鲜。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le poisson est frais.",
+          "translation": "鱼很新鲜。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Рыба свежая.",
+          "translation": "鱼很新鲜。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-035",
+    "concept": "鸡肉",
+    "english": [
+      "chicken"
+    ],
+    "french": [
+      "poulet"
+    ],
+    "russian": [
+      "курица"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈtʃɪkɪn/"
+      ],
+      "french": [
+        "/pu.lɛ/"
+      ],
+      "russian": [
+        "/ˈkurʲɪtsə/"
+      ]
+    },
+    "chinese": "鸡肉",
+    "examples": {
+      "english": [
+        {
+          "text": "We are having chicken for dinner.",
+          "translation": "我们晚餐吃鸡肉。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Nous mangeons du poulet ce soir.",
+          "translation": "我们晚餐吃鸡肉。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Сегодня на ужин у нас курица.",
+          "translation": "我们晚餐吃鸡肉。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-036",
+    "concept": "汤",
+    "english": [
+      "soup"
+    ],
+    "french": [
+      "soupe"
+    ],
+    "russian": [
+      "суп"
+    ],
+    "pronunciations": {
+      "english": [
+        "/suːp/"
+      ],
+      "french": [
+        "/sup/"
+      ],
+      "russian": [
+        "/sup/"
+      ]
+    },
+    "chinese": "汤",
+    "examples": {
+      "english": [
+        {
+          "text": "The soup is still hot.",
+          "translation": "汤还是热的。"
+        }
+      ],
+      "french": [
+        {
+          "text": "La soupe est encore chaude.",
+          "translation": "汤还是热的。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Суп ещё горячий.",
+          "translation": "汤还是热的。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-037",
+    "concept": "盐",
+    "english": [
+      "salt"
+    ],
+    "french": [
+      "sel"
+    ],
+    "russian": [
+      "соль"
+    ],
+    "pronunciations": {
+      "english": [
+        "/sɔːlt/"
+      ],
+      "french": [
+        "/sɛl/"
+      ],
+      "russian": [
+        "/solʲ/"
+      ]
+    },
+    "chinese": "盐",
+    "examples": {
+      "english": [
+        {
+          "text": "Please add a little salt.",
+          "translation": "请加一点盐。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Ajoute un peu de sel, s’il te plaît.",
+          "translation": "请加一点盐。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Пожалуйста, добавь немного соли.",
+          "translation": "请加一点盐。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-038",
+    "concept": "糖",
+    "english": [
+      "sugar"
+    ],
+    "french": [
+      "sucre"
+    ],
+    "russian": [
+      "сахар"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈʃʊɡər/"
+      ],
+      "french": [
+        "/sykʁ/"
+      ],
+      "russian": [
+        "/ˈsaxər/"
+      ]
+    },
+    "chinese": "糖",
+    "examples": {
+      "english": [
+        {
+          "text": "I don't take sugar in my tea.",
+          "translation": "我喝茶不加糖。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je ne mets pas de sucre dans mon thé.",
+          "translation": "我喝茶不加糖。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я не кладу сахар в чай.",
+          "translation": "我喝茶不加糖。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-039",
+    "concept": "早餐",
+    "english": [
+      "breakfast"
+    ],
+    "french": [
+      "petit-déjeuner"
+    ],
+    "russian": [
+      "завтрак"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈbrekfəst/"
+      ],
+      "french": [
+        "/pə.ti de.ʒœ.ne/"
+      ],
+      "russian": [
+        "/ˈzaftrək/"
+      ]
+    },
+    "chinese": "早餐",
+    "examples": {
+      "english": [
+        {
+          "text": "Breakfast is ready.",
+          "translation": "早餐准备好了。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le petit-déjeuner est prêt.",
+          "translation": "早餐准备好了。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Завтрак готов.",
+          "translation": "早餐准备好了。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-040",
+    "concept": "午餐",
+    "english": [
+      "lunch"
+    ],
+    "french": [
+      "déjeuner"
+    ],
+    "russian": [
+      "обед"
+    ],
+    "pronunciations": {
+      "english": [
+        "/lʌntʃ/"
+      ],
+      "french": [
+        "/de.ʒœ.ne/"
+      ],
+      "russian": [
+        "/ɐˈbʲet/"
+      ]
+    },
+    "chinese": "午餐",
+    "examples": {
+      "english": [
+        {
+          "text": "Let's have lunch together.",
+          "translation": "我们一起吃午餐吧。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Déjeunons ensemble.",
+          "translation": "我们一起吃午餐吧。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Давай пообедаем вместе.",
+          "translation": "我们一起吃午餐吧。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-041",
+    "concept": "晚餐",
+    "english": [
+      "dinner"
+    ],
+    "french": [
+      "dîner"
+    ],
+    "russian": [
+      "ужин"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈdɪnər/"
+      ],
+      "french": [
+        "/di.ne/"
+      ],
+      "russian": [
+        "/ˈuʐɨn/"
+      ]
+    },
+    "chinese": "晚餐",
+    "examples": {
+      "english": [
+        {
+          "text": "Dinner is at seven.",
+          "translation": "晚餐七点开始。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le dîner est à sept heures.",
+          "translation": "晚餐七点开始。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Ужин в семь часов.",
+          "translation": "晚餐七点开始。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-042",
+    "concept": "商店",
+    "english": [
+      "shop"
+    ],
+    "french": [
+      "magasin"
+    ],
+    "russian": [
+      "магазин"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ʃɑːp/"
+      ],
+      "french": [
+        "/ma.ɡa.zɛ̃/"
+      ],
+      "russian": [
+        "/məɡɐˈzʲin/"
+      ]
+    },
+    "chinese": "商店",
+    "examples": {
+      "english": [
+        {
+          "text": "The shop closes at nine.",
+          "translation": "商店九点关门。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le magasin ferme à neuf heures.",
+          "translation": "商店九点关门。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Магазин закрывается в девять.",
+          "translation": "商店九点关门。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-043",
+    "concept": "市场",
+    "english": [
+      "market"
+    ],
+    "french": [
+      "marché"
+    ],
+    "russian": [
+      "рынок"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈmɑːrkɪt/"
+      ],
+      "french": [
+        "/maʁ.ʃe/"
+      ],
+      "russian": [
+        "/ˈrɨnək/"
+      ]
+    },
+    "chinese": "市场",
+    "examples": {
+      "english": [
+        {
+          "text": "I buy vegetables at the market.",
+          "translation": "我在市场买蔬菜。"
+        }
+      ],
+      "french": [
+        {
+          "text": "J’achète des légumes au marché.",
+          "translation": "我在市场买蔬菜。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я покупаю овощи на рынке.",
+          "translation": "我在市场买蔬菜。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-044",
+    "concept": "钱",
+    "english": [
+      "money"
+    ],
+    "french": [
+      "argent"
+    ],
+    "russian": [
+      "деньги"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈmʌni/"
+      ],
+      "french": [
+        "/aʁ.ʒɑ̃/"
+      ],
+      "russian": [
+        "/ˈdʲenʲɡʲɪ/"
+      ]
+    },
+    "chinese": "钱",
+    "examples": {
+      "english": [
+        {
+          "text": "I need some money for the bus.",
+          "translation": "我需要一些坐公交的钱。"
+        }
+      ],
+      "french": [
+        {
+          "text": "J’ai besoin d’argent pour le bus.",
+          "translation": "我需要一些坐公交的钱。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Мне нужны деньги на автобус.",
+          "translation": "我需要一些坐公交的钱。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-045",
+    "concept": "价格",
+    "english": [
+      "price"
+    ],
+    "french": [
+      "prix"
+    ],
+    "russian": [
+      "цена"
+    ],
+    "pronunciations": {
+      "english": [
+        "/praɪs/"
+      ],
+      "french": [
+        "/pʁi/"
+      ],
+      "russian": [
+        "/tsɨˈna/"
+      ]
+    },
+    "chinese": "价格",
+    "examples": {
+      "english": [
+        {
+          "text": "The price is too high.",
+          "translation": "价格太高了。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le prix est trop élevé.",
+          "translation": "价格太高了。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Цена слишком высокая.",
+          "translation": "价格太高了。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-046",
+    "concept": "工作",
+    "english": [
+      "work"
+    ],
+    "french": [
+      "travail"
+    ],
+    "russian": [
+      "работа"
+    ],
+    "pronunciations": {
+      "english": [
+        "/wɜːrk/"
+      ],
+      "french": [
+        "/tʁa.vaj/"
+      ],
+      "russian": [
+        "/rɐˈbotə/"
+      ]
+    },
+    "chinese": "工作",
+    "examples": {
+      "english": [
+        {
+          "text": "I have a lot of work today.",
+          "translation": "我今天有很多工作。"
+        }
+      ],
+      "french": [
+        {
+          "text": "J’ai beaucoup de travail aujourd’hui.",
+          "translation": "我今天有很多工作。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Сегодня у меня много работы.",
+          "translation": "我今天有很多工作。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-047",
+    "concept": "学校",
+    "english": [
+      "school"
+    ],
+    "french": [
+      "école"
+    ],
+    "russian": [
+      "школа"
+    ],
+    "pronunciations": {
+      "english": [
+        "/skuːl/"
+      ],
+      "french": [
+        "/e.kɔl/"
+      ],
+      "russian": [
+        "/ˈʂkolə/"
+      ]
+    },
+    "chinese": "学校",
+    "examples": {
+      "english": [
+        {
+          "text": "The school is near my home.",
+          "translation": "学校在我家附近。"
+        }
+      ],
+      "french": [
+        {
+          "text": "L’école est près de chez moi.",
+          "translation": "学校在我家附近。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Школа находится рядом с моим домом.",
+          "translation": "学校在我家附近。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-048",
+    "concept": "老师",
+    "english": [
+      "teacher"
+    ],
+    "french": [
+      "professeur"
+    ],
+    "russian": [
+      "учитель"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈtiːtʃər/"
+      ],
+      "french": [
+        "/pʁɔ.fɛ.sœʁ/"
+      ],
+      "russian": [
+        "/ʊˈtɕitʲɪlʲ/"
+      ]
+    },
+    "chinese": "老师",
+    "examples": {
+      "english": [
+        {
+          "text": "The teacher explains the lesson.",
+          "translation": "老师正在讲解课程。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le professeur explique la leçon.",
+          "translation": "老师正在讲解课程。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Учитель объясняет урок.",
+          "translation": "老师正在讲解课程。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-049",
+    "concept": "学生",
+    "english": [
+      "student"
+    ],
+    "french": [
+      "étudiant"
+    ],
+    "russian": [
+      "студент"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈstuːdənt/"
+      ],
+      "french": [
+        "/e.ty.djɑ̃/"
+      ],
+      "russian": [
+        "/stʊˈdʲent/"
+      ]
+    },
+    "chinese": "学生",
+    "examples": {
+      "english": [
+        {
+          "text": "The student is asking a question.",
+          "translation": "学生正在提问。"
+        }
+      ],
+      "french": [
+        {
+          "text": "L’étudiant pose une question.",
+          "translation": "学生正在提问。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Студент задаёт вопрос.",
+          "translation": "学生正在提问。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-050",
+    "concept": "书",
+    "english": [
+      "book"
+    ],
+    "french": [
+      "livre"
+    ],
+    "russian": [
+      "книга"
+    ],
+    "pronunciations": {
+      "english": [
+        "/bʊk/"
+      ],
+      "french": [
+        "/livʁ/"
+      ],
+      "russian": [
+        "/ˈknʲiɡə/"
+      ]
+    },
+    "chinese": "书",
+    "examples": {
+      "english": [
+        {
+          "text": "I read a book before bed.",
+          "translation": "我睡前读一本书。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je lis un livre avant de dormir.",
+          "translation": "我睡前读一本书。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я читаю книгу перед сном.",
+          "translation": "我睡前读一本书。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-051",
+    "concept": "笔",
+    "english": [
+      "pen"
+    ],
+    "french": [
+      "stylo"
+    ],
+    "russian": [
+      "ручка"
+    ],
+    "pronunciations": {
+      "english": [
+        "/pen/"
+      ],
+      "french": [
+        "/sti.lo/"
+      ],
+      "russian": [
+        "/ˈrutɕkə/"
+      ]
+    },
+    "chinese": "笔",
+    "examples": {
+      "english": [
+        {
+          "text": "Can I borrow your pen?",
+          "translation": "我可以借你的笔吗？"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je peux emprunter ton stylo ?",
+          "translation": "我可以借你的笔吗？"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Можно взять твою ручку?",
+          "translation": "我可以借你的笔吗？"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-052",
+    "concept": "纸",
+    "english": [
+      "paper"
+    ],
+    "french": [
+      "papier"
+    ],
+    "russian": [
+      "бумага"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈpeɪpər/"
+      ],
+      "french": [
+        "/pa.pje/"
+      ],
+      "russian": [
+        "/bʊˈmaɡə/"
+      ]
+    },
+    "chinese": "纸",
+    "examples": {
+      "english": [
+        {
+          "text": "Please write your name on the paper.",
+          "translation": "请把你的名字写在纸上。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Écris ton nom sur le papier, s’il te plaît.",
+          "translation": "请把你的名字写在纸上。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Пожалуйста, напиши своё имя на бумаге.",
+          "translation": "请把你的名字写在纸上。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-053",
+    "concept": "电脑",
+    "english": [
+      "computer"
+    ],
+    "french": [
+      "ordinateur"
+    ],
+    "russian": [
+      "компьютер"
+    ],
+    "pronunciations": {
+      "english": [
+        "/kəmˈpjuːtər/"
+      ],
+      "french": [
+        "/ɔʁ.di.na.tœʁ/"
+      ],
+      "russian": [
+        "/kəmˈpʲjutʲɪr/"
+      ]
+    },
+    "chinese": "电脑",
+    "examples": {
+      "english": [
+        {
+          "text": "My computer is very slow today.",
+          "translation": "我的电脑今天很慢。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Mon ordinateur est très lent aujourd’hui.",
+          "translation": "我的电脑今天很慢。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Мой компьютер сегодня очень медленный.",
+          "translation": "我的电脑今天很慢。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-054",
+    "concept": "手机",
+    "english": [
+      "phone"
+    ],
+    "french": [
+      "téléphone"
+    ],
+    "russian": [
+      "телефон"
+    ],
+    "pronunciations": {
+      "english": [
+        "/foʊn/"
+      ],
+      "french": [
+        "/te.le.fɔn/"
+      ],
+      "russian": [
+        "/tʲɪlʲɪˈfon/"
+      ]
+    },
+    "chinese": "手机",
+    "examples": {
+      "english": [
+        {
+          "text": "I can't find my phone.",
+          "translation": "我找不到我的手机。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je ne trouve pas mon téléphone.",
+          "translation": "我找不到我的手机。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я не могу найти свой телефон.",
+          "translation": "我找不到我的手机。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-055",
+    "concept": "钥匙",
+    "english": [
+      "key"
+    ],
+    "french": [
+      "clé"
+    ],
+    "russian": [
+      "ключ"
+    ],
+    "pronunciations": {
+      "english": [
+        "/kiː/"
+      ],
+      "french": [
+        "/kle/"
+      ],
+      "russian": [
+        "/klʲutɕ/"
+      ]
+    },
+    "chinese": "钥匙",
+    "examples": {
+      "english": [
+        {
+          "text": "Where are my keys?",
+          "translation": "我的钥匙在哪里？"
+        }
+      ],
+      "french": [
+        {
+          "text": "Où sont mes clés ?",
+          "translation": "我的钥匙在哪里？"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Где мои ключи?",
+          "translation": "我的钥匙在哪里？"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-056",
+    "concept": "包",
+    "english": [
+      "bag"
+    ],
+    "french": [
+      "sac"
+    ],
+    "russian": [
+      "сумка"
+    ],
+    "pronunciations": {
+      "english": [
+        "/bæɡ/"
+      ],
+      "french": [
+        "/sak/"
+      ],
+      "russian": [
+        "/ˈsumkə/"
+      ]
+    },
+    "chinese": "包",
+    "examples": {
+      "english": [
+        {
+          "text": "My bag is under the chair.",
+          "translation": "我的包在椅子下面。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Mon sac est sous la chaise.",
+          "translation": "我的包在椅子下面。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Моя сумка под стулом.",
+          "translation": "我的包在椅子下面。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-057",
+    "concept": "衣服",
+    "english": [
+      "clothes"
+    ],
+    "french": [
+      "vêtements"
+    ],
+    "russian": [
+      "одежда"
+    ],
+    "pronunciations": {
+      "english": [
+        "/kloʊðz/"
+      ],
+      "french": [
+        "/vɛt.mɑ̃/"
+      ],
+      "russian": [
+        "/ɐˈdʲeʐdə/"
+      ]
+    },
+    "chinese": "衣服",
+    "examples": {
+      "english": [
+        {
+          "text": "I need clean clothes.",
+          "translation": "我需要干净的衣服。"
+        }
+      ],
+      "french": [
+        {
+          "text": "J’ai besoin de vêtements propres.",
+          "translation": "我需要干净的衣服。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Мне нужна чистая одежда.",
+          "translation": "我需要干净的衣服。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-058",
+    "concept": "鞋",
+    "english": [
+      "shoes"
+    ],
+    "french": [
+      "chaussures"
+    ],
+    "russian": [
+      "обувь"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ʃuːz/"
+      ],
+      "french": [
+        "/ʃo.syʁ/"
+      ],
+      "russian": [
+        "/ˈobʊvʲ/"
+      ]
+    },
+    "chinese": "鞋",
+    "examples": {
+      "english": [
+        {
+          "text": "These shoes are comfortable.",
+          "translation": "这双鞋很舒服。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Ces chaussures sont confortables.",
+          "translation": "这双鞋很舒服。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Эта обувь удобная.",
+          "translation": "这双鞋很舒服。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-059",
+    "concept": "帽子",
+    "english": [
+      "hat"
+    ],
+    "french": [
+      "chapeau"
+    ],
+    "russian": [
+      "шапка"
+    ],
+    "pronunciations": {
+      "english": [
+        "/hæt/"
+      ],
+      "french": [
+        "/ʃa.po/"
+      ],
+      "russian": [
+        "/ˈʂapkə/"
+      ]
+    },
+    "chinese": "帽子",
+    "examples": {
+      "english": [
+        {
+          "text": "Take your hat; it is cold outside.",
+          "translation": "戴上你的帽子，外面很冷。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Prends ton chapeau, il fait froid dehors.",
+          "translation": "戴上你的帽子，外面很冷。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Возьми шапку, на улице холодно.",
+          "translation": "戴上你的帽子，外面很冷。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-060",
+    "concept": "眼镜",
+    "english": [
+      "glasses"
+    ],
+    "french": [
+      "lunettes"
+    ],
+    "russian": [
+      "очки"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈɡlæsɪz/"
+      ],
+      "french": [
+        "/ly.nɛt/"
+      ],
+      "russian": [
+        "/ɐtɕˈkʲi/"
+      ]
+    },
+    "chinese": "眼镜",
+    "examples": {
+      "english": [
+        {
+          "text": "I wear glasses when I read.",
+          "translation": "我阅读时戴眼镜。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je porte des lunettes quand je lis.",
+          "translation": "我阅读时戴眼镜。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я ношу очки, когда читаю.",
+          "translation": "我阅读时戴眼镜。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-061",
+    "concept": "手",
+    "english": [
+      "hand"
+    ],
+    "french": [
+      "main"
+    ],
+    "russian": [
+      "рука"
+    ],
+    "pronunciations": {
+      "english": [
+        "/hænd/"
+      ],
+      "french": [
+        "/mɛ̃/"
+      ],
+      "russian": [
+        "/rʊˈka/"
+      ]
+    },
+    "chinese": "手",
+    "examples": {
+      "english": [
+        {
+          "text": "Wash your hands before eating.",
+          "translation": "吃饭前要洗手。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Lave-toi les mains avant de manger.",
+          "translation": "吃饭前要洗手。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Мой руки перед едой.",
+          "translation": "吃饭前要洗手。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-062",
+    "concept": "头",
+    "english": [
+      "head"
+    ],
+    "french": [
+      "tête"
+    ],
+    "russian": [
+      "голова"
+    ],
+    "pronunciations": {
+      "english": [
+        "/hed/"
+      ],
+      "french": [
+        "/tɛt/"
+      ],
+      "russian": [
+        "/ɡəlɐˈva/"
+      ]
+    },
+    "chinese": "头",
+    "examples": {
+      "english": [
+        {
+          "text": "My head hurts.",
+          "translation": "我头疼。"
+        }
+      ],
+      "french": [
+        {
+          "text": "J’ai mal à la tête.",
+          "translation": "我头疼。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "У меня болит голова.",
+          "translation": "我头疼。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-063",
+    "concept": "眼睛",
+    "english": [
+      "eye"
+    ],
+    "french": [
+      "œil"
+    ],
+    "russian": [
+      "глаз"
+    ],
+    "pronunciations": {
+      "english": [
+        "/aɪ/"
+      ],
+      "french": [
+        "/œj/"
+      ],
+      "russian": [
+        "/ɡɫas/"
+      ]
+    },
+    "chinese": "眼睛",
+    "examples": {
+      "english": [
+        {
+          "text": "Her eyes are blue.",
+          "translation": "她的眼睛是蓝色的。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Elle a les yeux bleus.",
+          "translation": "她的眼睛是蓝色的。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "У неё голубые глаза.",
+          "translation": "她的眼睛是蓝色的。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-064",
+    "concept": "脸",
+    "english": [
+      "face"
+    ],
+    "french": [
+      "visage"
+    ],
+    "russian": [
+      "лицо"
+    ],
+    "pronunciations": {
+      "english": [
+        "/feɪs/"
+      ],
+      "french": [
+        "/vi.zaʒ/"
+      ],
+      "russian": [
+        "/lʲɪˈtso/"
+      ]
+    },
+    "chinese": "脸",
+    "examples": {
+      "english": [
+        {
+          "text": "Wash your face with warm water.",
+          "translation": "用温水洗脸。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Lave ton visage à l’eau tiède.",
+          "translation": "用温水洗脸。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Умой лицо тёплой водой.",
+          "translation": "用温水洗脸。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-065",
+    "concept": "嘴",
+    "english": [
+      "mouth"
+    ],
+    "french": [
+      "bouche"
+    ],
+    "russian": [
+      "рот"
+    ],
+    "pronunciations": {
+      "english": [
+        "/maʊθ/"
+      ],
+      "french": [
+        "/buʃ/"
+      ],
+      "russian": [
+        "/rot/"
+      ]
+    },
+    "chinese": "嘴",
+    "examples": {
+      "english": [
+        {
+          "text": "Open your mouth, please.",
+          "translation": "请张开嘴。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Ouvre la bouche, s’il te plaît.",
+          "translation": "请张开嘴。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Пожалуйста, открой рот.",
+          "translation": "请张开嘴。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-066",
+    "concept": "身体",
+    "english": [
+      "body"
+    ],
+    "french": [
+      "corps"
+    ],
+    "russian": [
+      "тело"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈbɑːdi/"
+      ],
+      "french": [
+        "/kɔʁ/"
+      ],
+      "russian": [
+        "/ˈtʲeɫə/"
+      ]
+    },
+    "chinese": "身体",
+    "examples": {
+      "english": [
+        {
+          "text": "Exercise is good for the body.",
+          "translation": "锻炼对身体有好处。"
+        }
+      ],
+      "french": [
+        {
+          "text": "L’exercice est bon pour le corps.",
+          "translation": "锻炼对身体有好处。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Физические упражнения полезны для тела.",
+          "translation": "锻炼对身体有好处。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-067",
+    "concept": "医生",
+    "english": [
+      "doctor"
+    ],
+    "french": [
+      "médecin"
+    ],
+    "russian": [
+      "врач"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈdɑːktər/"
+      ],
+      "french": [
+        "/med.sɛ̃/"
+      ],
+      "russian": [
+        "/vratɕ/"
+      ]
+    },
+    "chinese": "医生",
+    "examples": {
+      "english": [
+        {
+          "text": "I need to see a doctor.",
+          "translation": "我需要看医生。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je dois consulter un médecin.",
+          "translation": "我需要看医生。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Мне нужно обратиться к врачу.",
+          "translation": "我需要看医生。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-068",
+    "concept": "医院",
+    "english": [
+      "hospital"
+    ],
+    "french": [
+      "hôpital"
+    ],
+    "russian": [
+      "больница"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈhɑːspɪtəl/"
+      ],
+      "french": [
+        "/o.pi.tal/"
+      ],
+      "russian": [
+        "/bɐlʲˈnʲitsə/"
+      ]
+    },
+    "chinese": "医院",
+    "examples": {
+      "english": [
+        {
+          "text": "The hospital is open all night.",
+          "translation": "医院整晚都开放。"
+        }
+      ],
+      "french": [
+        {
+          "text": "L’hôpital est ouvert toute la nuit.",
+          "translation": "医院整晚都开放。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Больница открыта всю ночь.",
+          "translation": "医院整晚都开放。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-069",
+    "concept": "药",
+    "english": [
+      "medicine"
+    ],
+    "french": [
+      "médicament"
+    ],
+    "russian": [
+      "лекарство"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈmedɪsən/"
+      ],
+      "french": [
+        "/me.di.ka.mɑ̃/"
+      ],
+      "russian": [
+        "/ˈlʲekərstvə/"
+      ]
+    },
+    "chinese": "药",
+    "examples": {
+      "english": [
+        {
+          "text": "Take this medicine after meals.",
+          "translation": "饭后服用这种药。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Prends ce médicament après les repas.",
+          "translation": "饭后服用这种药。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Принимай это лекарство после еды.",
+          "translation": "饭后服用这种药。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-070",
+    "concept": "车",
+    "english": [
+      "car"
+    ],
+    "french": [
+      "voiture"
+    ],
+    "russian": [
+      "машина"
+    ],
+    "pronunciations": {
+      "english": [
+        "/kɑːr/"
+      ],
+      "french": [
+        "/vwa.tyʁ/"
+      ],
+      "russian": [
+        "/mɐˈʂɨnə/"
+      ]
+    },
+    "chinese": "车",
+    "examples": {
+      "english": [
+        {
+          "text": "Their car is parked outside.",
+          "translation": "他们的车停在外面。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Leur voiture est garée dehors.",
+          "translation": "他们的车停在外面。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Их машина припаркована снаружи.",
+          "translation": "他们的车停在外面。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-071",
+    "concept": "公交车",
+    "english": [
+      "bus"
+    ],
+    "french": [
+      "bus"
+    ],
+    "russian": [
+      "автобус"
+    ],
+    "pronunciations": {
+      "english": [
+        "/bʌs/"
+      ],
+      "french": [
+        "/bys/"
+      ],
+      "russian": [
+        "/ɐftɐˈbus/"
+      ]
+    },
+    "chinese": "公交车",
+    "examples": {
+      "english": [
+        {
+          "text": "I take the bus to work.",
+          "translation": "我乘公交车去上班。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je prends le bus pour aller au travail.",
+          "translation": "我乘公交车去上班。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я езжу на работу на автобусе.",
+          "translation": "我乘公交车去上班。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-072",
+    "concept": "火车",
+    "english": [
+      "train"
+    ],
+    "french": [
+      "train"
+    ],
+    "russian": [
+      "поезд"
+    ],
+    "pronunciations": {
+      "english": [
+        "/treɪn/"
+      ],
+      "french": [
+        "/tʁɛ̃/"
+      ],
+      "russian": [
+        "/ˈpojest/"
+      ]
+    },
+    "chinese": "火车",
+    "examples": {
+      "english": [
+        {
+          "text": "The train arrives at noon.",
+          "translation": "火车中午到达。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le train arrive à midi.",
+          "translation": "火车中午到达。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Поезд прибывает в полдень.",
+          "translation": "火车中午到达。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-073",
+    "concept": "自行车",
+    "english": [
+      "bicycle"
+    ],
+    "french": [
+      "vélo"
+    ],
+    "russian": [
+      "велосипед"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈbaɪsɪkəl/"
+      ],
+      "french": [
+        "/ve.lo/"
+      ],
+      "russian": [
+        "/vʲɪləsʲɪˈpʲet/"
+      ]
+    },
+    "chinese": "自行车",
+    "examples": {
+      "english": [
+        {
+          "text": "I ride my bicycle to the park.",
+          "translation": "我骑自行车去公园。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je vais au parc à vélo.",
+          "translation": "我骑自行车去公园。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я еду в парк на велосипеде.",
+          "translation": "我骑自行车去公园。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-074",
+    "concept": "路",
+    "english": [
+      "road"
+    ],
+    "french": [
+      "route"
+    ],
+    "russian": [
+      "дорога"
+    ],
+    "pronunciations": {
+      "english": [
+        "/roʊd/"
+      ],
+      "french": [
+        "/ʁut/"
+      ],
+      "russian": [
+        "/dɐˈroɡə/"
+      ]
+    },
+    "chinese": "路",
+    "examples": {
+      "english": [
+        {
+          "text": "This road leads to the station.",
+          "translation": "这条路通向车站。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Cette route mène à la gare.",
+          "translation": "这条路通向车站。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Эта дорога ведёт к станции.",
+          "translation": "这条路通向车站。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-075",
+    "concept": "街道",
+    "english": [
+      "street"
+    ],
+    "french": [
+      "rue"
+    ],
+    "russian": [
+      "улица"
+    ],
+    "pronunciations": {
+      "english": [
+        "/striːt/"
+      ],
+      "french": [
+        "/ʁy/"
+      ],
+      "russian": [
+        "/ˈulʲɪtsə/"
+      ]
+    },
+    "chinese": "街道",
+    "examples": {
+      "english": [
+        {
+          "text": "The street is busy in the morning.",
+          "translation": "这条街早上很热闹。"
+        }
+      ],
+      "french": [
+        {
+          "text": "La rue est animée le matin.",
+          "translation": "这条街早上很热闹。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Улица оживлённая по утрам.",
+          "translation": "这条街早上很热闹。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-076",
+    "concept": "城市",
+    "english": [
+      "city"
+    ],
+    "french": [
+      "ville"
+    ],
+    "russian": [
+      "город"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈsɪti/"
+      ],
+      "french": [
+        "/vil/"
+      ],
+      "russian": [
+        "/ˈɡorət/"
+      ]
+    },
+    "chinese": "城市",
+    "examples": {
+      "english": [
+        {
+          "text": "This city is beautiful at night.",
+          "translation": "这座城市夜晚很美。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Cette ville est belle la nuit.",
+          "translation": "这座城市夜晚很美。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Этот город красив ночью.",
+          "translation": "这座城市夜晚很美。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-077",
+    "concept": "国家",
+    "english": [
+      "country"
+    ],
+    "french": [
+      "pays"
+    ],
+    "russian": [
+      "страна"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈkʌntri/"
+      ],
+      "french": [
+        "/pei/"
+      ],
+      "russian": [
+        "/strɐˈna/"
+      ]
+    },
+    "chinese": "国家",
+    "examples": {
+      "english": [
+        {
+          "text": "France is a beautiful country.",
+          "translation": "法国是一个美丽的国家。"
+        }
+      ],
+      "french": [
+        {
+          "text": "La France est un beau pays.",
+          "translation": "法国是一个美丽的国家。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Франция — красивая страна.",
+          "translation": "法国是一个美丽的国家。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-078",
+    "concept": "公园",
+    "english": [
+      "park"
+    ],
+    "french": [
+      "parc"
+    ],
+    "russian": [
+      "парк"
+    ],
+    "pronunciations": {
+      "english": [
+        "/pɑːrk/"
+      ],
+      "french": [
+        "/paʁk/"
+      ],
+      "russian": [
+        "/park/"
+      ]
+    },
+    "chinese": "公园",
+    "examples": {
+      "english": [
+        {
+          "text": "We walk in the park after dinner.",
+          "translation": "晚饭后我们在公园散步。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Nous nous promenons dans le parc après le dîner.",
+          "translation": "晚饭后我们在公园散步。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "После ужина мы гуляем в парке.",
+          "translation": "晚饭后我们在公园散步。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-079",
+    "concept": "餐馆",
+    "english": [
+      "restaurant"
+    ],
+    "french": [
+      "restaurant"
+    ],
+    "russian": [
+      "ресторан"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈrestərɑːnt/"
+      ],
+      "french": [
+        "/ʁɛs.to.ʁɑ̃/"
+      ],
+      "russian": [
+        "/rʲɪstɐˈran/"
+      ]
+    },
+    "chinese": "餐馆",
+    "examples": {
+      "english": [
+        {
+          "text": "This restaurant serves good food.",
+          "translation": "这家餐馆的食物很好吃。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Ce restaurant sert de bons plats.",
+          "translation": "这家餐馆的食物很好吃。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "В этом ресторане вкусно готовят.",
+          "translation": "这家餐馆的食物很好吃。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-080",
+    "concept": "车站",
+    "english": [
+      "station"
+    ],
+    "french": [
+      "gare"
+    ],
+    "russian": [
+      "станция"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈsteɪʃən/"
+      ],
+      "french": [
+        "/ɡaʁ/"
+      ],
+      "russian": [
+        "/ˈstantsɨjə/"
+      ]
+    },
+    "chinese": "车站",
+    "examples": {
+      "english": [
+        {
+          "text": "Let's meet at the station.",
+          "translation": "我们在车站见面吧。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Retrouvons-nous à la gare.",
+          "translation": "我们在车站见面吧。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Давай встретимся на станции.",
+          "translation": "我们在车站见面吧。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-081",
+    "concept": "机场",
+    "english": [
+      "airport"
+    ],
+    "french": [
+      "aéroport"
+    ],
+    "russian": [
+      "аэропорт"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈerˌpɔːrt/"
+      ],
+      "french": [
+        "/a.e.ʁɔ.pɔʁ/"
+      ],
+      "russian": [
+        "/ˌaɪrɐˈport/"
+      ]
+    },
+    "chinese": "机场",
+    "examples": {
+      "english": [
+        {
+          "text": "We arrived at the airport early.",
+          "translation": "我们很早就到了机场。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Nous sommes arrivés tôt à l’aéroport.",
+          "translation": "我们很早就到了机场。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Мы рано приехали в аэропорт.",
+          "translation": "我们很早就到了机场。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-082",
+    "concept": "时间",
+    "english": [
+      "time"
+    ],
+    "french": [
+      "temps"
+    ],
+    "russian": [
+      "время"
+    ],
+    "pronunciations": {
+      "english": [
+        "/taɪm/"
+      ],
+      "french": [
+        "/tɑ̃/"
+      ],
+      "russian": [
+        "/ˈvrʲemʲə/"
+      ]
+    },
+    "chinese": "时间",
+    "examples": {
+      "english": [
+        {
+          "text": "I don't have much time today.",
+          "translation": "我今天没有太多时间。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je n’ai pas beaucoup de temps aujourd’hui.",
+          "translation": "我今天没有太多时间。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Сегодня у меня мало времени.",
+          "translation": "我今天没有太多时间。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-083",
+    "concept": "一天",
+    "english": [
+      "day"
+    ],
+    "french": [
+      "jour"
+    ],
+    "russian": [
+      "день"
+    ],
+    "pronunciations": {
+      "english": [
+        "/deɪ/"
+      ],
+      "french": [
+        "/ʒuʁ/"
+      ],
+      "russian": [
+        "/dʲenʲ/"
+      ]
+    },
+    "chinese": "一天",
+    "examples": {
+      "english": [
+        {
+          "text": "Have a nice day!",
+          "translation": "祝你今天愉快！"
+        }
+      ],
+      "french": [
+        {
+          "text": "Bonne journée !",
+          "translation": "祝你今天愉快！"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Хорошего дня!",
+          "translation": "祝你今天愉快！"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-084",
+    "concept": "夜晚",
+    "english": [
+      "night"
+    ],
+    "french": [
+      "nuit"
+    ],
+    "russian": [
+      "ночь"
+    ],
+    "pronunciations": {
+      "english": [
+        "/naɪt/"
+      ],
+      "french": [
+        "/nɥi/"
+      ],
+      "russian": [
+        "/notɕ/"
+      ]
+    },
+    "chinese": "夜晚",
+    "examples": {
+      "english": [
+        {
+          "text": "It is quiet at night.",
+          "translation": "夜晚很安静。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Il fait calme la nuit.",
+          "translation": "夜晚很安静。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Ночью тихо.",
+          "translation": "夜晚很安静。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-085",
+    "concept": "早晨",
+    "english": [
+      "morning"
+    ],
+    "french": [
+      "matin"
+    ],
+    "russian": [
+      "утро"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈmɔːrnɪŋ/"
+      ],
+      "french": [
+        "/ma.tɛ̃/"
+      ],
+      "russian": [
+        "/ˈutrə/"
+      ]
+    },
+    "chinese": "早晨",
+    "examples": {
+      "english": [
+        {
+          "text": "I go for a walk every morning.",
+          "translation": "我每天早晨散步。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je me promène chaque matin.",
+          "translation": "我每天早晨散步。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я гуляю каждое утро.",
+          "translation": "我每天早晨散步。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-086",
+    "concept": "晚上",
+    "english": [
+      "evening"
+    ],
+    "french": [
+      "soir"
+    ],
+    "russian": [
+      "вечер"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈiːvnɪŋ/"
+      ],
+      "french": [
+        "/swaʁ/"
+      ],
+      "russian": [
+        "/ˈvʲetɕɪr/"
+      ]
+    },
+    "chinese": "晚上",
+    "examples": {
+      "english": [
+        {
+          "text": "We watch television in the evening.",
+          "translation": "我们晚上看电视。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Nous regardons la télévision le soir.",
+          "translation": "我们晚上看电视。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Вечером мы смотрим телевизор.",
+          "translation": "我们晚上看电视。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-087",
+    "concept": "星期",
+    "english": [
+      "week"
+    ],
+    "french": [
+      "semaine"
+    ],
+    "russian": [
+      "неделя"
+    ],
+    "pronunciations": {
+      "english": [
+        "/wiːk/"
+      ],
+      "french": [
+        "/sə.mɛn/"
+      ],
+      "russian": [
+        "/nʲɪˈdʲelʲə/"
+      ]
+    },
+    "chinese": "星期",
+    "examples": {
+      "english": [
+        {
+          "text": "I work five days a week.",
+          "translation": "我每周工作五天。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Je travaille cinq jours par semaine.",
+          "translation": "我每周工作五天。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я работаю пять дней в неделю.",
+          "translation": "我每周工作五天。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-088",
+    "concept": "月份",
+    "english": [
+      "month"
+    ],
+    "french": [
+      "mois"
+    ],
+    "russian": [
+      "месяц"
+    ],
+    "pronunciations": {
+      "english": [
+        "/mʌnθ/"
+      ],
+      "french": [
+        "/mwa/"
+      ],
+      "russian": [
+        "/ˈmʲesʲɪts/"
+      ]
+    },
+    "chinese": "月份",
+    "examples": {
+      "english": [
+        {
+          "text": "Next month we will travel.",
+          "translation": "下个月我们要去旅行。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le mois prochain, nous voyagerons.",
+          "translation": "下个月我们要去旅行。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "В следующем месяце мы поедем путешествовать.",
+          "translation": "下个月我们要去旅行。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-089",
+    "concept": "天气",
+    "english": [
+      "weather"
+    ],
+    "french": [
+      "temps"
+    ],
+    "russian": [
+      "погода"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈweðər/"
+      ],
+      "french": [
+        "/tɑ̃/"
+      ],
+      "russian": [
+        "/pɐˈɡodə/"
+      ]
+    },
+    "chinese": "天气",
+    "examples": {
+      "english": [
+        {
+          "text": "The weather is nice today.",
+          "translation": "今天天气很好。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Il fait beau aujourd’hui.",
+          "translation": "今天天气很好。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Сегодня хорошая погода.",
+          "translation": "今天天气很好。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-090",
+    "concept": "太阳",
+    "english": [
+      "sun"
+    ],
+    "french": [
+      "soleil"
+    ],
+    "russian": [
+      "солнце"
+    ],
+    "pronunciations": {
+      "english": [
+        "/sʌn/"
+      ],
+      "french": [
+        "/sɔ.lɛj/"
+      ],
+      "russian": [
+        "/ˈsont͡sə/"
+      ]
+    },
+    "chinese": "太阳",
+    "examples": {
+      "english": [
+        {
+          "text": "The sun is shining.",
+          "translation": "太阳正在照耀。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le soleil brille.",
+          "translation": "太阳正在照耀。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Солнце светит.",
+          "translation": "太阳正在照耀。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-091",
+    "concept": "雨",
+    "english": [
+      "rain"
+    ],
+    "french": [
+      "pluie"
+    ],
+    "russian": [
+      "дождь"
+    ],
+    "pronunciations": {
+      "english": [
+        "/reɪn/"
+      ],
+      "french": [
+        "/plɥi/"
+      ],
+      "russian": [
+        "/doʂtʲ/"
+      ]
+    },
+    "chinese": "雨",
+    "examples": {
+      "english": [
+        {
+          "text": "The rain stopped this morning.",
+          "translation": "今天早上的雨停了。"
+        }
+      ],
+      "french": [
+        {
+          "text": "La pluie s’est arrêtée ce matin.",
+          "translation": "今天早上的雨停了。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Дождь закончился сегодня утром.",
+          "translation": "今天早上的雨停了。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-092",
+    "concept": "雪",
+    "english": [
+      "snow"
+    ],
+    "french": [
+      "neige"
+    ],
+    "russian": [
+      "снег"
+    ],
+    "pronunciations": {
+      "english": [
+        "/snoʊ/"
+      ],
+      "french": [
+        "/nɛʒ/"
+      ],
+      "russian": [
+        "/sʲnʲek/"
+      ]
+    },
+    "chinese": "雪",
+    "examples": {
+      "english": [
+        {
+          "text": "The children are playing in the snow.",
+          "translation": "孩子们正在雪地里玩。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Les enfants jouent dans la neige.",
+          "translation": "孩子们正在雪地里玩。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Дети играют в снегу.",
+          "translation": "孩子们正在雪地里玩。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-093",
+    "concept": "风",
+    "english": [
+      "wind"
+    ],
+    "french": [
+      "vent"
+    ],
+    "russian": [
+      "ветер"
+    ],
+    "pronunciations": {
+      "english": [
+        "/wɪnd/"
+      ],
+      "french": [
+        "/vɑ̃/"
+      ],
+      "russian": [
+        "/ˈvʲetʲɪr/"
+      ]
+    },
+    "chinese": "风",
+    "examples": {
+      "english": [
+        {
+          "text": "The wind is very strong today.",
+          "translation": "今天风很大。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le vent est très fort aujourd’hui.",
+          "translation": "今天风很大。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Сегодня очень сильный ветер.",
+          "translation": "今天风很大。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-094",
+    "concept": "猫",
+    "english": [
+      "cat"
+    ],
+    "french": [
+      "chat"
+    ],
+    "russian": [
+      "кошка"
+    ],
+    "pronunciations": {
+      "english": [
+        "/kæt/"
+      ],
+      "french": [
+        "/ʃa/"
+      ],
+      "russian": [
+        "/ˈkoʂkə/"
+      ]
+    },
+    "chinese": "猫",
+    "examples": {
+      "english": [
+        {
+          "text": "The cat is sleeping on the sofa.",
+          "translation": "猫正在沙发上睡觉。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le chat dort sur le canapé.",
+          "translation": "猫正在沙发上睡觉。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Кошка спит на диване.",
+          "translation": "猫正在沙发上睡觉。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-095",
+    "concept": "狗",
+    "english": [
+      "dog"
+    ],
+    "french": [
+      "chien"
+    ],
+    "russian": [
+      "собака"
+    ],
+    "pronunciations": {
+      "english": [
+        "/dɔːɡ/"
+      ],
+      "french": [
+        "/ʃjɛ̃/"
+      ],
+      "russian": [
+        "/sɐˈbakə/"
+      ]
+    },
+    "chinese": "狗",
+    "examples": {
+      "english": [
+        {
+          "text": "The dog is waiting by the door.",
+          "translation": "狗正在门边等着。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Le chien attend près de la porte.",
+          "translation": "狗正在门边等着。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Собака ждёт у двери.",
+          "translation": "狗正在门边等着。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-096",
+    "concept": "鸟",
+    "english": [
+      "bird"
+    ],
+    "french": [
+      "oiseau"
+    ],
+    "russian": [
+      "птица"
+    ],
+    "pronunciations": {
+      "english": [
+        "/bɜːrd/"
+      ],
+      "french": [
+        "/wa.zo/"
+      ],
+      "russian": [
+        "/ˈptʲitsə/"
+      ]
+    },
+    "chinese": "鸟",
+    "examples": {
+      "english": [
+        {
+          "text": "A bird is singing in the tree.",
+          "translation": "一只鸟在树上唱歌。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Un oiseau chante dans l’arbre.",
+          "translation": "一只鸟在树上唱歌。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Птица поёт на дереве.",
+          "translation": "一只鸟在树上唱歌。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-097",
+    "concept": "花",
+    "english": [
+      "flower"
+    ],
+    "french": [
+      "fleur"
+    ],
+    "russian": [
+      "цветок"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈflaʊər/"
+      ],
+      "french": [
+        "/flœʁ/"
+      ],
+      "russian": [
+        "/tsvʲɪˈtok/"
+      ]
+    },
+    "chinese": "花",
+    "examples": {
+      "english": [
+        {
+          "text": "This flower smells wonderful.",
+          "translation": "这朵花闻起来很香。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Cette fleur sent très bon.",
+          "translation": "这朵花闻起来很香。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Этот цветок прекрасно пахнет.",
+          "translation": "这朵花闻起来很香。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-098",
+    "concept": "树",
+    "english": [
+      "tree"
+    ],
+    "french": [
+      "arbre"
+    ],
+    "russian": [
+      "дерево"
+    ],
+    "pronunciations": {
+      "english": [
+        "/triː/"
+      ],
+      "french": [
+        "/aʁbʁ/"
+      ],
+      "russian": [
+        "/ˈdʲerʲɪvə/"
+      ]
+    },
+    "chinese": "树",
+    "examples": {
+      "english": [
+        {
+          "text": "There is a tall tree in the garden.",
+          "translation": "花园里有一棵高大的树。"
+        }
+      ],
+      "french": [
+        {
+          "text": "Il y a un grand arbre dans le jardin.",
+          "translation": "花园里有一棵高大的树。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "В саду растёт высокое дерево.",
+          "translation": "花园里有一棵高大的树。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-099",
+    "concept": "空气",
+    "english": [
+      "air"
+    ],
+    "french": [
+      "air"
+    ],
+    "russian": [
+      "воздух"
+    ],
+    "pronunciations": {
+      "english": [
+        "/er/"
+      ],
+      "french": [
+        "/ɛʁ/"
+      ],
+      "russian": [
+        "/ˈvozdux/"
+      ]
+    },
+    "chinese": "空气",
+    "examples": {
+      "english": [
+        {
+          "text": "The air is fresh after the rain.",
+          "translation": "雨后的空气很清新。"
+        }
+      ],
+      "french": [
+        {
+          "text": "L’air est frais après la pluie.",
+          "translation": "雨后的空气很清新。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "После дождя воздух свежий.",
+          "translation": "雨后的空气很清新。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
+  },
+  {
+    "id": "ll-vocab-001-100",
+    "concept": "音乐",
+    "english": [
+      "music"
+    ],
+    "french": [
+      "musique"
+    ],
+    "russian": [
+      "музыка"
+    ],
+    "pronunciations": {
+      "english": [
+        "/ˈmjuːzɪk/"
+      ],
+      "french": [
+        "/my.zik/"
+      ],
+      "russian": [
+        "/ˈmuzɨkə/"
+      ]
+    },
+    "chinese": "音乐",
+    "examples": {
+      "english": [
+        {
+          "text": "I listen to music while I cook.",
+          "translation": "我做饭时听音乐。"
+        }
+      ],
+      "french": [
+        {
+          "text": "J’écoute de la musique en cuisinant.",
+          "translation": "我做饭时听音乐。"
+        }
+      ],
+      "russian": [
+        {
+          "text": "Я слушаю музыку, когда готовлю.",
+          "translation": "我做饭时听音乐。"
+        }
+      ]
+    },
+    "notes": "",
+    "createdAt": "2026-11-13T09:02:13Z",
+    "updatedAt": "2026-11-13T09:02:13Z"
   }
 ]
