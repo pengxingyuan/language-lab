@@ -70,41 +70,89 @@
     </p>
   </section>
 
-    <!-- 五、三种语言入口：点击后进入词汇库对应语言分类 -->
-    <section class="language-section">
-      <div class="section-heading">
-        <h2>My Languages</h2>
-        <span>我的语言</span>
+
+  <!-- 五、三种语言入口：字母表朗读与词汇学习 -->
+
+  <section class="language-section">
+
+    <div class="section-heading">
+      <h2>My Languages</h2>
+      <span>我的语言</span>
+    </div>
+
+    <div class="language-grid">
+
+      <!-- 英语：保留原来的词汇库入口 -->
+      <a href="vocabulary.html?language=english"
+        class="language-card english">
+
+        <span class="language-code">EN</span>
+        <span class="language-name">English</span>
+        <span class="language-description">IELTS · Daily English</span>
+        <span class="card-arrow">↗</span>
+
+      </a>
+
+      <!-- 法语：字母表与发音 -->
+      <div class="language-card french alphabet-language-card">
+
+        <span class="language-code">FR</span>
+        <span class="language-name">Français</span>
+        <span class="language-description">Alphabet · Pronunciation</span>
+
+        <!-- 法语字母由 JavaScript 自动生成 -->
+        <div class="alphabet-grid" id="frenchAlphabet"></div>
+
+        <div class="alphabet-actions">
+
+          <button
+            class="alphabet-play-button"
+            type="button"
+            data-play-alphabet="fr">
+            <span>▶</span> 播放全部
+          </button>
+
+          <a href="vocabulary.html?language=french"
+            class="alphabet-study-link">
+            学习法语词汇 ↗
+          </a>
+
+        </div>
+
       </div>
 
-      <div class="language-grid">
+      <!-- 俄语：西里尔字母与发音 -->
+      <div class="language-card russian alphabet-language-card">
 
-        <!-- 英语：进入英语词汇分类 -->
-        <a href="vocabulary.html?language=english" class="language-card english">
-          <span class="language-code">EN</span>
-          <span class="language-name">English</span>
-          <span class="language-description">IELTS · Daily English</span>
-          <span class="card-arrow">↗</span>
-        </a>
+        <span class="language-code">RU</span>
+        <span class="language-name">Русский</span>
+        <span class="language-description">Кириллица · Pronunciation</span>
 
-        <!-- 法语：进入法语词汇分类 -->
-        <a href="vocabulary.html?language=french" class="language-card french">
-          <span class="language-code">FR</span>
-          <span class="language-name">Français</span>
-          <span class="language-description">Vocabulary · Grammar</span>
-          <span class="card-arrow">↗</span>
-        </a>
+        <!-- 俄语字母由 JavaScript 自动生成 -->
+        <div class="alphabet-grid" id="russianAlphabet"></div>
 
-        <!-- 俄语：进入俄语词汇分类 -->
-        <a href="vocabulary.html?language=russian" class="language-card russian">
-          <span class="language-code">RU</span>
-          <span class="language-name">Русский</span>
-          <span class="language-description">Alphabet · Conversation</span>
-          <span class="card-arrow">↗</span>
-        </a>
+        <div class="alphabet-actions">
+
+          <button
+            class="alphabet-play-button"
+            type="button"
+            data-play-alphabet="ru">
+            <span>▶</span> 播放全部
+          </button>
+
+          <a href="vocabulary.html?language=russian"
+            class="alphabet-study-link">
+            Изучать слова ↗
+          </a>
+
+        </div>
 
       </div>
-    </section>
+
+    </div>
+
+  </section>
+
 
 
     <!-- 六、个人四语词汇库入口 -->

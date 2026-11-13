@@ -448,3 +448,426 @@ async function loadDailyNews() {
 
 // 页面加载后自动获取每日新闻
 loadDailyNews();
+
+/* =========================================================
+   九、Alphabet Learning · 字母表朗读
+   使用浏览器 SpeechSynthesis API
+   支持法语与俄语字母单独朗读及连续朗读
+   ========================================================= */
+
+// ---------- 1. 字母表配置 ----------
+
+// speech 内容使用目标语言的字母名称，
+// 确保朗读的是字母名称，而不只是字母对应的发音。
+
+const ALPHABET_CONFIG = {
+
+  // 法语：26 个拉丁字母
+  fr: {
+    locale: "fr-FR",
+    container: "frenchAlphabet",
+
+    letters: [
+      ["A", "a"],
+      ["B", "bé"],
+      ["C", "cé"],
+      ["D", "dé"],
+      ["E", "e"],
+      ["F", "effe"],
+      ["G", "gé"],
+      ["H", "ache"],
+      ["I", "i"],
+      ["J", "ji"],
+      ["K", "ka"],
+      ["L", "elle"],
+      ["M", "emme"],
+      ["N", "enne"],
+      ["O", "o"],
+      ["P", "pé"],
+      ["Q", "ku"],
+      ["R", "erre"],
+      ["S", "esse"],
+      ["T", "té"],
+      ["U", "u"],
+      ["V", "vé"],
+      ["W", "double vé"],
+      ["X", "ixe"],
+      ["Y", "i grec"],
+      ["Z", "zède"]
+    ]
+  },
+
+  // 俄语：33 个西里尔字母
+  ru: {
+    locale: "ru-RU",
+    container: "russianAlphabet",
+
+    letters: [
+      ["А", "а"],
+      ["Б", "бэ"],
+      ["В", "вэ"],
+      ["Г", "гэ"],
+      ["Д", "дэ"],
+      ["Е", "е"],
+      ["Ё", "ё"],
+      ["Ж", "жэ"],
+      ["З", "зэ"],
+      ["И", "и"],
+      ["Й", "и краткое"],
+      ["К", "ка"],
+      ["Л", "эль"],
+      ["М", "эм"],
+      ["Н", "эн"],
+      ["О", "о"],
+      ["П", "пэ"],
+      ["Р", "эр"],
+      ["С", "эс"],
+      ["Т", "тэ"],
+      ["У", "у"],
+      ["Ф", "эф"],
+      ["Х", "ха"],
+      ["Ц", "цэ"],
+      ["Ч", "че"],
+      ["Ш", "ша"],
+      ["Щ", "ща"],
+      ["Ъ", "твёрдый знак"],
+      ["Ы", "ы"],
+      ["Ь", "мягкий знак"],
+      ["Э", "э"],
+      ["Ю", "ю"],
+      ["Я", "я"]
+    ]
+  }
+
+};
+
+
+// ---------- 2. 生成字母按钮 ----------
+
+function renderAlphabet() {
+
+  Object.entries(ALPHABET_CONFIG).forEach(
+    ([language, config]) => {
+
+      const container = document.getElementById(
+        config.container
+      );
+
+      // 如果页面没有对应容器，则跳过
+      if (!container) return;
+
+      const fragment = document.createDocumentFragment();
+
+      config.letters.forEach(([letter, speech]) => {
+
+        const button = document.createElement("button");
+
+        button.type = "button";
+        button.className = "alphabet-letter";
+
+        button.textContent = letter;
+
+        button.dataset.speak = speech;
+        button.dataset.language = language;
+
+        button.setAttribute(
+          "aria-label",
+          `朗读 ${letter}`
+        );
+
+        button.title = `点击听 ${letter} 的发音`;
+
+        fragment.appendChild(button);
+
+      });
+
+      container.replaceChildren(fragment);
+
+    }
+  );
+
+}
+
+
+// ---------- 3. 语音播放控制 ----------
+
+// 当前朗读队列
+let alphabetQueue = [];
+
+// 当前朗读状态
+let alphabetPlaying = false;
+
+// 当前正在朗读的按钮
+let activeAlphabetButton = null;
+
+// 语音播放速度
+const ALPHABET_SPEECH_RATE = 0.85;
+
+
+// 清除当前高亮状态
+function clearAlphabetHighlight() {
+
+  if (activeAlphabetButton) {
+    activeAlphabetButton.classList.remove("is-speaking");
+    activeAlphabetButton = null;
+  }
+
+}
+
+
+// 停止当前朗读
+function stopAlphabetSpeech() {
+
+  if ("speechSynthesis" in window) {
+    window.speechSynthesis.cancel();
+  }
+
+  alphabetQueue = [];
+  alphabetPlaying = false;
+
+  clearAlphabetHighlight();
+
+}
+
+
+// ---------- 4. 朗读单个字母 ----------
+
+function speakAlphabetLetter(
+  language,
+  speech,
+  button = null
+) {
+
+  if (!("speechSynthesis" in window)) {
+    alert("当前浏览器不支持语音朗读功能。");
+    return;
+  }
+
+  // 点击新字母时，停止之前的播放
+  stopAlphabetSpeech();
+
+  const config = ALPHABET_CONFIG[language];
+
+  if (!config) return;
+
+  const utterance = new SpeechSynthesisUtterance(speech);
+
+  utterance.lang = config.locale;
+  utterance.rate = ALPHABET_SPEECH_RATE;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+
+  // 优先选择对应语言的语音
+  const voices = window.speechSynthesis.getVoices();
+
+  const matchedVoice = voices.find(voice =>
+    voice.lang.toLowerCase() === config.locale.toLowerCase()
+  ) || voices.find(voice =>
+    voice.lang.toLowerCase().startsWith(language)
+  );
+
+  if (matchedVoice) {
+    utterance.voice = matchedVoice;
+  }
+
+  if (button) {
+    activeAlphabetButton = button;
+    button.classList.add("is-speaking");
+  }
+
+  utterance.onend = clearAlphabetHighlight;
+  utterance.onerror = clearAlphabetHighlight;
+
+  window.speechSynthesis.speak(utterance);
+
+}
+
+
+// ---------- 5. 连续朗读整个字母表 ----------
+
+function playAlphabet(language) {
+
+  if (!("speechSynthesis" in window)) {
+    alert("当前浏览器不支持语音朗读功能。");
+    return;
+  }
+
+  const config = ALPHABET_CONFIG[language];
+
+  if (!config) return;
+
+  // 如果已经在播放，则停止
+  if (alphabetPlaying) {
+    stopAlphabetSpeech();
+    return;
+  }
+
+  stopAlphabetSpeech();
+
+  // 创建朗读队列
+  alphabetQueue = config.letters.map(
+    ([letter, speech]) => ({
+      letter,
+      speech,
+      language
+    })
+  );
+
+  alphabetPlaying = true;
+
+  playNextAlphabetLetter();
+
+}
+
+
+// 依次播放队列中的字母
+function playNextAlphabetLetter() {
+
+  if (!alphabetQueue.length) {
+    alphabetPlaying = false;
+    clearAlphabetHighlight();
+    return;
+  }
+
+  const item = alphabetQueue.shift();
+
+  const config = ALPHABET_CONFIG[item.language];
+
+  const utterance = new SpeechSynthesisUtterance(
+    item.speech
+  );
+
+  utterance.lang = config.locale;
+  utterance.rate = ALPHABET_SPEECH_RATE;
+  utterance.pitch = 1;
+  utterance.volume = 1;
+
+  // 选择匹配的语言语音
+  const voices = window.speechSynthesis.getVoices();
+
+  const matchedVoice = voices.find(voice =>
+    voice.lang.toLowerCase() === config.locale.toLowerCase()
+  ) || voices.find(voice =>
+    voice.lang.toLowerCase().startsWith(item.language)
+  );
+
+  if (matchedVoice) {
+    utterance.voice = matchedVoice;
+  }
+
+  // 高亮当前播放的字母
+  clearAlphabetHighlight();
+
+  const container = document.getElementById(
+    config.container
+  );
+
+  if (container) {
+
+    const buttons = container.querySelectorAll(
+      ".alphabet-letter"
+    );
+
+    buttons.forEach(button => {
+
+      if (button.textContent === item.letter) {
+        activeAlphabetButton = button;
+        button.classList.add("is-speaking");
+      }
+
+    });
+
+  }
+
+  // 当前字母播放结束后，播放下一个
+  utterance.onend = function () {
+
+    clearAlphabetHighlight();
+
+    if (alphabetPlaying) {
+
+      // 留出短暂停顿，让每个字母更加清楚
+      setTimeout(playNextAlphabetLetter, 180);
+
+    }
+
+  };
+
+  utterance.onerror = function () {
+
+    clearAlphabetHighlight();
+
+    if (alphabetPlaying) {
+      setTimeout(playNextAlphabetLetter, 180);
+    }
+
+  };
+
+  window.speechSynthesis.speak(utterance);
+
+}
+
+
+// ---------- 6. 监听字母点击 ----------
+
+document.addEventListener("click", function (event) {
+
+  const button = event.target.closest(
+    ".alphabet-letter"
+  );
+
+  if (!button) return;
+
+  const language = button.dataset.language;
+  const speech = button.dataset.speak;
+
+  speakAlphabetLetter(
+    language,
+    speech,
+    button
+  );
+
+});
+
+
+// ---------- 7. 监听播放全部按钮 ----------
+
+document.addEventListener("click", function (event) {
+
+  const button = event.target.closest(
+    "[data-play-alphabet]"
+  );
+
+  if (!button) return;
+
+  const language = button.dataset.playAlphabet;
+
+  // 连续播放时再次点击可停止
+  if (alphabetPlaying) {
+
+    stopAlphabetSpeech();
+
+    // 如果点击的是另一个语言的播放按钮，
+    // 则停止后直接开始播放该语言
+    playAlphabet(language);
+
+    return;
+
+  }
+
+  playAlphabet(language);
+
+});
+
+
+// ---------- 8. 页面初始化 ----------
+
+// 生成法语和俄语字母按钮
+renderAlphabet();
+
+
+// 页面离开时停止语音
+window.addEventListener("beforeunload", function () {
+  stopAlphabetSpeech();
+});
+

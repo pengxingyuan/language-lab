@@ -1217,3 +1217,182 @@ body.dark-theme::before {
   }
 }
 
+/* =========================================================
+   十八、Alphabet Learning · 字母表学习模块
+   法语与俄语字母展示、朗读按钮及播放控制
+   ========================================================= */
+
+/* 法语与俄语学习卡片 */
+.alphabet-language-card {
+  min-height: 0;
+  padding: 24px;
+}
+
+/* 字母表网格 */
+.alphabet-grid {
+  width: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+
+  margin-top: 20px;
+}
+
+/* 单个字母按钮 */
+.alphabet-letter {
+  min-width: 0;
+  aspect-ratio: 1 / 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 9px;
+
+  background: rgba(255, 255, 255, 0.55);
+  color: inherit;
+
+  font-family: "Nunito", "Noto Sans SC", sans-serif;
+  font-size: 17px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* 字母悬停 */
+.alphabet-letter:hover {
+  transform: translateY(-2px);
+
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
+}
+
+/* 当前正在朗读的字母 */
+.alphabet-letter.is-speaking {
+  background: var(--surface-color);
+  outline: 2px solid currentColor;
+  outline-offset: -2px;
+}
+
+/* 键盘焦点 */
+.alphabet-letter:focus-visible,
+.alphabet-play-button:focus-visible,
+.alphabet-study-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+/* 字母表底部操作区域 */
+.alphabet-actions {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin-top: 18px;
+}
+
+/* 播放全部按钮 */
+.alphabet-play-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 8px 13px;
+
+  border: 1px solid currentColor;
+  border-radius: 999px;
+
+  background: transparent;
+  color: inherit;
+
+  font-size: 11px;
+  font-weight: 750;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.alphabet-play-button:hover {
+  background: rgba(255, 255, 255, 0.55);
+  transform: translateY(-2px);
+}
+
+.alphabet-play-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* 词汇学习链接 */
+.alphabet-study-link {
+  color: inherit;
+
+  font-size: 11px;
+  font-weight: 750;
+
+  opacity: 0.8;
+
+  transition: opacity 0.2s ease;
+}
+
+.alphabet-study-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* 深色主题下的字母按钮 */
+body.dark-theme .alphabet-letter {
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+body.dark-theme .alphabet-letter:hover {
+  background: rgba(255, 255, 255, 0.13);
+}
+
+body.dark-theme .alphabet-letter.is-speaking {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+body.dark-theme .alphabet-play-button:hover {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+/* 手机端适配 */
+@media (max-width: 650px) {
+
+  .alphabet-language-card {
+    padding: 22px;
+  }
+
+  .alphabet-grid {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 7px;
+  }
+
+  .alphabet-letter {
+    font-size: 16px;
+    border-radius: 8px;
+  }
+
+  .alphabet-actions {
+    margin-top: 16px;
+  }
+
+}
+
