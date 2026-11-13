@@ -221,7 +221,7 @@ function createSpeechButton(content, language, type = "word") {
 
   button.type = "button";
   button.className = "speech-button";
-  button.textContent = "◖))";
+  button.textContent = "🔊";
 
   button.setAttribute("aria-label", defaultLabel);
   button.title = defaultTitle;
