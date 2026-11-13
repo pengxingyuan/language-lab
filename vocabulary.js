@@ -1,4 +1,3 @@
-
 /* ==================================================
    Language Lab · Vocabulary
    四语词汇库：动态录入、本地缓存、GitHub 云端同步、
@@ -79,6 +78,9 @@ let localRevision = 0;
 
 // 当前词汇数据
 let vocabularyData = loadVocabulary();
+
+// 当前正在编辑的词汇 ID；null 表示新增模式
+let editingEntryId = null;
 
 // 同步状态文字
 let syncStatusElement = null;
@@ -788,6 +790,8 @@ createBackupControls();
 
 if (addEntryButton) {
   addEntryButton.addEventListener("click", () => {
+    // 点击新增时先清空上一次编辑内容，确保进入新增模式
+    resetForm();
     entryFormPanel.hidden = false;
 
     entryFormPanel.scrollIntoView({
@@ -799,6 +803,8 @@ if (addEntryButton) {
 
 if (cancelEntryButton) {
   cancelEntryButton.addEventListener("click", () => {
+    // 取消时退出编辑状态并清理表单
+    resetForm();
     entryFormPanel.hidden = true;
   });
 }
@@ -901,8 +907,17 @@ function collectExamples(container) {
 }
 
 function collectFormData() {
+  // 编辑时保留原词条的 ID、创建时间及其他已有字段
+  const originalEntry = editingEntryId
+    ? vocabularyData.find(entry => entry.id === editingEntryId)
+    : null;
+
   return {
-    id: Date.now().toString() + Math.random().toString(36).slice(2, 8),
+    ...(originalEntry || {}),
+
+    id: originalEntry?.id || (
+      Date.now().toString() + Math.random().toString(36).slice(2, 8)
+    ),
 
     concept: document.getElementById("concept").value.trim(),
 
@@ -920,7 +935,11 @@ function collectFormData() {
 
     notes: document.getElementById("personal-notes").value.trim(),
 
-    createdAt: new Date().toISOString()
+    // 编辑时保留原始创建时间
+    createdAt: originalEntry?.createdAt || new Date().toISOString(),
+
+    // 每次保存都更新最后修改时间
+    updatedAt: new Date().toISOString()
   };
 }
 
@@ -938,12 +957,30 @@ vocabularyForm.addEventListener("submit", (event) => {
     return;
   }
 
-  vocabularyData.unshift(entry);
+  // 保存修改前的数据，若本地保存失败则恢复
+  const previousData = [...vocabularyData];
+
+  if (editingEntryId) {
+    // 编辑模式：替换原词条，不新增重复记录
+    const index = vocabularyData.findIndex(
+      item => item.id === editingEntryId
+    );
+
+    if (index === -1) {
+      alert("找不到需要编辑的词汇，请刷新页面后重试。");
+      return;
+    }
+
+    vocabularyData[index] = entry;
+
+  } else {
+    // 新增模式：将新词条放在列表最前面
+    vocabularyData.unshift(entry);
+  }
 
   if (saveVocabulary()) {
     renderVocabulary();
     resetForm();
-
     entryFormPanel.hidden = true;
 
     alert(
@@ -953,7 +990,8 @@ vocabularyForm.addEventListener("submit", (event) => {
     );
 
   } else {
-    vocabularyData.shift();
+    vocabularyData = previousData;
+    renderVocabulary();
   }
 });
 
@@ -980,7 +1018,85 @@ function createInitialExample(textName, translationName, placeholder) {
   return wrapper;
 }
 
+// 将已有词条完整填回表单，供编辑时使用
+function fillEditForm(entry) {
+  if (!entry) {
+    alert("找不到需要编辑的词汇，请刷新页面后重试。");
+    return;
+  }
+
+  // 兼容早期没有 ID 的旧词条：编辑前补充分配唯一 ID
+  if (!entry.id) {
+    entry.id = Date.now().toString() + Math.random().toString(36).slice(2, 8);
+
+    if (!saveVocabulary()) {
+      delete entry.id;
+      alert("无法保存词条标识，请检查浏览器存储空间后重试。");
+      return;
+    }
+  }
+
+  // 先恢复表单的初始结构，再填入词条数据
+  resetForm();
+
+  document.getElementById("concept").value = entry.concept || "";
+  document.getElementById("chinese-meaning").value = entry.chinese || "";
+  document.getElementById("personal-notes").value = entry.notes || "";
+
+  // 恢复英语、法语、俄语表达
+  Object.entries(expressionContainers).forEach(([language, container]) => {
+    const firstInput = container.querySelector("input");
+    if (!firstInput) return;
+
+    const values = Array.isArray(entry[language]) ? entry[language] : [];
+    firstInput.value = values[0] || "";
+
+    values.slice(1).forEach(value => {
+      addExpressionField(container);
+      const inputs = container.querySelectorAll("input");
+      inputs[inputs.length - 1].value = value;
+    });
+  });
+
+  // 恢复三种语言的例句及中文对照
+  Object.entries(exampleContainers).forEach(([language, container]) => {
+    const examples = Array.isArray(entry.examples?.[language])
+      ? entry.examples[language]
+      : [];
+
+    const firstTextarea = container.querySelector("textarea");
+    const firstTranslation = container.querySelector('input[name$="-translation"]');
+
+    if (!firstTextarea || !firstTranslation) return;
+
+    firstTextarea.value = examples[0]?.text || "";
+    firstTranslation.value = examples[0]?.translation || "";
+
+    examples.slice(1).forEach(example => {
+      addExampleField(container);
+
+      const items = container.querySelectorAll(".example-item");
+      const lastItem = items[items.length - 1];
+
+      lastItem.querySelector("textarea").value = example.text || "";
+      lastItem.querySelector('input[name$="-translation"]').value =
+        example.translation || "";
+    });
+  });
+
+  editingEntryId = entry.id;
+  entryFormPanel.hidden = false;
+
+  entryFormPanel.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
 function resetForm() {
+  // 清除编辑状态，恢复为新增模式
+  editingEntryId = null;
+
   vocabularyForm.reset();
 
   Object.values(expressionContainers).forEach((container) => {
@@ -1177,10 +1293,21 @@ function createVocabularyCard(entry) {
     card.appendChild(notes);
   }
 
-  // 删除按钮
+  // 词条操作：编辑与删除
   const actions = document.createElement("div");
   actions.className = "entry-actions";
 
+  // ---------- 编辑按钮 ----------
+  const editButton = document.createElement("button");
+  editButton.type = "button";
+  editButton.className = "backup-button";
+  editButton.textContent = "Edit Entry";
+
+  editButton.addEventListener("click", () => {
+    fillEditForm(entry);
+  });
+
+  // ---------- 删除按钮 ----------
   const deleteButton = document.createElement("button");
   deleteButton.type = "button";
   deleteButton.className = "delete-entry-button";
@@ -1188,10 +1315,9 @@ function createVocabularyCard(entry) {
 
   deleteButton.addEventListener("click", () => {
     const confirmed = confirm(`确定删除「${entry.concept}」吗？`);
-
     if (!confirmed) return;
 
-    const previousData = vocabularyData;
+    const previousData = [...vocabularyData];
 
     vocabularyData = vocabularyData.filter(
       item => item.id !== entry.id
@@ -1201,79 +1327,14 @@ function createVocabularyCard(entry) {
       renderVocabulary();
     } else {
       vocabularyData = previousData;
+      renderVocabulary();
     }
   });
 
-  actions.appendChild(deleteButton);
+  actions.append(editButton, deleteButton);
   card.appendChild(actions);
 
   return card;
-}
-
-// ==================================================
-// 十九、词汇搜索
-// ==================================================
-
-function normalizeSearchText(value) {
-  return String(value ?? "").trim().toLocaleLowerCase();
-}
-
-function getEntrySearchText(entry, language) {
-  const contents = [entry.concept];
-
-  if (language === "all") {
-    contents.push(
-      entry.chinese,
-      entry.notes,
-      ...(entry.english || []),
-      ...(entry.french || []),
-      ...(entry.russian || [])
-    );
-
-    ["english", "french", "russian"].forEach((key) => {
-      (entry.examples?.[key] || []).forEach((example) => {
-        contents.push(example.text, example.translation);
-      });
-    });
-  }
-
-  else if (language === "english") {
-    contents.push(...(entry.english || []));
-
-    (entry.examples?.english || []).forEach((example) => {
-      contents.push(example.text);
-    });
-  }
-
-  else if (language === "french") {
-    contents.push(...(entry.french || []));
-
-    (entry.examples?.french || []).forEach((example) => {
-      contents.push(example.text);
-    });
-  }
-
-  else if (language === "russian") {
-    contents.push(...(entry.russian || []));
-
-    (entry.examples?.russian || []).forEach((example) => {
-      contents.push(example.text);
-    });
-  }
-
-  else if (language === "chinese") {
-    contents.push(entry.chinese);
-
-    ["english", "french", "russian"].forEach((key) => {
-      (entry.examples?.[key] || []).forEach((example) => {
-        contents.push(example.translation);
-      });
-    });
-  }
-
-  return normalizeSearchText(
-    contents.filter(Boolean).join(" ")
-  );
 }
 
 // ==================================================
@@ -1475,10 +1536,6 @@ if (vocabularySearchLanguage) {
 // 二十一、页面初始化
 // ==================================================
 
-// ==================================================
-// 二十一、页面初始化
-// ==================================================
-
 // 根据 URL 参数自动选择语言分类
 function initializeLanguageFilter() {
   const params = new URLSearchParams(window.location.search);
@@ -1509,9 +1566,6 @@ initializeLanguageFilter();
 
 // 先展示本地缓存
 renderVocabulary();
-
-// 检查 GitHub 登录状态并读取云端数据
-initializeCloudSync();
 
 // 检查 GitHub 登录状态并读取云端数据
 initializeCloudSync();
