@@ -1396,3 +1396,20 @@ body.dark-theme .alphabet-play-button:hover {
 
 }
 
+/* =========================================================
+   十九、跨平台语音状态提示
+   ========================================================= */
+
+.alphabet-status {
+  min-height: 16px;
+  margin-top: 10px;
+
+  color: inherit;
+  opacity: 0.65;
+
+  font-size: 11px;
+  line-height: 1.5;
+
+  text-align: left;
+}
+
