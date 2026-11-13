@@ -1,7 +1,7 @@
 /* ==================================================
    Language Lab · Vocabulary
    四语词汇库：动态录入、本地缓存、GitHub 云端同步、
-   搜索、主题管理与 JSON 文件备份
+   搜索、主题管理、JSON 备份与可选 IPA 音标
    ================================================== */
 
 // ==================================================
@@ -43,6 +43,28 @@ const expressionContainers = {
   french: document.getElementById("french-words"),
   russian: document.getElementById("russian-words")
 };
+
+// 页面初始加载时，为原有表达输入框补上可选 IPA 折叠区。
+// 这样旧版 HTML 和旧词条都可以继续使用，无需修改云端接口。
+function initializeExpressionFields() {
+  Object.entries(expressionContainers).forEach(([language, container]) => {
+    if (!container) return;
+
+    const existingItems = container.querySelectorAll(".dynamic-item");
+    if (existingItems.length > 0) return;
+
+    const oldInputs = Array.from(container.querySelectorAll("input"));
+    const rows = oldInputs.map((input, index) =>
+      createExpressionField(language, input.value || "", "", index > 0)
+    );
+
+    container.replaceChildren(...(rows.length ? rows : [
+      createExpressionField(language, "", "", false)
+    ]));
+  });
+}
+
+initializeExpressionFields();
 
 // 三种语言的例句容器
 const exampleContainers = {
@@ -631,7 +653,17 @@ function validateVocabularyData(data) {
       Array.isArray(entry.french) &&
       Array.isArray(entry.russian) &&
       entry.examples &&
-      typeof entry.examples === "object"
+      typeof entry.examples === "object" &&
+      (entry.pronunciations === undefined || (
+        entry.pronunciations &&
+        typeof entry.pronunciations === "object" &&
+        !Array.isArray(entry.pronunciations) &&
+        ["english", "french", "russian"].every(language =>
+          entry.pronunciations[language] === undefined ||
+          (Array.isArray(entry.pronunciations[language]) &&
+            entry.pronunciations[language].every(value => typeof value === "string"))
+        )
+      ))
     );
   });
 }
@@ -827,20 +859,53 @@ function createRemoveButton(wrapper) {
   return button;
 }
 
-function addExpressionField(container) {
+// 创建一组表达字段：IPA 默认折叠且不必填写。
+function createExpressionField(language, expression = "", ipa = "", removable = false) {
   const wrapper = document.createElement("div");
   wrapper.className = "dynamic-item";
 
-  const originalInput = container.querySelector("input");
-
   const input = document.createElement("input");
   input.type = "text";
-  input.name = originalInput.name;
-  input.placeholder = "Add another expression";
+  input.name = language;
+  input.className = "expression-input";
+  input.placeholder = "Add an expression";
+  input.value = expression;
 
-  wrapper.append(input, createRemoveButton(wrapper));
+  const ipaDetails = document.createElement("details");
+  ipaDetails.className = "ipa-field";
+  ipaDetails.open = Boolean(ipa);
 
-  container.appendChild(wrapper);
+  const summary = document.createElement("summary");
+  summary.textContent = "IPA · 音标（选填）";
+
+  const ipaInput = document.createElement("input");
+  ipaInput.type = "text";
+  ipaInput.name = `${language}-ipa`;
+  ipaInput.className = "ipa-input";
+  ipaInput.dataset.ipaInput = "true";
+  ipaInput.placeholder = "例如：/ˈæp.əl/（可留空）";
+  ipaInput.value = ipa;
+  ipaInput.setAttribute("aria-label", `${language} IPA 音标（选填）`);
+
+  ipaDetails.append(summary, ipaInput);
+  wrapper.append(input, ipaDetails);
+
+  if (removable) {
+    wrapper.appendChild(createRemoveButton(wrapper));
+  }
+
+  return wrapper;
+}
+
+function addExpressionField(container) {
+  const language = Object.entries(expressionContainers)
+    .find(([, currentContainer]) => currentContainer === container)?.[0];
+
+  if (!language) return;
+
+  container.appendChild(
+    createExpressionField(language, "", "", true)
+  );
 }
 
 function addExampleField(container) {
@@ -889,10 +954,23 @@ document.querySelectorAll(".add-field-button").forEach((button) => {
 // 十四、收集表单数据
 // ==================================================
 
-function collectExpressions(container) {
-  return Array.from(container.querySelectorAll("input"))
-    .map(input => input.value.trim())
-    .filter(value => value !== "");
+// 同时收集表达与 IPA，保证两组数组按相同索引一一对应。
+function collectExpressionData(container) {
+  const expressions = [];
+  const pronunciations = [];
+
+  Array.from(container.querySelectorAll(".dynamic-item")).forEach((item) => {
+    const expression = item.querySelector(".expression-input")?.value.trim() || "";
+    const ipa = item.querySelector(".ipa-input")?.value.trim() || "";
+
+    // 空表达行不进入词库，避免 IPA 与表达错位。
+    if (!expression) return;
+
+    expressions.push(expression);
+    pronunciations.push(ipa);
+  });
+
+  return { expressions, pronunciations };
 }
 
 function collectExamples(container) {
@@ -912,6 +990,20 @@ function collectFormData() {
     ? vocabularyData.find(entry => entry.id === editingEntryId)
     : null;
 
+  const expressionData = {
+    english: collectExpressionData(expressionContainers.english),
+    french: collectExpressionData(expressionContainers.french),
+    russian: collectExpressionData(expressionContainers.russian)
+  };
+
+  const pronunciations = {};
+  Object.entries(expressionData).forEach(([language, data]) => {
+    // 某语言完全没有填写 IPA 时，不保存空的音标字段。
+    if (data.pronunciations.some(value => value !== "")) {
+      pronunciations[language] = data.pronunciations;
+    }
+  });
+
   return {
     ...(originalEntry || {}),
 
@@ -921,9 +1013,12 @@ function collectFormData() {
 
     concept: document.getElementById("concept").value.trim(),
 
-    english: collectExpressions(expressionContainers.english),
-    french: collectExpressions(expressionContainers.french),
-    russian: collectExpressions(expressionContainers.russian),
+    english: expressionData.english.expressions,
+    french: expressionData.french.expressions,
+    russian: expressionData.russian.expressions,
+
+    // IPA 为可选字段；没有填写时不写入词条。
+    pronunciations: Object.keys(pronunciations).length ? pronunciations : undefined,
 
     chinese: document.getElementById("chinese-meaning").value.trim(),
 
@@ -1043,19 +1138,20 @@ function fillEditForm(entry) {
   document.getElementById("chinese-meaning").value = entry.chinese || "";
   document.getElementById("personal-notes").value = entry.notes || "";
 
-  // 恢复英语、法语、俄语表达
+  // 恢复英语、法语、俄语表达及各自对应的 IPA。
   Object.entries(expressionContainers).forEach(([language, container]) => {
-    const firstInput = container.querySelector("input");
-    if (!firstInput) return;
-
     const values = Array.isArray(entry[language]) ? entry[language] : [];
-    firstInput.value = values[0] || "";
+    const ipaValues = Array.isArray(entry.pronunciations?.[language])
+      ? entry.pronunciations[language]
+      : [];
 
-    values.slice(1).forEach(value => {
-      addExpressionField(container);
-      const inputs = container.querySelectorAll("input");
-      inputs[inputs.length - 1].value = value;
-    });
+    const rows = values.length
+      ? values.map((value, index) =>
+          createExpressionField(language, value || "", ipaValues[index] || "", index > 0)
+        )
+      : [createExpressionField(language, "", "", false)];
+
+    container.replaceChildren(...rows);
   });
 
   // 恢复三种语言的例句及中文对照
@@ -1099,15 +1195,10 @@ function resetForm() {
 
   vocabularyForm.reset();
 
-  Object.values(expressionContainers).forEach((container) => {
-    const inputName = container.querySelector("input").name;
-
-    const input = document.createElement("input");
-    input.type = "text";
-    input.name = inputName;
-    input.placeholder = "Expression";
-
-    container.replaceChildren(input);
+  Object.entries(expressionContainers).forEach(([language, container]) => {
+    container.replaceChildren(
+      createExpressionField(language, "", "", false)
+    );
   });
 
   Object.values(exampleContainers).forEach((container) => {
@@ -1165,15 +1256,44 @@ function appendLanguageGrid(card, entry) {
       createTextElement("h3", "entry-language", language.title)
     );
 
-    const expressions = entry[language.key] || [];
+    const expressions = Array.isArray(entry[language.key])
+      ? entry[language.key]
+      : [];
 
-    column.appendChild(
-      createTextElement(
-        "p",
-        "entry-content",
-        expressions.length ? expressions.join(" · ") : "—"
-      )
-    );
+    const ipaValues = Array.isArray(entry.pronunciations?.[language.key])
+      ? entry.pronunciations[language.key]
+      : [];
+
+    if (expressions.length) {
+      const expressionList = document.createElement("div");
+      expressionList.className = "entry-expression-list";
+
+      expressions.forEach((expression, index) => {
+        const item = document.createElement("div");
+        item.className = "entry-expression-item";
+
+        item.appendChild(
+          createTextElement("p", "entry-expression-text", expression)
+        );
+
+        const ipa = String(ipaValues[index] || "").trim();
+
+        if (ipa) {
+          item.appendChild(
+            createTextElement("p", "entry-expression-ipa", ipa)
+          );
+        }
+
+        expressionList.appendChild(item);
+      });
+
+      column.appendChild(expressionList);
+
+    } else {
+      column.appendChild(
+        createTextElement("p", "entry-content", "—")
+      );
+    }
 
     grid.appendChild(column);
   });
@@ -1315,6 +1435,7 @@ function createVocabularyCard(entry) {
 
   deleteButton.addEventListener("click", () => {
     const confirmed = confirm(`确定删除「${entry.concept}」吗？`);
+
     if (!confirmed) return;
 
     const previousData = [...vocabularyData];
@@ -1396,7 +1517,10 @@ function getEntrySearchText(entry, language) {
       entry.notes,
       ...(entry.english || []),
       ...(entry.french || []),
-      ...(entry.russian || [])
+      ...(entry.russian || []),
+      ...(entry.pronunciations?.english || []),
+      ...(entry.pronunciations?.french || []),
+      ...(entry.pronunciations?.russian || [])
     );
 
     ["english", "french", "russian"].forEach(key => {
@@ -1404,33 +1528,32 @@ function getEntrySearchText(entry, language) {
         contents.push(example.text, example.translation);
       });
     });
-  }
 
-  else if (language === "english") {
+  } else if (language === "english") {
     contents.push(...(entry.english || []));
+    contents.push(...(entry.pronunciations?.english || []));
 
     (entry.examples?.english || []).forEach(example => {
       contents.push(example.text);
     });
-  }
 
-  else if (language === "french") {
+  } else if (language === "french") {
     contents.push(...(entry.french || []));
+    contents.push(...(entry.pronunciations?.french || []));
 
     (entry.examples?.french || []).forEach(example => {
       contents.push(example.text);
     });
-  }
 
-  else if (language === "russian") {
+  } else if (language === "russian") {
     contents.push(...(entry.russian || []));
+    contents.push(...(entry.pronunciations?.russian || []));
 
     (entry.examples?.russian || []).forEach(example => {
       contents.push(example.text);
     });
-  }
 
-  else if (language === "chinese") {
+  } else if (language === "chinese") {
     contents.push(entry.chinese);
 
     ["english", "french", "russian"].forEach(key => {
