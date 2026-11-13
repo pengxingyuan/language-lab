@@ -15,7 +15,6 @@
 <body class="vocabulary-page">
   <!-- 页面主容器 -->
   <div class="vocabulary-shell">
-
     <!-- 页面顶部 -->
     <header class="vocabulary-header">
       <div class="header-brand">
@@ -34,7 +33,6 @@
     </header>
 
     <main>
-
       <!-- 词汇概览与新增入口 -->
       <section class="vocabulary-intro">
         <div>
@@ -42,12 +40,8 @@
           <h2>My Vocabulary</h2>
           <p class="intro-description">把不同语言中的表达放在一起，记录释义、例句与自己的理解。</p>
         </div>
-
         <div class="intro-actions">
-          <div class="total-counter">
-            <strong id="total-count">0</strong>
-            <span>ENTRIES</span>
-          </div>
+          <div class="total-counter"><strong id="total-count">0</strong><span>ENTRIES</span></div>
           <button id="add-entry-button" class="primary-button" type="button">＋ Add Vocabulary</button>
         </div>
       </section>
@@ -63,16 +57,13 @@
         </div>
 
         <form id="vocabulary-form">
-
           <!-- 基础信息 -->
           <div class="form-section">
             <h3 class="form-section-title">01 · Basic Information</h3>
-
             <div class="form-field">
               <label for="concept">Concept / 概念名称 <span>*</span></label>
               <input id="concept" name="concept" type="text" placeholder="例如：Fruit、Travel、Emotion" required>
             </div>
-
             <div class="form-field">
               <label for="chinese-meaning">中文释义</label>
               <input id="chinese-meaning" name="chinese" type="text" placeholder="填写这个概念对应的中文意思">
@@ -85,7 +76,6 @@
             <p class="form-help">每种语言可以添加多个表达。IPA 音标为选填项，点击下方折叠栏后再填写即可。</p>
 
             <div class="language-form-grid">
-
               <section class="language-form-column">
                 <h4><span class="language-code">EN</span> English</h4>
                 <div id="english-words" class="expression-container">
@@ -115,7 +105,6 @@
                 </div>
                 <button class="add-field-button" type="button" data-type="expression" data-target="russian-words">＋ Add expression</button>
               </section>
-
             </div>
           </div>
 
@@ -125,7 +114,6 @@
             <p class="form-help">可以记录真实语境中的例句，并添加中文对照。</p>
 
             <div class="examples-form-grid">
-
               <section class="example-form-column">
                 <h4>English Examples</h4>
                 <div id="english-examples" class="example-container">
@@ -158,7 +146,6 @@
                 </div>
                 <button class="add-field-button" type="button" data-type="example" data-target="russian-examples">＋ Add example</button>
               </section>
-
             </div>
           </div>
 
@@ -176,7 +163,6 @@
             <button id="cancel-entry-button" class="secondary-button" type="button">Cancel</button>
             <button class="primary-button" type="submit">Save Vocabulary</button>
           </div>
-
         </form>
       </section>
 
@@ -195,7 +181,6 @@
             <span aria-hidden="true">⌕</span>
             <input id="vocabulary-search-input" type="search" placeholder="Search words, meanings, examples or IPA..." autocomplete="off">
           </label>
-
           <select id="vocabulary-search-language" aria-label="按语言筛选">
             <option value="all">All Languages</option>
             <option value="english">English</option>
@@ -205,10 +190,20 @@
           </select>
         </div>
 
+        <!-- 首字母导航：由 JS 根据词库内容自动生成可用字母 -->
+        <nav class="alphabet-filter" aria-label="按英文首字母筛选">
+          <div class="alphabet-filter-heading">
+            <span>初始字母</span>
+            <span class="alphabet-filter-hint">按英文表达首字母排列</span>
+          </div>
+          <div id="vocabulary-alphabet-filter" class="alphabet-filter-list">
+            <button class="alphabet-button is-active" type="button" data-letter="all" aria-pressed="true">全部</button>
+          </div>
+        </nav>
+
         <!-- JS 会在这里自动插入云同步、备份工具栏与词条卡片 -->
         <div id="vocabulary-list" class="vocabulary-list"></div>
       </section>
-
     </main>
 
     <footer class="vocabulary-footer">

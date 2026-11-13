@@ -932,3 +932,87 @@ body.vocabulary-light .primary-button {
     gap: 6px;
   }
 }
+
+/* ---------- 13. A-Z 首字母导航 ---------- */
+.alphabet-filter {
+  margin: -4px 0 22px;
+  padding: 13px 14px 14px;
+  border: 1px solid var(--border-soft);
+  border-radius: 11px;
+  background: var(--surface);
+}
+
+.alphabet-filter-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 11px;
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.alphabet-filter-hint {
+  color: var(--text-muted);
+  font-size: 9px;
+  font-weight: 400;
+}
+
+.alphabet-filter-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.alphabet-button {
+  display: inline-grid;
+  place-items: center;
+  min-width: 29px;
+  height: 29px;
+  padding: 0 7px;
+  border: 1px solid var(--border-soft);
+  border-radius: 7px;
+  background: var(--surface-soft);
+  color: var(--text-secondary);
+  font-size: 10px;
+  font-weight: 650;
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease, opacity 0.18s ease;
+}
+
+.alphabet-button:hover:not(:disabled) {
+  border-color: var(--border);
+  color: var(--neon);
+}
+
+.alphabet-button.is-active {
+  border-color: var(--neon);
+  background: var(--neon);
+  color: #11170a;
+}
+
+.alphabet-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.28;
+}
+
+.alphabet-button:focus-visible {
+  outline: 2px solid var(--neon);
+  outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+  .alphabet-filter {
+    padding: 11px;
+  }
+
+  .alphabet-filter-list {
+    gap: 5px;
+  }
+
+  .alphabet-button {
+    min-width: 27px;
+    height: 28px;
+    padding: 0 6px;
+  }
+}

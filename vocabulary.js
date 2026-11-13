@@ -1,7 +1,7 @@
 /* ==================================================
    Language Lab · Vocabulary
    四语词汇库：动态录入、本地缓存、GitHub 云端同步、
-   搜索、主题管理、JSON 备份与可选 IPA 音标
+   搜索、首字母导航、主题管理与 JSON 文件备份
    ================================================== */
 
 // ==================================================
@@ -32,6 +32,10 @@ const totalCount = document.getElementById("total-count");
 const vocabularySearchInput = document.getElementById("vocabulary-search-input");
 const vocabularySearchLanguage = document.getElementById("vocabulary-search-language");
 const vocabularySearchStatus = document.getElementById("vocabulary-search-status");
+const vocabularyAlphabetFilter = document.getElementById("vocabulary-alphabet-filter");
+
+// 当前选中的首字母；all 表示显示全部词条。
+let selectedAlphabet = "all";
 
 const vocabularyThemeToggle = document.getElementById("vocabularyThemeToggle");
 const vocabularyThemeIcon = document.getElementById("vocabularyThemeIcon");
@@ -50,10 +54,17 @@ function initializeExpressionFields() {
   Object.entries(expressionContainers).forEach(([language, container]) => {
     if (!container) return;
 
-    const existingItems = container.querySelectorAll(".dynamic-item");
-    if (existingItems.length > 0) return;
+    const existingItems = Array.from(container.querySelectorAll(".dynamic-item"));
 
-    const oldInputs = Array.from(container.querySelectorAll("input"));
+    // 已经包含 IPA 控件时不重复创建；旧版 HTML 则在这里补齐。
+    if (existingItems.length > 0 && existingItems.every(item => item.querySelector(".ipa-field"))) {
+      return;
+    }
+
+    const oldInputs = existingItems.length
+      ? existingItems.map(item => item.querySelector(".expression-input, input")).filter(Boolean)
+      : Array.from(container.querySelectorAll("input"));
+
     const rows = oldInputs.map((input, index) =>
       createExpressionField(language, input.value || "", "", index > 0)
     );
@@ -1259,7 +1270,6 @@ function appendLanguageGrid(card, entry) {
     const expressions = Array.isArray(entry[language.key])
       ? entry[language.key]
       : [];
-
     const ipaValues = Array.isArray(entry.pronunciations?.[language.key])
       ? entry.pronunciations[language.key]
       : [];
@@ -1277,7 +1287,6 @@ function appendLanguageGrid(card, entry) {
         );
 
         const ipa = String(ipaValues[index] || "").trim();
-
         if (ipa) {
           item.appendChild(
             createTextElement("p", "entry-expression-ipa", ipa)
@@ -1288,11 +1297,8 @@ function appendLanguageGrid(card, entry) {
       });
 
       column.appendChild(expressionList);
-
     } else {
-      column.appendChild(
-        createTextElement("p", "entry-content", "—")
-      );
+      column.appendChild(createTextElement("p", "entry-content", "—"));
     }
 
     grid.appendChild(column);
@@ -1435,7 +1441,6 @@ function createVocabularyCard(entry) {
 
   deleteButton.addEventListener("click", () => {
     const confirmed = confirm(`确定删除「${entry.concept}」吗？`);
-
     if (!confirmed) return;
 
     const previousData = [...vocabularyData];
@@ -1528,32 +1533,36 @@ function getEntrySearchText(entry, language) {
         contents.push(example.text, example.translation);
       });
     });
+  }
 
-  } else if (language === "english") {
+  else if (language === "english") {
     contents.push(...(entry.english || []));
     contents.push(...(entry.pronunciations?.english || []));
 
     (entry.examples?.english || []).forEach(example => {
       contents.push(example.text);
     });
+  }
 
-  } else if (language === "french") {
+  else if (language === "french") {
     contents.push(...(entry.french || []));
     contents.push(...(entry.pronunciations?.french || []));
 
     (entry.examples?.french || []).forEach(example => {
       contents.push(example.text);
     });
+  }
 
-  } else if (language === "russian") {
+  else if (language === "russian") {
     contents.push(...(entry.russian || []));
     contents.push(...(entry.pronunciations?.russian || []));
 
     (entry.examples?.russian || []).forEach(example => {
       contents.push(example.text);
     });
+  }
 
-  } else if (language === "chinese") {
+  else if (language === "chinese") {
     contents.push(entry.chinese);
 
     ["english", "french", "russian"].forEach(key => {
@@ -1568,7 +1577,60 @@ function getEntrySearchText(entry, language) {
   );
 }
 
-// 执行词汇分类与搜索
+// 获取词条用于排序和首字母筛选的主表达。
+// 优先使用第一条英文表达；没有英文表达时，使用概念名称。
+function getEntryAlphabetSource(entry) {
+  const englishExpressions = Array.isArray(entry.english) ? entry.english : [];
+  const firstEnglish = englishExpressions.find(value => String(value || "").trim());
+  return String(firstEnglish || entry.concept || "").trim();
+}
+
+// 将表达转换为 A-Z 首字母；非英文字母归入 #。
+function getEntryInitial(entry) {
+  const source = getEntryAlphabetSource(entry);
+  const normalized = source.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const match = normalized.match(/[A-Za-z]/);
+  return match ? match[0].toUpperCase() : "#";
+}
+
+// 生成 A-Z 导航，并根据当前词库内容禁用没有词条的字母。
+function renderAlphabetFilter() {
+  if (!vocabularyAlphabetFilter) return;
+
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  const counts = new Map();
+
+  vocabularyData.forEach(entry => {
+    const initial = getEntryInitial(entry);
+    counts.set(initial, (counts.get(initial) || 0) + 1);
+  });
+
+  const fragment = document.createDocumentFragment();
+  const allButton = document.createElement("button");
+  allButton.type = "button";
+  allButton.className = `alphabet-button${selectedAlphabet === "all" ? " is-active" : ""}`;
+  allButton.dataset.letter = "all";
+  allButton.textContent = "全部";
+  allButton.setAttribute("aria-pressed", String(selectedAlphabet === "all"));
+  fragment.appendChild(allButton);
+
+  letters.forEach(letter => {
+    const count = counts.get(letter) || 0;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `alphabet-button${selectedAlphabet === letter ? " is-active" : ""}`;
+    button.dataset.letter = letter;
+    button.textContent = letter;
+    button.disabled = count === 0;
+    button.title = count ? `${letter} · ${count} 条词汇` : `${letter} · 暂无词汇`;
+    button.setAttribute("aria-pressed", String(selectedAlphabet === letter));
+    fragment.appendChild(button);
+  });
+
+  vocabularyAlphabetFilter.replaceChildren(fragment);
+}
+
+// 执行语言分类、关键词搜索与首字母筛选。
 function filterVocabulary() {
   const keyword = normalizeSearchText(
     vocabularySearchInput?.value
@@ -1578,18 +1640,37 @@ function filterVocabulary() {
 
   return vocabularyData.filter(entry => {
 
-    // 第一步：检查是否属于当前语言分类
+    // 第一步：检查是否属于当前语言分类。
     if (!hasLanguageContent(entry, language)) {
       return false;
     }
 
-    // 第二步：没有关键词时，直接显示该语言的全部词条
+    // 第二步：检查首字母。
+    if (selectedAlphabet !== "all" && getEntryInitial(entry) !== selectedAlphabet) {
+      return false;
+    }
+
+    // 第三步：检查关键词；没有关键词时保留当前筛选结果。
     if (!keyword) {
       return true;
     }
 
-    // 第三步：根据关键词搜索
     return getEntrySearchText(entry, language).includes(keyword);
+  });
+}
+
+// 词条统一按主表达的字母顺序排列，避免按录入时间杂乱显示。
+function sortVocabularyAlphabetically(entries) {
+  const collator = new Intl.Collator("en", {
+    sensitivity: "base",
+    numeric: true,
+    ignorePunctuation: true
+  });
+
+  return [...entries].sort((a, b) => {
+    const first = collator.compare(getEntryAlphabetSource(a), getEntryAlphabetSource(b));
+    if (first !== 0) return first;
+    return collator.compare(a.concept || "", b.concept || "");
   });
 }
 
@@ -1599,13 +1680,15 @@ function filterVocabulary() {
 
 function renderVocabulary() {
   totalCount.textContent = vocabularyData.length;
+  renderAlphabetFilter();
 
-  const filteredData = filterVocabulary();
+  const filteredData = sortVocabularyAlphabetically(filterVocabulary());
 
   if (vocabularySearchStatus) {
     const hasSearchCondition =
       normalizeSearchText(vocabularySearchInput?.value) !== "" ||
-      (vocabularySearchLanguage?.value || "all") !== "all";
+      (vocabularySearchLanguage?.value || "all") !== "all" ||
+      selectedAlphabet !== "all";
 
     vocabularySearchStatus.textContent = hasSearchCondition
       ? `找到 ${filteredData.length} / ${vocabularyData.length} 条词汇`
@@ -1642,6 +1725,17 @@ function renderVocabulary() {
     vocabularyList.appendChild(
       createVocabularyCard(entry)
     );
+  });
+}
+
+// 点击首字母按钮时更新筛选状态。
+if (vocabularyAlphabetFilter) {
+  vocabularyAlphabetFilter.addEventListener("click", event => {
+    const button = event.target.closest("button[data-letter]");
+    if (!button || button.disabled) return;
+
+    selectedAlphabet = button.dataset.letter || "all";
+    renderVocabulary();
   });
 }
 
