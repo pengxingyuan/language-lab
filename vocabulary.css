@@ -1094,3 +1094,97 @@ body.vocabulary-page.vocabulary-light .ipa-field {
     padding: 0 6px;
   }
 }
+
+/* ---------- 17. 单词与例句语音朗读 ---------- */
+
+/* 表达文字与播放按钮横向排列 */
+.entry-expression-row,
+.example-speech-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+
+/* 文字占据剩余空间 */
+.entry-expression-row .entry-expression-text,
+.example-speech-row .example-text {
+  flex: 1;
+  min-width: 0;
+}
+
+/* 语音播放按钮 */
+.speech-button {
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 27px;
+  width: 27px;
+  height: 27px;
+  margin-top: -3px;
+  padding: 0;
+  border: 1px solid var(--border-soft);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* 鼠标悬停 */
+.speech-button:hover {
+  border-color: var(--border);
+  background: var(--neon-soft);
+  color: var(--neon);
+  transform: translateY(-1px);
+}
+
+/* 键盘焦点 */
+.speech-button:focus-visible {
+  outline: 2px solid var(--neon);
+  outline-offset: 2px;
+}
+
+/* 正在播放 */
+.speech-button.is-speaking {
+  border-color: var(--neon);
+  background: var(--neon-soft);
+  color: var(--neon);
+  animation: speech-pulse 1.2s ease-in-out infinite;
+}
+
+/* 播放状态轻微呼吸效果 */
+@keyframes speech-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(182, 255, 0, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 0 4px rgba(182, 255, 0, 0.09);
+  }
+}
+
+/* 浅色主题适配 */
+body.vocabulary-page.vocabulary-light .speech-button {
+  color: var(--text-muted);
+}
+
+body.vocabulary-page.vocabulary-light .speech-button:hover,
+body.vocabulary-page.vocabulary-light .speech-button.is-speaking {
+  color: var(--neon);
+}
+
+/* 减少动态效果的系统偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .speech-button,
+  .speech-button.is-speaking {
+    animation: none;
+    transition: none;
+  }
+}

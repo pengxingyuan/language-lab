@@ -1,7 +1,8 @@
+
 /* ==================================================
    Language Lab · Vocabulary
    四语词汇库：本地保存、GitHub 云同步、IPA 音标、
-   搜索筛选、A-Z 导航、主题管理与 JSON 备份
+   语音朗读、搜索筛选、A-Z 导航、主题管理与 JSON 备份
    ================================================== */
 
 // ==================================================
@@ -14,10 +15,18 @@ const SYNC_API = "https://sync.language.pengxingyuan.top";
 const SYNC_DELAY = 800;
 
 const LANGUAGES = ["english", "french", "russian"];
+
 const LANGUAGE_TITLES = {
   english: "ENGLISH",
   french: "FRANÇAIS",
   russian: "РУССКИЙ"
+};
+
+// 语音朗读使用的语言代码
+const SPEECH_LANGUAGES = {
+  english: "en-US",
+  french: "fr-FR",
+  russian: "ru-RU"
 };
 
 // ==================================================
@@ -74,6 +83,15 @@ let editingEntryReference = null;
 
 let syncStatusElement = null;
 let alphabetSelection = "all";
+
+// 当前正在播放的语音及按钮
+let activeSpeechButton = null;
+let activeUtterance = null;
+
+// 浏览器是否支持原生语音朗读
+const speechSupported =
+  "speechSynthesis" in window &&
+  "SpeechSynthesisUtterance" in window;
 
 // ==================================================
 // 四、通用工具
@@ -140,7 +158,176 @@ function normalizeEntry(entry) {
 }
 
 // ==================================================
-// 五、本地数据管理
+// 五、语音朗读引擎
+// ==================================================
+
+// 恢复播放按钮状态
+function resetSpeechButton() {
+  if (activeSpeechButton) {
+    activeSpeechButton.classList.remove("is-speaking");
+
+    activeSpeechButton.setAttribute(
+      "aria-label",
+      activeSpeechButton.dataset.defaultLabel || "朗读"
+    );
+
+    activeSpeechButton.title =
+      activeSpeechButton.dataset.defaultTitle || "朗读";
+
+    activeSpeechButton = null;
+  }
+
+  activeUtterance = null;
+}
+
+// 停止当前语音
+function stopSpeech() {
+  if (speechSupported) {
+    window.speechSynthesis.cancel();
+  }
+
+  resetSpeechButton();
+}
+
+// 获取对应语言的可用语音
+function findSpeechVoice(language) {
+  if (!speechSupported) return null;
+
+  const targetLanguage = SPEECH_LANGUAGES[language] || "en-US";
+  const prefix = targetLanguage.split("-")[0].toLowerCase();
+
+  const voices = window.speechSynthesis.getVoices();
+
+  // 优先选择完全匹配的语言
+  return (
+    voices.find(voice =>
+      voice.lang.toLowerCase() === targetLanguage.toLowerCase()
+    ) ||
+    // 找不到完全匹配时，选择同语言的其他地区语音
+    voices.find(voice =>
+      voice.lang.toLowerCase().startsWith(prefix)
+    ) ||
+    null
+  );
+}
+
+// 创建语音播放按钮
+function createSpeechButton(content, language, type = "word") {
+  const button = document.createElement("button");
+
+  const isExample = type === "example";
+  const defaultLabel = isExample ? "朗读例句" : "朗读单词";
+  const defaultTitle = isExample ? "Play example" : "Play pronunciation";
+
+  button.type = "button";
+  button.className = "speech-button";
+  button.textContent = "◖))";
+
+  button.setAttribute("aria-label", defaultLabel);
+  button.title = defaultTitle;
+
+  // 保存默认提示，播放结束后恢复
+  button.dataset.defaultLabel = defaultLabel;
+  button.dataset.defaultTitle = defaultTitle;
+
+  button.addEventListener("click", () => {
+    const text = safeText(content);
+
+    if (!text) return;
+
+    if (!speechSupported) {
+      alert("当前浏览器不支持语音朗读，请尝试使用最新版 Chrome、Edge 或 Safari。");
+      return;
+    }
+
+    // 再次点击当前播放按钮：停止播放
+    if (
+      activeSpeechButton === button &&
+      (window.speechSynthesis.speaking ||
+        window.speechSynthesis.pending)
+    ) {
+      stopSpeech();
+      return;
+    }
+
+    // 播放新内容前，先停止之前的语音
+    stopSpeech();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+
+    utterance.lang = SPEECH_LANGUAGES[language] || "en-US";
+    utterance.rate = 1;
+    utterance.pitch = 1;
+    utterance.volume = 1;
+
+    // 尽可能选择系统中对应语言的语音
+    const voice = findSpeechVoice(language);
+
+    if (voice) {
+      utterance.voice = voice;
+    }
+
+    utterance.onstart = () => {
+      activeSpeechButton = button;
+      activeUtterance = utterance;
+
+      button.classList.add("is-speaking");
+      button.setAttribute("aria-label", "停止播放");
+      button.title = "Stop playback";
+    };
+
+    utterance.onend = () => {
+      if (activeUtterance === utterance) {
+        resetSpeechButton();
+      }
+    };
+
+    utterance.onerror = (event) => {
+      if (activeUtterance === utterance) {
+        resetSpeechButton();
+      }
+
+      // 用户主动停止不视为播放错误
+      if (
+        event.error !== "canceled" &&
+        event.error !== "interrupted"
+      ) {
+        console.error("语音播放失败：", event.error);
+      }
+    };
+
+    activeSpeechButton = button;
+    activeUtterance = utterance;
+
+    try {
+      window.speechSynthesis.speak(utterance);
+    } catch (error) {
+      console.error("无法启动语音朗读：", error);
+      resetSpeechButton();
+      alert("语音播放暂时不可用，请稍后重试。");
+    }
+  });
+
+  return button;
+}
+
+// 浏览器语音列表可能异步加载
+if (speechSupported) {
+  window.speechSynthesis.getVoices();
+
+  window.speechSynthesis.addEventListener(
+    "voiceschanged",
+    () => {
+      window.speechSynthesis.getVoices();
+    }
+  );
+
+  // 离开页面时停止朗读
+  window.addEventListener("pagehide", stopSpeech);
+}
+
+// ==================================================
+// 六、本地数据管理
 // ==================================================
 
 function loadVocabulary() {
@@ -190,7 +377,7 @@ function saveVocabulary() {
 }
 
 // ==================================================
-// 六、云同步状态显示
+// 七、云同步状态显示
 // ==================================================
 
 function setSyncStatus(message, state = "normal") {
@@ -201,7 +388,7 @@ function setSyncStatus(message, state = "normal") {
 }
 
 // ==================================================
-// 七、创建 GitHub 同步工具栏
+// 八、创建 GitHub 同步工具栏
 // ==================================================
 
 function createSyncControls() {
@@ -298,7 +485,7 @@ function createSyncControls() {
 const syncControls = createSyncControls();
 
 // ==================================================
-// 八、GitHub API 请求
+// 九、GitHub API 请求
 // ==================================================
 
 async function checkGitHubAuth() {
@@ -354,7 +541,7 @@ async function uploadCloudVocabulary(data, sha) {
 }
 
 // ==================================================
-// 九、自动同步管理
+// 十、自动同步管理
 // ==================================================
 
 function scheduleCloudSync() {
@@ -412,7 +599,7 @@ function syncVocabulary() {
 }
 
 // ==================================================
-// 十、初始化云端同步
+// 十一、初始化云端同步
 // ==================================================
 
 async function initializeCloudSync() {
@@ -516,7 +703,7 @@ async function initializeCloudSync() {
 }
 
 // ==================================================
-// 十一、主题管理
+// 十二、主题管理
 // ==================================================
 
 function setVocabularyTheme(theme) {
@@ -568,7 +755,7 @@ vocabularyThemeToggle?.addEventListener("click", () => {
 });
 
 // ==================================================
-// 十二、JSON 文件备份
+// 十三、JSON 文件备份
 // ==================================================
 
 function exportVocabulary() {
@@ -682,7 +869,7 @@ function importVocabulary(file) {
 }
 
 // ==================================================
-// 十三、创建备份工具栏
+// 十四、创建备份工具栏
 // ==================================================
 
 function createBackupControls() {
@@ -749,7 +936,7 @@ function createBackupControls() {
 createBackupControls();
 
 // ==================================================
-// 十四、表单显示与隐藏
+// 十五、表单显示与隐藏
 // ==================================================
 
 function openEntryForm() {
@@ -776,7 +963,7 @@ cancelEntryButton?.addEventListener("click", () => {
 });
 
 // ==================================================
-// 十五、动态表达与 IPA 输入
+// 十六、动态表达与 IPA 输入
 // ==================================================
 
 // 创建单个表达输入项
@@ -900,7 +1087,7 @@ document.querySelectorAll(".add-field-button").forEach(button => {
 });
 
 // ==================================================
-// 十六、收集表单数据
+// 十七、收集表单数据
 // ==================================================
 
 function collectExpressions(container) {
@@ -918,7 +1105,6 @@ function collectExpressions(container) {
     const expression = safeText(input?.value);
     const pronunciation = safeText(ipaInput?.value);
 
-    // 只保存有表达内容的项目
     if (expression) {
       expressions.push(expression);
       pronunciations.push(pronunciation);
@@ -978,7 +1164,7 @@ function collectFormData() {
 }
 
 // ==================================================
-// 十七、重置表单
+// 十八、重置表单
 // ==================================================
 
 function resetForm() {
@@ -1019,7 +1205,7 @@ function resetForm() {
 }
 
 // ==================================================
-// 十八、编辑词条
+// 十九、编辑词条
 // ==================================================
 
 function fillEditForm(entry) {
@@ -1028,7 +1214,6 @@ function fillEditForm(entry) {
     return;
   }
 
-  // 旧词条若缺少 ID，先补充分配
   if (!entry.id) {
     entry.id = createId();
 
@@ -1128,7 +1313,7 @@ function fillEditForm(entry) {
 }
 
 // ==================================================
-// 十九、保存词汇
+// 二十、保存词汇
 // ==================================================
 
 vocabularyForm?.addEventListener("submit", event => {
@@ -1179,7 +1364,7 @@ vocabularyForm?.addEventListener("submit", event => {
 });
 
 // ==================================================
-// 二十、词条卡片展示
+// 二十一、词条卡片展示
 // ==================================================
 
 function appendLanguageGrid(card, entry) {
@@ -1209,10 +1394,21 @@ function appendLanguageGrid(card, entry) {
         const item = document.createElement("div");
         item.className = "entry-expression-item";
 
-        item.appendChild(
+        // 表达文字与独立朗读按钮
+        const expressionRow = document.createElement("div");
+        expressionRow.className = "entry-expression-row";
+
+        expressionRow.appendChild(
           createTextElement("p", "entry-expression-text", expression)
         );
 
+        expressionRow.appendChild(
+          createSpeechButton(expression, language, "word")
+        );
+
+        item.appendChild(expressionRow);
+
+        // IPA 只展示，不参与语音朗读
         if (pronunciations[index]) {
           item.appendChild(
             createTextElement(
@@ -1234,7 +1430,7 @@ function appendLanguageGrid(card, entry) {
   card.appendChild(grid);
 }
 
-function appendExampleSection(card, title, examples) {
+function appendExampleSection(card, title, examples, language) {
   if (!examples || examples.length === 0) return;
 
   const section = document.createElement("div");
@@ -1248,9 +1444,21 @@ function appendExampleSection(card, title, examples) {
     const item = document.createElement("div");
     item.className = "entry-example";
 
-    item.appendChild(
+    // 例句文字与独立朗读按钮
+    const exampleRow = document.createElement("div");
+    exampleRow.className = "example-speech-row";
+
+    exampleRow.appendChild(
       createTextElement("p", "example-text", example.text)
     );
+
+    if (example.text) {
+      exampleRow.appendChild(
+        createSpeechButton(example.text, language, "example")
+      );
+    }
+
+    item.appendChild(exampleRow);
 
     if (example.translation) {
       item.appendChild(
@@ -1274,7 +1482,6 @@ function deleteVocabularyEntry(entry) {
 
   const previousData = [...vocabularyData];
 
-  // 优先按对象引用删除，兼容旧词条没有 ID 的情况
   const index = vocabularyData.indexOf(entry);
 
   if (index === -1) return;
@@ -1335,19 +1542,22 @@ function createVocabularyCard(rawEntry) {
   appendExampleSection(
     examples,
     "ENGLISH EXAMPLES",
-    entry.examples.english
+    entry.examples.english,
+    "english"
   );
 
   appendExampleSection(
     examples,
     "FRANÇAIS EXAMPLES",
-    entry.examples.french
+    entry.examples.french,
+    "french"
   );
 
   appendExampleSection(
     examples,
     "РУССКИЙ EXAMPLES",
-    entry.examples.russian
+    entry.examples.russian,
+    "russian"
   );
 
   if (examples.children.length > 0) {
@@ -1397,10 +1607,9 @@ function createVocabularyCard(rawEntry) {
 }
 
 // ==================================================
-// 二十一、搜索与语言分类
+// 二十二、搜索与语言分类
 // ==================================================
 
-// 统一搜索文本：忽略大小写与拉丁字母重音差异
 function normalizeSearchText(value) {
   return String(value ?? "")
     .normalize("NFD")
@@ -1437,7 +1646,6 @@ function hasLanguageContent(entry, language) {
   return true;
 }
 
-// 获取指定语言的搜索内容
 function getEntrySearchText(entry, language) {
   const contents = [entry.concept];
 
@@ -1474,7 +1682,6 @@ function getEntrySearchText(entry, language) {
   return normalizeSearchText(contents.filter(Boolean).join(" "));
 }
 
-// 获取英文表达的首字母
 function getEntryInitial(entry) {
   const expressions = safeArray(entry.english);
 
@@ -1493,7 +1700,6 @@ function getEntryInitial(entry) {
   return "";
 }
 
-// 当前语言、搜索词和字母共同决定显示结果
 function filterVocabulary() {
   const keyword = normalizeSearchText(vocabularySearchInput?.value);
   const language = vocabularySearchLanguage?.value || "all";
@@ -1524,7 +1730,7 @@ function filterVocabulary() {
 }
 
 // ==================================================
-// 二十二、A-Z 首字母导航
+// 二十三、A-Z 首字母导航
 // ==================================================
 
 function renderAlphabetFilter() {
@@ -1602,7 +1808,7 @@ function renderAlphabetFilter() {
 }
 
 // ==================================================
-// 二十三、搜索清空按钮
+// 二十四、搜索清空按钮
 // ==================================================
 
 function createSearchClearButton() {
@@ -1645,7 +1851,7 @@ function updateSearchClearButton() {
 }
 
 // ==================================================
-// 二十四、渲染词汇列表
+// 二十五、渲染词汇列表
 // ==================================================
 
 function renderVocabulary() {
@@ -1704,7 +1910,7 @@ function renderVocabulary() {
 }
 
 // ==================================================
-// 二十五、搜索事件
+// 二十六、搜索事件
 // ==================================================
 
 vocabularySearchInput?.addEventListener("input", () => {
@@ -1712,12 +1918,11 @@ vocabularySearchInput?.addEventListener("input", () => {
 });
 
 vocabularySearchLanguage?.addEventListener("change", () => {
-  // 切换语言分类时保留搜索关键词
   renderVocabulary();
 });
 
 // ==================================================
-// 二十六、URL 语言分类初始化
+// 二十七、URL 语言分类初始化
 // ==================================================
 
 function initializeLanguageFilter() {
@@ -1742,7 +1947,7 @@ function initializeLanguageFilter() {
 }
 
 // ==================================================
-// 二十七、页面初始化
+// 二十八、页面初始化
 // ==================================================
 
 loadVocabularyTheme();
@@ -1757,4 +1962,3 @@ renderVocabulary();
 
 // 检查 GitHub 登录状态并读取云端数据
 initializeCloudSync();
-// 读取本地缓存数据
