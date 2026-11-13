@@ -1,377 +1,164 @@
-/* =========================================================
+/* ==================================================
    Language Lab · Vocabulary
+   四语词汇库：本地保存、GitHub 云同步、IPA 音标、
+   搜索筛选、A-Z 导航、主题管理与 JSON 备份
+   ================================================== */
 
-   四语词汇库：
-   1. 本地数据保存
-   2. Cloudflare Worker / GitHub 云同步
-   3. JSON 文件导入与导出
-   4. 动态表达与 IPA 音标
-   5. 多语言例句
-   6. 词条新增、编辑、删除
-   7. 搜索与语言筛选
-   8. A-Z 首字母导航
-   9. 深色与浅色主题
+// ==================================================
+// 一、基础配置
+// ==================================================
 
-   数据结构保持兼容：
-   concept、chinese、english、french、russian、
-   pronunciations、examples、notes、date、id
-   ========================================================= */
-
-
-/* =========================================================
-   一、基础配置
-   ========================================================= */
-
-// 本地词汇数据存储名称
 const STORAGE_KEY = "languageLab_vocabulary";
-
-// 主题设置存储名称
 const THEME_STORAGE_KEY = "languageLab_vocabulary_theme";
-
-// Cloudflare Worker API 地址
 const SYNC_API = "https://sync.language.pengxingyuan.top";
-
-// 自动同步延迟，避免连续输入时频繁请求
 const SYNC_DELAY = 800;
 
-
-/* =========================================================
-   二、语言配置
-   ========================================================= */
-
-// 词汇库支持的语言
 const LANGUAGES = ["english", "french", "russian"];
-
-// 语言显示名称
-const LANGUAGE_LABELS = {
-  english: "English",
-  french: "Français",
-  russian: "Русский"
+const LANGUAGE_TITLES = {
+  english: "ENGLISH",
+  french: "FRANÇAIS",
+  russian: "РУССКИЙ"
 };
 
-// 语言对应的表达容器
-const WORD_CONTAINER_IDS = {
-  english: "english-words",
-  french: "french-words",
-  russian: "russian-words"
+// ==================================================
+// 二、获取页面元素
+// ==================================================
+
+const $ = (selector) => document.querySelector(selector);
+const byId = (id) => document.getElementById(id);
+
+const addEntryButton = byId("add-entry-button");
+const cancelEntryButton = byId("cancel-entry-button");
+const entryFormPanel = byId("entry-form-panel");
+const vocabularyForm = byId("vocabulary-form");
+const vocabularyList = byId("vocabulary-list");
+const totalCount = byId("total-count");
+
+const vocabularySearchInput = byId("vocabulary-search-input");
+const vocabularySearchLanguage = byId("vocabulary-search-language");
+const vocabularySearchStatus = byId("vocabulary-search-status");
+const alphabetFilter = byId("vocabulary-alphabet-filter");
+
+const vocabularyThemeToggle = byId("vocabularyThemeToggle");
+const vocabularyThemeIcon = byId("vocabularyThemeIcon");
+const vocabularyThemeText = byId("vocabularyThemeText");
+
+const expressionContainers = {
+  english: byId("english-words"),
+  french: byId("french-words"),
+  russian: byId("russian-words")
 };
 
-// 语言对应的例句容器
-const EXAMPLE_CONTAINER_IDS = {
-  english: "english-examples",
-  french: "french-examples",
-  russian: "russian-examples"
+const exampleContainers = {
+  english: byId("english-examples"),
+  french: byId("french-examples"),
+  russian: byId("russian-examples")
 };
 
-// 语言对应的例句字段
-const EXAMPLE_FIELD_NAMES = {
-  english: {
-    text: "english-example",
-    translation: "english-translation"
-  },
-  french: {
-    text: "french-example",
-    translation: "french-translation"
-  },
-  russian: {
-    text: "russian-example",
-    translation: "russian-translation"
-  }
-};
+// ==================================================
+// 三、页面状态
+// ==================================================
 
+let isAuthenticated = false;
+let isCloudReady = false;
+let hasSyncConflict = false;
 
-/* =========================================================
-   三、页面元素
-   ========================================================= */
-
-// 表单元素
-const vocabularyForm = document.getElementById("vocabulary-form");
-const entryFormPanel = document.getElementById("entry-form-panel");
-
-const addEntryButton = document.getElementById("add-entry-button");
-const cancelEntryButton = document.getElementById("cancel-entry-button");
-
-const conceptInput = document.getElementById("concept");
-const chineseInput = document.getElementById("chinese-meaning");
-const notesInput = document.getElementById("personal-notes");
-
-// 列表元素
-const vocabularyList = document.getElementById("vocabulary-list");
-const totalCount = document.getElementById("total-count");
-const searchStatus = document.getElementById("vocabulary-search-status");
-
-// 搜索元素
-const searchInput = document.getElementById("vocabulary-search-input");
-const languageFilter = document.getElementById("vocabulary-search-language");
-
-// 首字母导航
-const alphabetFilter = document.getElementById("vocabulary-alphabet-filter");
-
-// 主题按钮
-const themeToggle = document.getElementById("vocabularyThemeToggle");
-const themeIcon = document.getElementById("vocabularyThemeIcon");
-const themeText = document.getElementById("vocabularyThemeText");
-
-
-/* =========================================================
-   四、运行状态
-   ========================================================= */
-
-// 当前词汇数据
-let vocabularyData = [];
-
-// 当前正在编辑的词条 ID
-let editingEntryId = null;
-
-// 当前首字母筛选条件
-let activeAlphabet = "all";
-
-// 云端数据版本号
-let cloudRevision = null;
-
-// 自动同步定时器
+let cloudSHA = null;
 let syncTimer = null;
+let syncPromise = Promise.resolve();
+let localRevision = 0;
 
-// 同步任务队列，避免并发写入
-let syncQueue = Promise.resolve();
+let vocabularyData = loadVocabulary();
+let editingEntryId = null;
+let editingEntryReference = null;
 
-// 当前同步状态
-let isSyncing = false;
+let syncStatusElement = null;
+let alphabetSelection = "all";
 
-// 是否正在初始化云同步
-let cloudInitialized = false;
+// ==================================================
+// 四、通用工具
+// ==================================================
 
-// 是否已经登录 GitHub
-let isCloudAuthenticated = false;
+function createId() {
+  return Date.now().toString() +
+    Math.random().toString(36).slice(2, 9);
+}
 
-// 防止云端初始化覆盖本地未同步数据
-let hasLocalData = false;
+function safeArray(value) {
+  return Array.isArray(value) ? value : [];
+}
 
+function safeText(value) {
+  return String(value ?? "").trim();
+}
 
-/* =========================================================
-   五、通用工具函数
-   ========================================================= */
+function createTextElement(tagName, className, content) {
+  const element = document.createElement(tagName);
 
-// 生成唯一 ID
-function generateId() {
-  if (window.crypto && typeof window.crypto.randomUUID === "function") {
-    return window.crypto.randomUUID();
+  if (className) {
+    element.className = className;
   }
 
-  return `entry-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  element.textContent = content ?? "";
+  return element;
 }
 
-
-// 安全转换为字符串
-function safeString(value) {
-  if (value === null || value === undefined) {
-    return "";
-  }
-
-  return String(value);
-}
-
-
-// HTML 转义，防止用户输入被当作 HTML 执行
-function escapeHTML(value) {
-  return safeString(value).replace(/[&<>"']/g, character => {
-    const entities = {
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    };
-
-    return entities[character];
-  });
-}
-
-
-// 获取当前日期
-function getCurrentDate() {
-  return new Date().toISOString().slice(0, 10);
-}
-
-
-// 安全解析 JSON
-function safeJSONParse(value, fallback = null) {
-  try {
-    return JSON.parse(value);
-  } catch (error) {
-    console.error("JSON 解析失败：", error);
-    return fallback;
-  }
-}
-
-
-// 生成防重复 ID
-function ensureEntryIds(data) {
-  const usedIds = new Set();
-
-  return data.map(entry => {
-    let id = safeString(entry.id).trim();
-
-    if (!id || usedIds.has(id)) {
-      id = generateId();
-    }
-
-    usedIds.add(id);
-
-    return {
-      ...entry,
-      id
-    };
-  });
-}
-
-
-/* =========================================================
-   六、数据标准化与旧数据兼容
-   ========================================================= */
-
-// 标准化表达数组
-function normalizeExpressionArray(value) {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-
-  return value
-    .map(item => safeString(item).trim())
-    .filter(Boolean);
-}
-
-
-// 标准化 IPA 数据
-function normalizePronunciations(value) {
-  const result = {
-    english: [],
-    french: [],
-    russian: []
-  };
-
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    return result;
-  }
-
-  LANGUAGES.forEach(language => {
-    const source = value[language];
-
-    if (Array.isArray(source)) {
-      result[language] = source.map(item => safeString(item));
-    }
-  });
-
-  return result;
-}
-
-
-// 标准化例句数据
-function normalizeExamples(value) {
-  const result = {
-    english: [],
-    french: [],
-    russian: []
-  };
-
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    return result;
-  }
-
-  LANGUAGES.forEach(language => {
-    const source = value[language];
-
-    if (!Array.isArray(source)) {
-      return;
-    }
-
-    result[language] = source
-      .filter(item => item && typeof item === "object")
-      .map(item => ({
-        text: safeString(item.text),
-        translation: safeString(item.translation)
-      }))
-      .filter(item => item.text.trim() || item.translation.trim());
-  });
-
-  return result;
-}
-
-
-// 标准化单条词汇
+// 兼容旧词条，确保表达、例句和音标数据结构可正常读取
 function normalizeEntry(entry) {
-  if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
-    return null;
-  }
-
-  return {
+  const result = {
     ...entry,
-
-    id: safeString(entry.id).trim() || generateId(),
-
-    concept: safeString(entry.concept),
-    chinese: safeString(entry.chinese),
-
-    english: normalizeExpressionArray(entry.english),
-    french: normalizeExpressionArray(entry.french),
-    russian: normalizeExpressionArray(entry.russian),
-
-    pronunciations: normalizePronunciations(entry.pronunciations),
-
-    examples: normalizeExamples(entry.examples),
-
-    notes: safeString(entry.notes),
-
-    date: safeString(entry.date) || getCurrentDate()
+    id: entry.id || createId(),
+    concept: safeText(entry.concept),
+    english: safeArray(entry.english),
+    french: safeArray(entry.french),
+    russian: safeArray(entry.russian),
+    chinese: safeText(entry.chinese),
+    notes: safeText(entry.notes),
+    examples: {
+      english: safeArray(entry.examples?.english),
+      french: safeArray(entry.examples?.french),
+      russian: safeArray(entry.examples?.russian)
+    },
+    pronunciations: {
+      english: safeArray(entry.pronunciations?.english),
+      french: safeArray(entry.pronunciations?.french),
+      russian: safeArray(entry.pronunciations?.russian)
+    }
   };
+
+  // 音标数组与表达数组保持相同长度
+  LANGUAGES.forEach(language => {
+    while (result.pronunciations[language].length < result[language].length) {
+      result.pronunciations[language].push("");
+    }
+
+    result.pronunciations[language] =
+      result.pronunciations[language].slice(0, result[language].length);
+  });
+
+  return result;
 }
 
+// ==================================================
+// 五、本地数据管理
+// ==================================================
 
-// 验证并标准化词汇数组
-function validateVocabularyData(data) {
-  if (!Array.isArray(data)) {
-    return null;
-  }
-
-  const normalized = data
-    .map(normalizeEntry)
-    .filter(Boolean);
-
-  return ensureEntryIds(normalized);
-}
-
-
-/* =========================================================
-   七、本地数据存储
-   ========================================================= */
-
-// 从 localStorage 读取词汇
-function loadLocalVocabulary() {
+function loadVocabulary() {
   try {
     const savedData = localStorage.getItem(STORAGE_KEY);
+    const parsedData = savedData ? JSON.parse(savedData) : [];
 
-    if (!savedData) {
-      vocabularyData = [];
-      hasLocalData = false;
-      return;
-    }
-
-    const parsedData = safeJSONParse(savedData, []);
-
-    vocabularyData = validateVocabularyData(parsedData) || [];
-
-    hasLocalData = vocabularyData.length > 0;
+    return Array.isArray(parsedData)
+      ? parsedData.map(normalizeEntry)
+      : [];
 
   } catch (error) {
     console.error("读取本地词汇失败：", error);
-
-    vocabularyData = [];
-    hasLocalData = false;
+    alert("读取本地词汇时发生错误，请检查浏览器数据。");
+    return [];
   }
 }
 
-
-// 保存词汇到 localStorage
 function saveLocalVocabulary() {
   try {
     localStorage.setItem(
@@ -379,63 +166,621 @@ function saveLocalVocabulary() {
       JSON.stringify(vocabularyData)
     );
 
-    hasLocalData = vocabularyData.length > 0;
-
     return true;
 
   } catch (error) {
-    console.error("本地保存失败：", error);
-
-    alert("本地保存失败，请检查浏览器存储空间。");
-
+    console.error("保存本地词汇失败：", error);
+    alert("保存失败，可能是浏览器存储空间不足。");
     return false;
   }
 }
 
-
-// 数据发生变化后的统一保存入口
 function saveVocabulary() {
   if (!saveLocalVocabulary()) {
     return false;
   }
 
-  renderVocabulary();
+  localRevision++;
 
-  scheduleCloudSync();
+  if (isAuthenticated && isCloudReady && !hasSyncConflict) {
+    scheduleCloudSync();
+  }
 
   return true;
 }
 
+// ==================================================
+// 六、云同步状态显示
+// ==================================================
 
-/* =========================================================
-   八、动态表达输入框
-   ========================================================= */
+function setSyncStatus(message, state = "normal") {
+  if (!syncStatusElement) return;
 
-// 为表达输入项创建 IPA 折叠栏
-function createIPAField(language, index, value = "") {
-  const details = document.createElement("details");
-  details.className = "ipa-field";
-
-  const summary = document.createElement("summary");
-  summary.textContent = "添加 IPA 音标（选填）";
-
-  const input = document.createElement("input");
-  input.type = "text";
-  input.className = "ipa-input";
-  input.placeholder = "例如：/ˈæp.əl/";
-  input.value = safeString(value);
-
-  input.dataset.language = language;
-  input.dataset.index = String(index);
-
-  details.append(summary, input);
-
-  return details;
+  syncStatusElement.textContent = message;
+  syncStatusElement.dataset.state = state;
 }
 
+// ==================================================
+// 七、创建 GitHub 同步工具栏
+// ==================================================
 
-// 创建一个表达输入项
-function createExpressionItem(language, value = "", ipa = "") {
+function createSyncControls() {
+  const toolbar = document.createElement("div");
+  toolbar.className = "vocabulary-sync-toolbar";
+
+  const loginButton = document.createElement("button");
+  loginButton.type = "button";
+  loginButton.className = "backup-button";
+  loginButton.textContent = "↗ Connect GitHub";
+
+  loginButton.addEventListener("click", () => {
+    window.location.href = `${SYNC_API}/auth/login`;
+  });
+
+  const logoutButton = document.createElement("button");
+  logoutButton.type = "button";
+  logoutButton.className = "backup-button";
+  logoutButton.textContent = "Logout";
+  logoutButton.hidden = true;
+
+  logoutButton.addEventListener("click", async () => {
+    if (!confirm("确定退出 GitHub 登录吗？\n\n本地词汇不会被删除。")) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`${SYNC_API}/auth/logout`, {
+        method: "POST",
+        credentials: "include"
+      });
+
+      if (!response.ok) {
+        throw new Error("退出登录失败");
+      }
+
+      isAuthenticated = false;
+      isCloudReady = false;
+      hasSyncConflict = false;
+
+      loginButton.hidden = false;
+      logoutButton.hidden = true;
+
+      setSyncStatus("已退出 GitHub · 本地保存正常");
+
+    } catch (error) {
+      console.error("退出登录失败：", error);
+      alert("退出登录失败，请稍后重试。");
+    }
+  });
+
+  const syncButton = document.createElement("button");
+  syncButton.type = "button";
+  syncButton.className = "backup-button";
+  syncButton.textContent = "↻ Sync Now";
+
+  syncButton.addEventListener("click", async () => {
+    if (!isAuthenticated) {
+      alert("请先连接 GitHub。");
+      return;
+    }
+
+    if (!isCloudReady) {
+      alert("云端数据还在读取，请稍后重试。");
+      return;
+    }
+
+    if (hasSyncConflict) {
+      alert("检测到云端版本冲突。请刷新页面，重新读取云端数据后再操作。");
+      return;
+    }
+
+    await syncVocabulary();
+  });
+
+  syncStatusElement = document.createElement("span");
+  syncStatusElement.className = "vocabulary-sync-status";
+  syncStatusElement.textContent = "正在检查 GitHub...";
+
+  toolbar.append(
+    loginButton,
+    logoutButton,
+    syncButton,
+    syncStatusElement
+  );
+
+  if (vocabularyList?.parentElement) {
+    vocabularyList.parentElement.insertBefore(toolbar, vocabularyList);
+  }
+
+  return { loginButton, logoutButton, syncButton };
+}
+
+const syncControls = createSyncControls();
+
+// ==================================================
+// 八、GitHub API 请求
+// ==================================================
+
+async function checkGitHubAuth() {
+  const response = await fetch(`${SYNC_API}/auth/status`, {
+    credentials: "include"
+  });
+
+  if (!response.ok) {
+    throw new Error(`登录状态检查失败：${response.status}`);
+  }
+
+  return response.json();
+}
+
+async function fetchCloudVocabulary() {
+  const response = await fetch(`${SYNC_API}/api/vocabulary`, {
+    credentials: "include"
+  });
+
+  const result = await response.json();
+
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || "读取云端词汇失败");
+  }
+
+  return result;
+}
+
+async function uploadCloudVocabulary(data, sha) {
+  const response = await fetch(`${SYNC_API}/api/vocabulary`, {
+    method: "POST",
+    credentials: "include",
+    headers: {
+      "Content-Type": "text/plain;charset=UTF-8"
+    },
+    body: JSON.stringify({ data, sha })
+  });
+
+  const result = await response.json();
+
+  if (response.status === 409 || result.conflict) {
+    hasSyncConflict = true;
+    setSyncStatus("版本冲突 · 同步已暂停", "error");
+
+    throw new Error("云端文件已被其他设备修改。为避免覆盖数据，已暂停同步。");
+  }
+
+  if (!response.ok || !result.success) {
+    throw new Error(result.message || "云端保存失败");
+  }
+
+  return result;
+}
+
+// ==================================================
+// 九、自动同步管理
+// ==================================================
+
+function scheduleCloudSync() {
+  clearTimeout(syncTimer);
+
+  setSyncStatus("等待同步...", "pending");
+
+  syncTimer = setTimeout(() => {
+    syncVocabulary();
+  }, SYNC_DELAY);
+}
+
+function syncVocabulary() {
+  syncPromise = syncPromise
+    .catch(() => {})
+    .then(async () => {
+      if (!isAuthenticated || !isCloudReady || hasSyncConflict) {
+        return;
+      }
+
+      setSyncStatus("正在同步...", "pending");
+
+      try {
+        const dataToUpload = JSON.parse(
+          JSON.stringify(vocabularyData)
+        );
+
+        const revisionAtStart = localRevision;
+
+        const result = await uploadCloudVocabulary(
+          dataToUpload,
+          cloudSHA
+        );
+
+        cloudSHA = result.sha;
+
+        if (localRevision !== revisionAtStart) {
+          setSyncStatus("发现新修改，准备再次同步...", "pending");
+          scheduleCloudSync();
+          return;
+        }
+
+        setSyncStatus("已同步到 GitHub", "success");
+
+      } catch (error) {
+        console.error("云端同步失败：", error);
+
+        if (!hasSyncConflict) {
+          setSyncStatus("同步失败 · 本地数据已保留", "error");
+        }
+      }
+    });
+
+  return syncPromise;
+}
+
+// ==================================================
+// 十、初始化云端同步
+// ==================================================
+
+async function initializeCloudSync() {
+  setSyncStatus("正在检查 GitHub...", "pending");
+
+  try {
+    const auth = await checkGitHubAuth();
+
+    if (!auth.authenticated) {
+      isAuthenticated = false;
+      isCloudReady = false;
+
+      syncControls.loginButton.hidden = false;
+      syncControls.logoutButton.hidden = true;
+
+      setSyncStatus("未连接 GitHub · 本地保存正常");
+      return;
+    }
+
+    isAuthenticated = true;
+
+    syncControls.loginButton.hidden = true;
+    syncControls.logoutButton.hidden = false;
+
+    setSyncStatus(
+      `已连接 GitHub · ${auth.username || ""}`,
+      "success"
+    );
+
+    const cloudResult = await fetchCloudVocabulary();
+    cloudSHA = cloudResult.sha;
+
+    if (!Array.isArray(cloudResult.data)) {
+      throw new Error("云端词汇文件格式不正确");
+    }
+
+    if (localRevision > 0) {
+      hasSyncConflict = true;
+
+      setSyncStatus(
+        "本地数据在云端读取期间发生修改，请刷新页面确认",
+        "error"
+      );
+
+      alert("云端读取期间本地数据发生了变化。为避免数据丢失，暂时停止自动同步。");
+      return;
+    }
+
+    if (cloudResult.data.length === 0 && vocabularyData.length > 0) {
+      const confirmed = confirm(
+        `云端词汇库目前为空，但本地有 ${vocabularyData.length} 条词汇。\n\n是否将本地词汇上传到 GitHub？`
+      );
+
+      if (confirmed) {
+        isCloudReady = true;
+        await syncVocabulary();
+      } else {
+        setSyncStatus("本地与云端数据不同 · 同步暂停", "error");
+      }
+
+      return;
+    }
+
+    if (
+      cloudResult.data.length > 0 &&
+      vocabularyData.length > 0 &&
+      JSON.stringify(cloudResult.data) !== JSON.stringify(vocabularyData)
+    ) {
+      const confirmed = confirm(
+        `本地有 ${vocabularyData.length} 条词汇，云端有 ${cloudResult.data.length} 条词汇。\n\n确定使用云端数据替换本地数据吗？\n\n选择取消将保留本地数据并暂停同步。`
+      );
+
+      if (!confirmed) {
+        hasSyncConflict = true;
+        setSyncStatus("本地与云端数据不同 · 同步暂停", "error");
+        return;
+      }
+    }
+
+    vocabularyData = cloudResult.data.map(normalizeEntry);
+
+    if (!saveLocalVocabulary()) {
+      throw new Error("云端数据已读取，但写入本地缓存失败");
+    }
+
+    isCloudReady = true;
+
+    renderVocabulary();
+
+    setSyncStatus(
+      `已同步 · ${vocabularyData.length} 条词汇`,
+      "success"
+    );
+
+  } catch (error) {
+    console.error("初始化云端同步失败：", error);
+
+    isCloudReady = false;
+    setSyncStatus("云端连接失败 · 本地数据已保留", "error");
+  }
+}
+
+// ==================================================
+// 十一、主题管理
+// ==================================================
+
+function setVocabularyTheme(theme) {
+  const isLight = theme === "light";
+
+  document.body.classList.toggle("vocabulary-light", isLight);
+
+  if (vocabularyThemeIcon) {
+    vocabularyThemeIcon.textContent = isLight ? "☀" : "◐";
+  }
+
+  if (vocabularyThemeText) {
+    vocabularyThemeText.textContent = isLight
+      ? "Light Mode"
+      : "Black / Green";
+  }
+
+  vocabularyThemeToggle?.setAttribute(
+    "aria-pressed",
+    String(isLight)
+  );
+
+  try {
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
+  } catch (error) {
+    console.error("保存主题设置失败：", error);
+  }
+}
+
+function loadVocabularyTheme() {
+  let savedTheme = "dark";
+
+  try {
+    savedTheme = localStorage.getItem(THEME_STORAGE_KEY) || "dark";
+  } catch (error) {
+    console.error("读取主题设置失败：", error);
+  }
+
+  if (!["light", "dark"].includes(savedTheme)) {
+    savedTheme = "dark";
+  }
+
+  setVocabularyTheme(savedTheme);
+}
+
+vocabularyThemeToggle?.addEventListener("click", () => {
+  const isLight = document.body.classList.contains("vocabulary-light");
+  setVocabularyTheme(isLight ? "dark" : "light");
+});
+
+// ==================================================
+// 十二、JSON 文件备份
+// ==================================================
+
+function exportVocabulary() {
+  try {
+    const backupData = {
+      format: "language-lab-vocabulary",
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      data: vocabularyData
+    };
+
+    const blob = new Blob(
+      [JSON.stringify(backupData, null, 2)],
+      { type: "application/json;charset=utf-8" }
+    );
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const date = new Date().toISOString().slice(0, 10);
+
+    link.href = url;
+    link.download = `languageLab_vocabulary_${date}.json`;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+
+    alert(`备份成功！共导出 ${vocabularyData.length} 条词汇。`);
+
+  } catch (error) {
+    console.error("导出词汇失败：", error);
+    alert("导出失败，请稍后重试。");
+  }
+}
+
+function validateVocabularyData(data) {
+  if (!Array.isArray(data)) return false;
+
+  return data.every(entry =>
+    entry &&
+    typeof entry === "object" &&
+    !Array.isArray(entry) &&
+    typeof entry.concept === "string" &&
+    Array.isArray(entry.english) &&
+    Array.isArray(entry.french) &&
+    Array.isArray(entry.russian) &&
+    entry.examples &&
+    typeof entry.examples === "object"
+  );
+}
+
+function importVocabulary(file) {
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = () => {
+    try {
+      const parsedData = JSON.parse(reader.result);
+
+      const importedData = Array.isArray(parsedData)
+        ? parsedData
+        : parsedData?.format === "language-lab-vocabulary" &&
+          parsedData?.version === 1
+          ? parsedData.data
+          : null;
+
+      if (!validateVocabularyData(importedData)) {
+        alert("文件格式不正确，或不是有效的 Language Lab 词汇备份。");
+        return;
+      }
+
+      const confirmed = confirm(
+        `即将导入 ${importedData.length} 条词汇。\n\n导入将替换当前本地词汇，并在连接 GitHub 后同步到云端。\n建议先导出当前词汇作为备份。\n\n确定继续吗？`
+      );
+
+      if (!confirmed) return;
+
+      const previousData = vocabularyData;
+
+      vocabularyData = importedData.map(normalizeEntry);
+
+      if (!saveVocabulary()) {
+        vocabularyData = previousData;
+        renderVocabulary();
+        return;
+      }
+
+      renderVocabulary();
+
+      alert(
+        `导入成功！已导入 ${vocabularyData.length} 条词汇。` +
+        (isAuthenticated && isCloudReady
+          ? "\n云端同步将在稍后自动进行。"
+          : "\n当前尚未连接云端，请连接 GitHub 后同步。")
+      );
+
+    } catch (error) {
+      console.error("导入词汇失败：", error);
+      alert("无法读取该文件，请确认它是有效的 JSON 文件。");
+    }
+  };
+
+  reader.onerror = () => {
+    alert("文件读取失败，请重新选择文件。");
+  };
+
+  reader.readAsText(file, "UTF-8");
+}
+
+// ==================================================
+// 十三、创建备份工具栏
+// ==================================================
+
+function createBackupControls() {
+  const toolbar = document.createElement("div");
+  toolbar.className = "vocabulary-backup-actions";
+
+  const exportButton = document.createElement("button");
+  exportButton.type = "button";
+  exportButton.textContent = "↓ Export Backup";
+  exportButton.className = "backup-button";
+  exportButton.addEventListener("click", exportVocabulary);
+
+  const importButton = document.createElement("button");
+  importButton.type = "button";
+  importButton.textContent = "↑ Import Backup";
+  importButton.className = "backup-button";
+
+  const fileInput = document.createElement("input");
+  fileInput.type = "file";
+  fileInput.accept = ".json,application/json";
+  fileInput.hidden = true;
+
+  importButton.addEventListener("click", () => fileInput.click());
+
+  fileInput.addEventListener("change", () => {
+    const file = fileInput.files?.[0];
+
+    if (file) {
+      importVocabulary(file);
+    }
+
+    fileInput.value = "";
+  });
+
+  const info = document.createElement("div");
+  info.className = "backup-info";
+
+  const infoTitle = createTextElement(
+    "div",
+    "backup-info-title",
+    "DATA BACKUP & CLOUD SYNC"
+  );
+
+  const infoDescription = createTextElement(
+    "p",
+    "backup-info-description",
+    "词汇数据保存在当前设备，并通过 GitHub 仓库实现多设备同步。Cloudflare Worker 负责安全传输，不使用独立数据库。"
+  );
+
+  const infoTip = createTextElement(
+    "p",
+    "backup-info-tip",
+    "Export 下载 JSON 备份；Import 从备份恢复数据。登录 GitHub 后，导入的数据也会自动同步到其他设备。"
+  );
+
+  info.append(infoTitle, infoDescription, infoTip);
+  toolbar.append(exportButton, importButton, fileInput, info);
+
+  if (vocabularyList?.parentElement) {
+    vocabularyList.parentElement.insertBefore(toolbar, vocabularyList);
+  }
+}
+
+createBackupControls();
+
+// ==================================================
+// 十四、表单显示与隐藏
+// ==================================================
+
+function openEntryForm() {
+  resetForm();
+
+  if (!entryFormPanel) return;
+
+  entryFormPanel.hidden = false;
+
+  entryFormPanel.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+addEntryButton?.addEventListener("click", openEntryForm);
+
+cancelEntryButton?.addEventListener("click", () => {
+  resetForm();
+
+  if (entryFormPanel) {
+    entryFormPanel.hidden = true;
+  }
+});
+
+// ==================================================
+// 十五、动态表达与 IPA 输入
+// ==================================================
+
+// 创建单个表达输入项
+function createExpressionField(language, value = "", pronunciation = "") {
   const wrapper = document.createElement("div");
   wrapper.className = "dynamic-item";
 
@@ -444,650 +789,732 @@ function createExpressionItem(language, value = "", ipa = "") {
   input.name = language;
   input.className = "expression-input";
   input.placeholder = "Add an expression";
-  input.value = safeString(value);
+  input.value = value;
 
-  const removeButton = document.createElement("button");
-  removeButton.type = "button";
-  removeButton.className = "remove-field-button";
-  removeButton.textContent = "Remove";
-  removeButton.addEventListener("click", () => {
-    wrapper.remove();
+  // 每个表达都拥有独立的可选 IPA 音标栏
+  const details = document.createElement("details");
+  details.className = "ipa-field";
+
+  const summary = document.createElement("summary");
+  summary.textContent = pronunciation
+    ? "IPA · 已填写音标"
+    : "Add IPA pronunciation (optional)";
+
+  const ipaInput = document.createElement("input");
+  ipaInput.type = "text";
+  ipaInput.name = `${language}-ipa`;
+  ipaInput.className = "ipa-input";
+  ipaInput.placeholder = "/ pronunciation /";
+  ipaInput.value = pronunciation;
+
+  details.append(summary, ipaInput);
+
+  details.addEventListener("toggle", () => {
+    summary.textContent = details.open
+      ? "IPA pronunciation"
+      : ipaInput.value.trim()
+        ? "IPA · 已填写音标"
+        : "Add IPA pronunciation (optional)";
   });
 
-  const ipaField = createIPAField(language, 0, ipa);
-
-  wrapper.append(input, ipaField, removeButton);
+  wrapper.append(input, details);
 
   return wrapper;
 }
 
+// 创建删除按钮
+function createRemoveButton(wrapper) {
+  const button = document.createElement("button");
 
-// 初始化默认表达输入框的 IPA 折叠栏
-function initializeExpressionFields() {
-  LANGUAGES.forEach(language => {
-    const container = document.getElementById(
-      WORD_CONTAINER_IDS[language]
-    );
+  button.type = "button";
+  button.className = "remove-field-button";
+  button.textContent = "Remove";
 
-    if (!container) {
-      return;
-    }
+  button.addEventListener("click", () => wrapper.remove());
 
-    const items = container.querySelectorAll(".dynamic-item");
-
-    items.forEach((item, index) => {
-      if (item.querySelector(".ipa-field")) {
-        return;
-      }
-
-      const ipaField = createIPAField(language, index);
-
-      const input = item.querySelector(".expression-input");
-
-      if (input) {
-        input.insertAdjacentElement("afterend", ipaField);
-      }
-    });
-  });
+  return button;
 }
 
+// 添加表达及其 IPA
+function addExpressionField(container, language) {
+  if (!container) return;
 
-// 添加一个表达输入框
-function addExpressionField(language, value = "", ipa = "") {
-  const container = document.getElementById(
-    WORD_CONTAINER_IDS[language]
+  const wrapper = createExpressionField(language);
+  wrapper.appendChild(createRemoveButton(wrapper));
+
+  container.appendChild(wrapper);
+}
+
+// 添加例句
+function addExampleField(container) {
+  if (!container) return;
+
+  const originalTextarea = container.querySelector("textarea");
+  const originalTranslation = container.querySelector(
+    'input[name$="-translation"]'
   );
 
-  if (!container) {
-    return;
-  }
+  if (!originalTextarea || !originalTranslation) return;
 
-  const item = createExpressionItem(language, value, ipa);
-
-  container.appendChild(item);
-}
-
-
-// 收集表达与 IPA
-function collectExpressions(language) {
-  const container = document.getElementById(
-    WORD_CONTAINER_IDS[language]
-  );
-
-  if (!container) {
-    return {
-      expressions: [],
-      pronunciations: []
-    };
-  }
-
-  const expressions = [];
-  const pronunciations = [];
-
-  container.querySelectorAll(".dynamic-item").forEach(item => {
-    const input = item.querySelector(".expression-input");
-
-    if (!input) {
-      return;
-    }
-
-    const expression = input.value.trim();
-
-    const ipaInput = item.querySelector(".ipa-input");
-    const ipa = ipaInput ? ipaInput.value.trim() : "";
-
-    if (expression) {
-      expressions.push(expression);
-      pronunciations.push(ipa);
-    }
-  });
-
-  return {
-    expressions,
-    pronunciations
-  };
-}
-
-
-/* =========================================================
-   九、动态例句输入框
-   ========================================================= */
-
-// 创建例句输入项
-function createExampleItem(language, text = "", translation = "") {
   const wrapper = document.createElement("div");
   wrapper.className = "example-item";
 
   const textarea = document.createElement("textarea");
-  textarea.name = EXAMPLE_FIELD_NAMES[language].text;
+  textarea.name = originalTextarea.name;
   textarea.rows = 2;
-  textarea.placeholder = "Write an example...";
-  textarea.value = safeString(text);
+  textarea.placeholder = originalTextarea.placeholder;
 
-  const translationInput = document.createElement("input");
-  translationInput.name = EXAMPLE_FIELD_NAMES[language].translation;
-  translationInput.type = "text";
-  translationInput.placeholder = "中文对照（可选）";
-  translationInput.value = safeString(translation);
-
-  const removeButton = document.createElement("button");
-  removeButton.type = "button";
-  removeButton.className = "remove-field-button";
-  removeButton.textContent = "Remove";
-
-  removeButton.addEventListener("click", () => {
-    wrapper.remove();
-  });
+  const translation = document.createElement("input");
+  translation.type = "text";
+  translation.name = originalTranslation.name;
+  translation.placeholder = originalTranslation.placeholder;
 
   wrapper.append(
     textarea,
-    translationInput,
-    removeButton
+    translation,
+    createRemoveButton(wrapper)
   );
 
-  return wrapper;
+  container.appendChild(wrapper);
 }
 
+// 绑定所有动态添加按钮
+document.querySelectorAll(".add-field-button").forEach(button => {
+  button.addEventListener("click", () => {
+    const container = byId(button.dataset.target);
 
-// 添加例句输入框
-function addExampleField(language, text = "", translation = "") {
-  const container = document.getElementById(
-    EXAMPLE_CONTAINER_IDS[language]
-  );
+    if (!container) return;
+
+    if (button.dataset.type === "example") {
+      addExampleField(container);
+    } else {
+      const language = Object.keys(expressionContainers).find(
+        key => expressionContainers[key] === container
+      );
+
+      if (language) {
+        addExpressionField(container, language);
+      }
+    }
+  });
+});
+
+// ==================================================
+// 十六、收集表单数据
+// ==================================================
+
+function collectExpressions(container) {
+  const expressions = [];
+  const pronunciations = [];
 
   if (!container) {
-    return;
+    return { expressions, pronunciations };
   }
 
-  container.appendChild(
-    createExampleItem(language, text, translation)
-  );
-}
+  container.querySelectorAll(".dynamic-item").forEach(item => {
+    const input = item.querySelector(".expression-input");
+    const ipaInput = item.querySelector(".ipa-input");
 
+    const expression = safeText(input?.value);
+    const pronunciation = safeText(ipaInput?.value);
 
-// 收集例句
-function collectExamples() {
-  const examples = {
-    english: [],
-    french: [],
-    russian: []
-  };
-
-  LANGUAGES.forEach(language => {
-    const container = document.getElementById(
-      EXAMPLE_CONTAINER_IDS[language]
-    );
-
-    if (!container) {
-      return;
+    // 只保存有表达内容的项目
+    if (expression) {
+      expressions.push(expression);
+      pronunciations.push(pronunciation);
     }
-
-    container.querySelectorAll(".example-item").forEach(item => {
-      const textarea = item.querySelector("textarea");
-      const translationInput = item.querySelector("input");
-
-      const text = textarea ? textarea.value.trim() : "";
-
-      const translation = translationInput
-        ? translationInput.value.trim()
-        : "";
-
-      if (text || translation) {
-        examples[language].push({
-          text,
-          translation
-        });
-      }
-    });
   });
 
-  return examples;
+  return { expressions, pronunciations };
 }
 
+function collectExamples(container) {
+  if (!container) return [];
 
-/* =========================================================
-   十、表单重置
-   ========================================================= */
-
-// 重置表达输入框
-function resetExpressionContainers() {
-  LANGUAGES.forEach(language => {
-    const container = document.getElementById(
-      WORD_CONTAINER_IDS[language]
-    );
-
-    if (!container) {
-      return;
-    }
-
-    container.replaceChildren();
-
-    const item = createExpressionItem(language);
-
-    container.appendChild(item);
-  });
+  return Array.from(container.querySelectorAll(".example-item"))
+    .map(item => ({
+      text: safeText(item.querySelector("textarea")?.value),
+      translation: safeText(
+        item.querySelector('input[name$="-translation"]')?.value
+      )
+    }))
+    .filter(item => item.text || item.translation);
 }
 
-
-// 重置例句输入框
-function resetExampleContainers() {
-  LANGUAGES.forEach(language => {
-    const container = document.getElementById(
-      EXAMPLE_CONTAINER_IDS[language]
-    );
-
-    if (!container) {
-      return;
-    }
-
-    container.replaceChildren();
-
-    container.appendChild(
-      createExampleItem(language)
-    );
-  });
-}
-
-
-// 重置整个表单
-function resetForm() {
-  if (vocabularyForm) {
-    vocabularyForm.reset();
-  }
-
-  resetExpressionContainers();
-  resetExampleContainers();
-
-  editingEntryId = null;
-
-  const submitButton = vocabularyForm
-    ? vocabularyForm.querySelector('button[type="submit"]')
-    : null;
-
-  if (submitButton) {
-    submitButton.textContent = "Save Vocabulary";
-  }
-}
-
-
-// 打开新增表单
-function openNewEntryForm() {
-  resetForm();
-
-  if (entryFormPanel) {
-    entryFormPanel.hidden = false;
-
-    entryFormPanel.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
-  }
-
-  if (conceptInput) {
-    setTimeout(() => conceptInput.focus(), 250);
-  }
-}
-
-
-// 关闭表单
-function closeEntryForm() {
-  resetForm();
-
-  if (entryFormPanel) {
-    entryFormPanel.hidden = true;
-  }
-}
-
-
-/* =========================================================
-   十一、新增与编辑词条
-   ========================================================= */
-
-// 从表单收集词条数据
 function collectFormData() {
+  const originalEntry = editingEntryReference;
+
   const entry = {
-    id: editingEntryId || generateId(),
+    ...(originalEntry || {}),
 
-    concept: conceptInput ? conceptInput.value.trim() : "",
+    id: originalEntry?.id || createId(),
 
-    chinese: chineseInput ? chineseInput.value.trim() : "",
+    concept: safeText(byId("concept")?.value),
 
-    english: [],
-    french: [],
-    russian: [],
+    chinese: safeText(byId("chinese-meaning")?.value),
 
-    pronunciations: {
-      english: [],
-      french: [],
-      russian: []
+    examples: {
+      english: collectExamples(exampleContainers.english),
+      french: collectExamples(exampleContainers.french),
+      russian: collectExamples(exampleContainers.russian)
     },
 
-    examples: collectExamples(),
+    notes: safeText(byId("personal-notes")?.value),
 
-    notes: notesInput ? notesInput.value.trim() : "",
+    createdAt: originalEntry?.createdAt || new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
 
-    date: getCurrentDate()
+    pronunciations: {}
   };
 
   LANGUAGES.forEach(language => {
-    const result = collectExpressions(language);
+    const result = collectExpressions(expressionContainers[language]);
 
     entry[language] = result.expressions;
-
     entry.pronunciations[language] = result.pronunciations;
   });
 
-  return entry;
+  return normalizeEntry(entry);
 }
 
+// ==================================================
+// 十七、重置表单
+// ==================================================
 
-// 保存词条
-function handleFormSubmit(event) {
-  event.preventDefault();
+function resetForm() {
+  editingEntryId = null;
+  editingEntryReference = null;
 
-  if (!conceptInput || !conceptInput.value.trim()) {
-    alert("请填写概念名称。");
-    return;
-  }
+  vocabularyForm?.reset();
 
-  const entry = normalizeEntry(collectFormData());
+  LANGUAGES.forEach(language => {
+    const container = expressionContainers[language];
+    if (!container) return;
 
-  if (!entry) {
-    return;
-  }
-
-  if (editingEntryId) {
-    const index = vocabularyData.findIndex(
-      item => item.id === editingEntryId
+    container.replaceChildren(
+      createExpressionField(language)
     );
+  });
 
-    if (index !== -1) {
-      vocabularyData[index] = {
-        ...vocabularyData[index],
-        ...entry
-      };
-    }
+  LANGUAGES.forEach(language => {
+    const container = exampleContainers[language];
+    if (!container) return;
 
-  } else {
-    vocabularyData.push(entry);
-  }
+    const wrapper = document.createElement("div");
+    wrapper.className = "example-item";
 
-  if (saveVocabulary()) {
-    closeEntryForm();
-  }
+    const textarea = document.createElement("textarea");
+    textarea.name = `${language}-example`;
+    textarea.rows = 2;
+    textarea.placeholder = "Write an example...";
+
+    const translation = document.createElement("input");
+    translation.type = "text";
+    translation.name = `${language}-translation`;
+    translation.placeholder = "中文对照（可选）";
+
+    wrapper.append(textarea, translation);
+    container.replaceChildren(wrapper);
+  });
 }
 
+// ==================================================
+// 十八、编辑词条
+// ==================================================
 
-// 填充编辑表单
-function fillEditForm(entryId) {
-  const entry = vocabularyData.find(
-    item => item.id === entryId
-  );
-
+function fillEditForm(entry) {
   if (!entry) {
+    alert("找不到需要编辑的词汇，请刷新页面后重试。");
     return;
+  }
+
+  // 旧词条若缺少 ID，先补充分配
+  if (!entry.id) {
+    entry.id = createId();
+
+    if (!saveVocabulary()) {
+      delete entry.id;
+      alert("无法保存词条标识，请检查浏览器存储空间后重试。");
+      return;
+    }
   }
 
   resetForm();
 
-  editingEntryId = entry.id;
+  const normalized = normalizeEntry(entry);
 
-  if (conceptInput) {
-    conceptInput.value = entry.concept || "";
-  }
-
-  if (chineseInput) {
-    chineseInput.value = entry.chinese || "";
-  }
-
-  if (notesInput) {
-    notesInput.value = entry.notes || "";
-  }
+  byId("concept").value = normalized.concept;
+  byId("chinese-meaning").value = normalized.chinese;
+  byId("personal-notes").value = normalized.notes;
 
   LANGUAGES.forEach(language => {
-    const container = document.getElementById(
-      WORD_CONTAINER_IDS[language]
-    );
+    const container = expressionContainers[language];
+    if (!container) return;
 
-    if (!container) {
-      return;
-    }
+    const expressions = normalized[language];
+    const pronunciations = normalized.pronunciations[language];
 
     container.replaceChildren();
 
-    const expressions = Array.isArray(entry[language])
-      ? entry[language]
-      : [];
-
-    const pronunciations = entry.pronunciations &&
-      Array.isArray(entry.pronunciations[language])
-      ? entry.pronunciations[language]
-      : [];
-
     if (expressions.length === 0) {
-      container.appendChild(
-        createExpressionItem(language)
-      );
-
+      container.appendChild(createExpressionField(language));
       return;
     }
 
     expressions.forEach((expression, index) => {
-      container.appendChild(
-        createExpressionItem(
-          language,
-          expression,
-          pronunciations[index] || ""
-        )
+      const wrapper = createExpressionField(
+        language,
+        expression,
+        pronunciations[index] || ""
       );
+
+      if (index > 0) {
+        wrapper.appendChild(createRemoveButton(wrapper));
+      }
+
+      container.appendChild(wrapper);
     });
   });
 
   LANGUAGES.forEach(language => {
-    const container = document.getElementById(
-      EXAMPLE_CONTAINER_IDS[language]
-    );
+    const container = exampleContainers[language];
+    if (!container) return;
 
-    if (!container) {
-      return;
-    }
+    const examples = normalized.examples[language];
+    const textName = `${language}-example`;
+    const translationName = `${language}-translation`;
 
     container.replaceChildren();
 
-    const examples = entry.examples &&
-      Array.isArray(entry.examples[language])
-      ? entry.examples[language]
-      : [];
+    const list = examples.length ? examples : [
+      { text: "", translation: "" }
+    ];
 
-    if (examples.length === 0) {
-      container.appendChild(
-        createExampleItem(language)
-      );
+    list.forEach((example, index) => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "example-item";
 
+      const textarea = document.createElement("textarea");
+      textarea.name = textName;
+      textarea.rows = 2;
+      textarea.placeholder = "Write an example...";
+      textarea.value = example.text || "";
+
+      const translation = document.createElement("input");
+      translation.type = "text";
+      translation.name = translationName;
+      translation.placeholder = "中文对照（可选）";
+      translation.value = example.translation || "";
+
+      wrapper.append(textarea, translation);
+
+      if (index > 0) {
+        wrapper.appendChild(createRemoveButton(wrapper));
+      }
+
+      container.appendChild(wrapper);
+    });
+  });
+
+  editingEntryId = normalized.id;
+  editingEntryReference = entry;
+
+  entryFormPanel.hidden = false;
+
+  entryFormPanel.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+// ==================================================
+// 十九、保存词汇
+// ==================================================
+
+vocabularyForm?.addEventListener("submit", event => {
+  event.preventDefault();
+
+  const entry = collectFormData();
+
+  if (!entry.concept) {
+    alert("请先填写 Concept / 概念名称。");
+    return;
+  }
+
+  const previousData = [...vocabularyData];
+
+  if (editingEntryId) {
+    const index = vocabularyData.findIndex(
+      item => item === editingEntryReference ||
+        item.id === editingEntryId
+    );
+
+    if (index === -1) {
+      alert("找不到需要编辑的词汇，请刷新页面后重试。");
       return;
     }
 
-    examples.forEach(example => {
-      container.appendChild(
-        createExampleItem(
-          language,
-          example.text,
+    vocabularyData[index] = entry;
+
+  } else {
+    vocabularyData.unshift(entry);
+  }
+
+  if (saveVocabulary()) {
+    renderVocabulary();
+    resetForm();
+
+    entryFormPanel.hidden = true;
+
+    alert(
+      isAuthenticated && isCloudReady
+        ? "Vocabulary saved! Cloud sync scheduled."
+        : "Vocabulary saved locally. Connect GitHub to sync."
+    );
+
+  } else {
+    vocabularyData = previousData;
+    renderVocabulary();
+  }
+});
+
+// ==================================================
+// 二十、词条卡片展示
+// ==================================================
+
+function appendLanguageGrid(card, entry) {
+  const grid = document.createElement("div");
+  grid.className = "entry-language-grid";
+
+  LANGUAGES.forEach(language => {
+    const column = document.createElement("div");
+    column.className = "entry-language-column";
+
+    column.appendChild(
+      createTextElement("h3", "entry-language", LANGUAGE_TITLES[language])
+    );
+
+    const expressionList = document.createElement("div");
+    expressionList.className = "entry-expression-list";
+
+    const expressions = safeArray(entry[language]);
+    const pronunciations = safeArray(entry.pronunciations?.[language]);
+
+    if (expressions.length === 0) {
+      expressionList.appendChild(
+        createTextElement("p", "entry-content", "—")
+      );
+    } else {
+      expressions.forEach((expression, index) => {
+        const item = document.createElement("div");
+        item.className = "entry-expression-item";
+
+        item.appendChild(
+          createTextElement("p", "entry-expression-text", expression)
+        );
+
+        if (pronunciations[index]) {
+          item.appendChild(
+            createTextElement(
+              "p",
+              "entry-expression-ipa",
+              pronunciations[index]
+            )
+          );
+        }
+
+        expressionList.appendChild(item);
+      });
+    }
+
+    column.appendChild(expressionList);
+    grid.appendChild(column);
+  });
+
+  card.appendChild(grid);
+}
+
+function appendExampleSection(card, title, examples) {
+  if (!examples || examples.length === 0) return;
+
+  const section = document.createElement("div");
+  section.className = "entry-example-section";
+
+  section.appendChild(
+    createTextElement("h3", "entry-language", title)
+  );
+
+  examples.forEach(example => {
+    const item = document.createElement("div");
+    item.className = "entry-example";
+
+    item.appendChild(
+      createTextElement("p", "example-text", example.text)
+    );
+
+    if (example.translation) {
+      item.appendChild(
+        createTextElement(
+          "p",
+          "example-translation",
           example.translation
         )
       );
-    });
+    }
+
+    section.appendChild(item);
   });
 
-  const submitButton = vocabularyForm
-    ? vocabularyForm.querySelector('button[type="submit"]')
-    : null;
+  card.appendChild(section);
+}
 
-  if (submitButton) {
-    submitButton.textContent = "Update Vocabulary";
-  }
+function deleteVocabularyEntry(entry) {
+  const confirmed = confirm(`确定删除「${entry.concept}」吗？`);
+  if (!confirmed) return;
 
-  if (entryFormPanel) {
-    entryFormPanel.hidden = false;
+  const previousData = [...vocabularyData];
 
-    entryFormPanel.scrollIntoView({
-      behavior: "smooth",
-      block: "start"
-    });
+  // 优先按对象引用删除，兼容旧词条没有 ID 的情况
+  const index = vocabularyData.indexOf(entry);
+
+  if (index === -1) return;
+
+  vocabularyData.splice(index, 1);
+
+  if (saveVocabulary()) {
+    renderVocabulary();
+  } else {
+    vocabularyData = previousData;
+    renderVocabulary();
   }
 }
 
+function createVocabularyCard(rawEntry) {
+  const entry = normalizeEntry(rawEntry);
 
-/* =========================================================
-   十二、删除词条
-   ========================================================= */
+  const card = document.createElement("article");
+  card.className = "vocabulary-card";
 
-// 删除指定词条
-function deleteEntry(entryId) {
-  const entry = vocabularyData.find(
-    item => item.id === entryId
+  const header = document.createElement("div");
+  header.className = "entry-header";
+
+  header.appendChild(
+    createTextElement("h2", "entry-concept", entry.concept)
   );
 
-  if (!entry) {
-    return;
-  }
+  const date = entry.createdAt
+    ? new Date(entry.createdAt).toLocaleDateString("zh-CN")
+    : "";
 
-  const confirmed = confirm(
-    `确定要删除词条「${entry.concept}」吗？此操作无法撤销。`
+  header.appendChild(
+    createTextElement("span", "entry-date", date)
   );
 
-  if (!confirmed) {
-    return;
+  card.appendChild(header);
+
+  if (entry.chinese) {
+    const meaning = document.createElement("div");
+    meaning.className = "entry-chinese-meaning";
+
+    meaning.appendChild(
+      createTextElement("h3", "entry-language", "中文释义")
+    );
+
+    meaning.appendChild(
+      createTextElement("p", "entry-meaning-content", entry.chinese)
+    );
+
+    card.appendChild(meaning);
   }
 
-  vocabularyData = vocabularyData.filter(
-    item => item.id !== entryId
+  appendLanguageGrid(card, entry);
+
+  const examples = document.createElement("div");
+  examples.className = "entry-examples-group";
+
+  appendExampleSection(
+    examples,
+    "ENGLISH EXAMPLES",
+    entry.examples.english
   );
 
-  if (editingEntryId === entryId) {
-    closeEntryForm();
+  appendExampleSection(
+    examples,
+    "FRANÇAIS EXAMPLES",
+    entry.examples.french
+  );
+
+  appendExampleSection(
+    examples,
+    "РУССКИЙ EXAMPLES",
+    entry.examples.russian
+  );
+
+  if (examples.children.length > 0) {
+    card.appendChild(examples);
   }
 
-  saveVocabulary();
-}
+  if (entry.notes) {
+    const notes = document.createElement("div");
+    notes.className = "entry-notes";
 
+    notes.appendChild(
+      createTextElement("h3", "entry-language", "MY NOTES")
+    );
 
-/* =========================================================
-   十三、词条搜索
-   ========================================================= */
+    notes.appendChild(
+      createTextElement("p", "entry-content", entry.notes)
+    );
 
-// 获取词条的全部可搜索内容
-function getEntrySearchText(entry) {
-  const parts = [
-    entry.concept,
-    entry.chinese,
-    entry.notes
-  ];
+    card.appendChild(notes);
+  }
 
-  LANGUAGES.forEach(language => {
-    parts.push(...(entry[language] || []));
+  const actions = document.createElement("div");
+  actions.className = "entry-actions";
 
-    const pronunciations = entry.pronunciations &&
-      Array.isArray(entry.pronunciations[language])
-      ? entry.pronunciations[language]
-      : [];
+  const editButton = document.createElement("button");
+  editButton.type = "button";
+  editButton.className = "backup-button";
+  editButton.textContent = "Edit Entry";
 
-    parts.push(...pronunciations);
-
-    const examples = entry.examples &&
-      Array.isArray(entry.examples[language])
-      ? entry.examples[language]
-      : [];
-
-    examples.forEach(example => {
-      parts.push(example.text);
-      parts.push(example.translation);
-    });
+  editButton.addEventListener("click", () => {
+    fillEditForm(rawEntry);
   });
 
-  return parts.join(" ").toLowerCase();
+  const deleteButton = document.createElement("button");
+  deleteButton.type = "button";
+  deleteButton.className = "delete-entry-button";
+  deleteButton.textContent = "Delete Entry";
+
+  deleteButton.addEventListener("click", () => {
+    deleteVocabularyEntry(rawEntry);
+  });
+
+  actions.append(editButton, deleteButton);
+  card.appendChild(actions);
+
+  return card;
 }
 
+// ==================================================
+// 二十一、搜索与语言分类
+// ==================================================
 
-// 判断词条是否符合语言筛选
-function matchesLanguage(entry, language) {
-  if (language === "all") {
-    return true;
-  }
+// 统一搜索文本：忽略大小写与拉丁字母重音差异
+function normalizeSearchText(value) {
+  return String(value ?? "")
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLocaleLowerCase()
+    .trim();
+}
 
-  if (language === "chinese") {
-    return Boolean(
-      safeString(entry.chinese).trim() ||
-      safeString(entry.concept).trim()
+function hasLanguageContent(entry, language) {
+  if (language === "all") return true;
+
+  if (LANGUAGES.includes(language)) {
+    const expressions = safeArray(entry[language]);
+    const examples = safeArray(entry.examples?.[language]);
+
+    return (
+      expressions.some(item => safeText(item)) ||
+      examples.some(item => safeText(item.text))
     );
   }
 
-  return Array.isArray(entry[language]) &&
-    entry[language].length > 0;
-}
+  if (language === "chinese") {
+    const hasMeaning = safeText(entry.chinese) !== "";
 
+    const hasTranslation = LANGUAGES.some(key =>
+      safeArray(entry.examples?.[key]).some(example =>
+        safeText(example.translation) !== ""
+      )
+    );
 
-// 获取词条用于 A-Z 排序的英文主表达
-function getEntryAlphabetSource(entry) {
-  const english = Array.isArray(entry.english)
-    ? entry.english
-    : [];
-
-  const firstEnglish = english.find(
-    item => safeString(item).trim()
-  );
-
-  return firstEnglish || entry.concept || "";
-}
-
-
-// 获取首字母
-function getEntryInitial(entry) {
-  const source = safeString(
-    getEntryAlphabetSource(entry)
-  ).trim();
-
-  if (!source) {
-    return "#";
+    return hasMeaning || hasTranslation;
   }
 
-  // 法语重音字符先进行标准化，例如 é 转换为 e
-  const normalized = source
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-
-  const firstCharacter = normalized.charAt(0).toUpperCase();
-
-  return /^[A-Z]$/.test(firstCharacter)
-    ? firstCharacter
-    : "#";
+  return true;
 }
 
+// 获取指定语言的搜索内容
+function getEntrySearchText(entry, language) {
+  const contents = [entry.concept];
 
-// 获取当前筛选结果
-function getFilteredVocabulary() {
-  const keyword = searchInput
-    ? searchInput.value.trim().toLowerCase()
-    : "";
+  if (language === "all") {
+    contents.push(entry.chinese, entry.notes);
 
-  const language = languageFilter
-    ? languageFilter.value
-    : "all";
+    LANGUAGES.forEach(key => {
+      contents.push(...safeArray(entry[key]));
+      contents.push(...safeArray(entry.pronunciations?.[key]));
 
-  return vocabularyData.filter(entry => {
-    if (!matchesLanguage(entry, language)) {
+      safeArray(entry.examples?.[key]).forEach(example => {
+        contents.push(example.text, example.translation);
+      });
+    });
+
+  } else if (LANGUAGES.includes(language)) {
+    contents.push(...safeArray(entry[language]));
+    contents.push(...safeArray(entry.pronunciations?.[language]));
+
+    safeArray(entry.examples?.[language]).forEach(example => {
+      contents.push(example.text);
+    });
+
+  } else if (language === "chinese") {
+    contents.push(entry.chinese);
+
+    LANGUAGES.forEach(key => {
+      safeArray(entry.examples?.[key]).forEach(example => {
+        contents.push(example.translation);
+      });
+    });
+  }
+
+  return normalizeSearchText(contents.filter(Boolean).join(" "));
+}
+
+// 获取英文表达的首字母
+function getEntryInitial(entry) {
+  const expressions = safeArray(entry.english);
+
+  for (const expression of expressions) {
+    const normalized = safeText(expression)
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+
+    const match = normalized.match(/[a-z]/i);
+
+    if (match) {
+      return match[0].toUpperCase();
+    }
+  }
+
+  return "";
+}
+
+// 当前语言、搜索词和字母共同决定显示结果
+function filterVocabulary() {
+  const keyword = normalizeSearchText(vocabularySearchInput?.value);
+  const language = vocabularySearchLanguage?.value || "all";
+
+  return vocabularyData.filter(rawEntry => {
+    const entry = normalizeEntry(rawEntry);
+
+    if (!hasLanguageContent(entry, language)) {
       return false;
     }
 
     if (keyword) {
-      const searchText = getEntrySearchText(entry);
+      const searchText = getEntrySearchText(entry, language);
 
       if (!searchText.includes(keyword)) {
         return false;
       }
     }
 
-    if (activeAlphabet !== "all") {
-      if (getEntryInitial(entry) !== activeAlphabet) {
+    if (alphabetSelection !== "all") {
+      if (getEntryInitial(entry) !== alphabetSelection) {
         return false;
       }
     }
@@ -1096,336 +1523,175 @@ function getFilteredVocabulary() {
   });
 }
 
+// ==================================================
+// 二十二、A-Z 首字母导航
+// ==================================================
 
-/* =========================================================
-   十四、词条排序
-   ========================================================= */
-
-// 按照英文主表达首字母排序
-function sortVocabulary(data) {
-  return [...data].sort((a, b) => {
-    const nameA = getEntryAlphabetSource(a)
-      .toLocaleLowerCase();
-
-    const nameB = getEntryAlphabetSource(b)
-      .toLocaleLowerCase();
-
-    const result = nameA.localeCompare(
-      nameB,
-      "en",
-      { sensitivity: "base" }
-    );
-
-    if (result !== 0) {
-      return result;
-    }
-
-    return safeString(a.concept).localeCompare(
-      safeString(b.concept),
-      "zh-CN"
-    );
-  });
-}
-
-
-/* =========================================================
-   十五、A-Z 首字母导航
-   ========================================================= */
-
-// 更新字母导航
 function renderAlphabetFilter() {
-  if (!alphabetFilter) {
-    return;
-  }
-
-  const availableLetters = new Set(
-    vocabularyData.map(getEntryInitial)
-  );
-
-  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+  if (!alphabetFilter) return;
 
   alphabetFilter.replaceChildren();
 
-  // 全部按钮
-  const allButton = document.createElement("button");
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
+  const allButton = document.createElement("button");
   allButton.type = "button";
   allButton.className = "alphabet-button";
-  allButton.textContent = "全部";
   allButton.dataset.letter = "all";
+  allButton.textContent = "全部";
+  allButton.setAttribute(
+    "aria-pressed",
+    String(alphabetSelection === "all")
+  );
 
-  if (activeAlphabet === "all") {
+  if (alphabetSelection === "all") {
     allButton.classList.add("is-active");
   }
 
-  allButton.setAttribute(
-    "aria-pressed",
-    String(activeAlphabet === "all")
-  );
+  allButton.addEventListener("click", () => {
+    alphabetSelection = "all";
+    renderAlphabetFilter();
+    renderVocabulary();
+  });
 
   alphabetFilter.appendChild(allButton);
 
-  // A-Z 按钮
+  const counts = {};
+
+  vocabularyData.forEach(entry => {
+    const letter = getEntryInitial(entry);
+
+    if (letter) {
+      counts[letter] = (counts[letter] || 0) + 1;
+    }
+  });
+
   letters.forEach(letter => {
     const button = document.createElement("button");
 
     button.type = "button";
     button.className = "alphabet-button";
-    button.textContent = letter;
     button.dataset.letter = letter;
+    button.textContent = letter;
 
-    const available = availableLetters.has(letter);
-
-    button.disabled = !available;
-
-    if (activeAlphabet === letter) {
-      button.classList.add("is-active");
-    }
+    button.disabled = !counts[letter];
+    button.title = counts[letter]
+      ? `${counts[letter]} 条词汇`
+      : "暂无该首字母词汇";
 
     button.setAttribute(
       "aria-pressed",
-      String(activeAlphabet === letter)
+      String(alphabetSelection === letter)
     );
+
+    if (alphabetSelection === letter) {
+      button.classList.add("is-active");
+    }
+
+    button.addEventListener("click", () => {
+      if (button.disabled) return;
+
+      alphabetSelection = letter;
+
+      renderAlphabetFilter();
+      renderVocabulary();
+    });
 
     alphabetFilter.appendChild(button);
   });
-
-  // 其他字符归入 #
-  const otherButton = document.createElement("button");
-
-  otherButton.type = "button";
-  otherButton.className = "alphabet-button";
-  otherButton.textContent = "#";
-  otherButton.dataset.letter = "#";
-
-  otherButton.disabled = !availableLetters.has("#");
-
-  if (activeAlphabet === "#") {
-    otherButton.classList.add("is-active");
-  }
-
-  otherButton.setAttribute(
-    "aria-pressed",
-    String(activeAlphabet === "#")
-  );
-
-  alphabetFilter.appendChild(otherButton);
 }
 
+// ==================================================
+// 二十三、搜索清空按钮
+// ==================================================
 
-// 处理首字母点击
-function handleAlphabetClick(event) {
-  const button = event.target.closest(".alphabet-button");
+function createSearchClearButton() {
+  const searchWrap = $(".search-input-wrap");
 
-  if (!button || button.disabled) {
-    return;
-  }
+  if (!searchWrap || !vocabularySearchInput) return;
 
-  activeAlphabet = button.dataset.letter || "all";
+  if (byId("vocabulary-search-clear")) return;
 
-  renderAlphabetFilter();
-  renderVocabulary();
-}
+  const button = document.createElement("button");
 
+  button.id = "vocabulary-search-clear";
+  button.type = "button";
+  button.className = "search-clear-button";
+  button.textContent = "×";
+  button.setAttribute("aria-label", "清空搜索");
+  button.title = "清空搜索";
 
-/* =========================================================
-   十六、词条卡片渲染
-   ========================================================= */
+  button.hidden = true;
 
-// 创建词条卡片
-function createVocabularyCard(entry) {
-  const card = document.createElement("article");
+  button.addEventListener("click", () => {
+    vocabularySearchInput.value = "";
+    alphabetSelection = "all";
 
-  card.className = "vocabulary-card";
+    renderAlphabetFilter();
+    renderVocabulary();
 
-  const dateText = escapeHTML(entry.date || "");
-
-  let html = `
-    <div class="entry-header">
-      <h3 class="entry-concept">${escapeHTML(entry.concept)}</h3>
-      <span class="entry-date">${dateText}</span>
-    </div>
-  `;
-
-  // 中文释义
-  if (entry.chinese) {
-    html += `
-      <div class="entry-chinese-meaning">
-        <p class="entry-language">CHINESE MEANING</p>
-        <p class="entry-meaning-content">${escapeHTML(entry.chinese)}</p>
-      </div>
-    `;
-  }
-
-  // 三种语言的表达
-  html += `<div class="entry-language-grid">`;
-
-  LANGUAGES.forEach(language => {
-    const expressions = Array.isArray(entry[language])
-      ? entry[language]
-      : [];
-
-    const pronunciations = entry.pronunciations &&
-      Array.isArray(entry.pronunciations[language])
-      ? entry.pronunciations[language]
-      : [];
-
-    html += `
-      <section class="entry-language-column">
-        <p class="entry-language">${LANGUAGE_LABELS[language]}</p>
-        <div class="entry-expression-list">
-    `;
-
-    if (expressions.length === 0) {
-      html += `
-        <p class="entry-content">—</p>
-      `;
-    } else {
-      expressions.forEach((expression, index) => {
-        const ipa = pronunciations[index] || "";
-
-        html += `
-          <div class="entry-expression-item">
-            <p class="entry-expression-text">
-              ${escapeHTML(expression)}
-            </p>
-            ${
-              ipa
-                ? `<p class="entry-expression-ipa">${escapeHTML(ipa)}</p>`
-                : ""
-            }
-          </div>
-        `;
-      });
-    }
-
-    html += `
-        </div>
-      </section>
-    `;
+    vocabularySearchInput.focus();
   });
 
-  html += `</div>`;
-
-  // 三种语言的例句
-  const hasExamples = LANGUAGES.some(language => {
-    return entry.examples &&
-      Array.isArray(entry.examples[language]) &&
-      entry.examples[language].length > 0;
-  });
-
-  if (hasExamples) {
-    html += `<div class="entry-examples-group">`;
-
-    LANGUAGES.forEach(language => {
-      const examples = entry.examples &&
-        Array.isArray(entry.examples[language])
-        ? entry.examples[language]
-        : [];
-
-      if (examples.length === 0) {
-        return;
-      }
-
-      html += `
-        <section class="entry-example-section">
-          <p class="entry-language">${LANGUAGE_LABELS[language]} · EXAMPLES</p>
-      `;
-
-      examples.forEach(example => {
-        html += `
-          <div class="entry-example">
-            <p class="example-text">${escapeHTML(example.text)}</p>
-
-            ${
-              example.translation
-                ? `<p class="example-translation">${escapeHTML(example.translation)}</p>`
-                : ""
-            }
-          </div>
-        `;
-      });
-
-      html += `</section>`;
-    });
-
-    html += `</div>`;
-  }
-
-  // 个人备注
-  if (entry.notes) {
-    html += `
-      <div class="entry-notes">
-        <p class="entry-language">PERSONAL NOTES</p>
-        <p class="entry-content">${escapeHTML(entry.notes)}</p>
-      </div>
-    `;
-  }
-
-  // 操作按钮
-  html += `
-    <div class="entry-actions">
-      <button
-        class="secondary-button edit-entry-button"
-        type="button"
-        data-id="${escapeHTML(entry.id)}"
-      >
-        Edit
-      </button>
-
-      <button
-        class="delete-entry-button"
-        type="button"
-        data-id="${escapeHTML(entry.id)}"
-      >
-        Delete
-      </button>
-    </div>
-  `;
-
-  card.innerHTML = html;
-
-  return card;
+  searchWrap.appendChild(button);
 }
 
+function updateSearchClearButton() {
+  const button = byId("vocabulary-search-clear");
 
-/* =========================================================
-   十七、渲染词汇列表
-   ========================================================= */
+  if (button && vocabularySearchInput) {
+    button.hidden = !vocabularySearchInput.value.trim();
+  }
+}
 
-// 渲染词汇列表
+// ==================================================
+// 二十四、渲染词汇列表
+// ==================================================
+
 function renderVocabulary() {
-  if (!vocabularyList) {
-    return;
-  }
+  if (!vocabularyList) return;
 
   if (totalCount) {
-    totalCount.textContent = String(vocabularyData.length);
+    totalCount.textContent = vocabularyData.length;
   }
 
-  renderAlphabetFilter();
+  const filteredData = filterVocabulary();
 
-  const filteredData = sortVocabulary(
-    getFilteredVocabulary()
-  );
+  const hasSearchCondition =
+    safeText(vocabularySearchInput?.value) !== "" ||
+    (vocabularySearchLanguage?.value || "all") !== "all" ||
+    alphabetSelection !== "all";
 
-  if (searchStatus) {
-    searchStatus.textContent =
-      `显示 ${filteredData.length} / ${vocabularyData.length} 条词汇`;
+  if (vocabularySearchStatus) {
+    vocabularySearchStatus.textContent = hasSearchCondition
+      ? `找到 ${filteredData.length} / ${vocabularyData.length} 条词汇`
+      : `共 ${vocabularyData.length} 条词汇`;
   }
+
+  updateSearchClearButton();
 
   vocabularyList.replaceChildren();
 
+  if (vocabularyData.length === 0) {
+    vocabularyList.appendChild(
+      createTextElement(
+        "p",
+        "empty-message",
+        "Your collection starts here."
+      )
+    );
+
+    return;
+  }
+
   if (filteredData.length === 0) {
-    const emptyMessage = document.createElement("p");
-
-    emptyMessage.className = "empty-message";
-
-    emptyMessage.textContent = vocabularyData.length === 0
-      ? "还没有词汇，点击 Add Vocabulary 开始建立你的词汇库。"
-      : "没有找到符合条件的词汇，试试其他关键词或筛选条件。";
-
-    vocabularyList.appendChild(emptyMessage);
+    vocabularyList.appendChild(
+      createTextElement(
+        "p",
+        "empty-message",
+        "没有找到匹配的词汇。试试其他关键词、语言或首字母。"
+      )
+    );
 
     return;
   }
@@ -1437,864 +1703,28 @@ function renderVocabulary() {
   });
 }
 
-
-/* =========================================================
-   十八、主题管理
-   ========================================================= */
-
-// 读取主题
-function loadVocabularyTheme() {
-  const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-
-  const isLight = savedTheme === "light";
-
-  document.body.classList.toggle(
-    "vocabulary-light",
-    isLight
-  );
-
-  updateThemeButton(isLight);
-}
-
-
-// 更新主题按钮
-function updateThemeButton(isLight) {
-  if (themeIcon) {
-    themeIcon.textContent = isLight ? "☾" : "☼";
-  }
-
-  if (themeText) {
-    themeText.textContent = isLight
-      ? "Dark Mode"
-      : "Light Mode";
-  }
-}
-
-
-// 切换主题
-function toggleVocabularyTheme() {
-  const isLight = document.body.classList.toggle(
-    "vocabulary-light"
-  );
-
-  localStorage.setItem(
-    THEME_STORAGE_KEY,
-    isLight ? "light" : "dark"
-  );
-
-  updateThemeButton(isLight);
-}
-
-
-/* =========================================================
-   十九、JSON 数据备份
-   ========================================================= */
-
-// 导出 JSON 文件
-function exportVocabularyJSON() {
-  const exportData = {
-    format: "language-lab-vocabulary",
-    version: 1,
-    exportedAt: new Date().toISOString(),
-    data: vocabularyData
-  };
-
-  const blob = new Blob(
-    [JSON.stringify(exportData, null, 2)],
-    { type: "application/json" }
-  );
-
-  const url = URL.createObjectURL(blob);
-
-  const link = document.createElement("a");
-
-  link.href = url;
-
-  link.download = `language-lab-vocabulary-${getCurrentDate()}.json`;
-
-  document.body.appendChild(link);
-
-  link.click();
-
-  link.remove();
-
-  URL.revokeObjectURL(url);
-}
-
-
-// 导入 JSON 文件
-function importVocabularyJSON(file) {
-  if (!file) {
-    return;
-  }
-
-  const reader = new FileReader();
-
-  reader.onload = () => {
-    try {
-      const parsed = JSON.parse(reader.result);
-
-      let importedData;
-
-      if (Array.isArray(parsed)) {
-        importedData = parsed;
-
-      } else if (
-        parsed &&
-        parsed.format === "language-lab-vocabulary" &&
-        Array.isArray(parsed.data)
-      ) {
-        importedData = parsed.data;
-
-      } else {
-        throw new Error("不支持的 JSON 文件格式");
-      }
-
-      const normalized = validateVocabularyData(importedData);
-
-      if (!normalized) {
-        throw new Error("词汇数据格式不正确");
-      }
-
-      const confirmed = confirm(
-        `即将导入 ${normalized.length} 条词汇。\n\n导入后将替换当前本地词库，是否继续？建议先导出备份。`
-      );
-
-      if (!confirmed) {
-        return;
-      }
-
-      vocabularyData = normalized;
-
-      saveVocabulary();
-
-      alert("词汇导入成功！");
-
-    } catch (error) {
-      console.error("导入失败：", error);
-
-      alert(`导入失败：${error.message}`);
-    }
-  };
-
-  reader.onerror = () => {
-    alert("读取文件失败，请重试。");
-  };
-
-  reader.readAsText(file, "UTF-8");
-}
-
-
-/* =========================================================
-   二十、备份工具栏
-   ========================================================= */
-
-// 创建备份工具栏
-function createBackupControls() {
-  if (!vocabularyList || !vocabularyList.parentElement) {
-    return;
-  }
-
-  if (document.getElementById("vocabulary-backup-toolbar")) {
-    return;
-  }
-
-  const toolbar = document.createElement("div");
-
-  toolbar.id = "vocabulary-backup-toolbar";
-  toolbar.className = "vocabulary-backup-actions";
-
-  toolbar.innerHTML = `
-    <button
-      id="export-vocabulary-button"
-      class="backup-button"
-      type="button"
-    >
-      ↓ Export JSON
-    </button>
-
-    <button
-      id="import-vocabulary-button"
-      class="backup-button"
-      type="button"
-    >
-      ↑ Import JSON
-    </button>
-
-    <input
-      id="import-vocabulary-file"
-      type="file"
-      accept=".json,application/json"
-      hidden
-    >
-
-    <div class="backup-info">
-      <div class="backup-info-title">LOCAL DATA BACKUP</div>
-      <p class="backup-info-description">
-        可以将词汇库导出为 JSON 文件，也可以从备份文件恢复数据。
-      </p>
-      <p class="backup-info-tip">
-        提示：导入操作会替换当前本地词库，建议先导出一份备份。
-      </p>
-    </div>
-  `;
-
-  vocabularyList.parentElement.insertBefore(
-    toolbar,
-    vocabularyList
-  );
-
-  const exportButton = toolbar.querySelector(
-    "#export-vocabulary-button"
-  );
-
-  const importButton = toolbar.querySelector(
-    "#import-vocabulary-button"
-  );
-
-  const fileInput = toolbar.querySelector(
-    "#import-vocabulary-file"
-  );
-
-  exportButton.addEventListener(
-    "click",
-    exportVocabularyJSON
-  );
-
-  importButton.addEventListener("click", () => {
-    fileInput.click();
-  });
-
-  fileInput.addEventListener("change", event => {
-    const file = event.target.files[0];
-
-    importVocabularyJSON(file);
-
-    event.target.value = "";
-  });
-}
-
-
-/* =========================================================
-   二十一、云同步状态提示
-   ========================================================= */
-
-// 更新云同步状态
-function setSyncStatus(message, state = "normal") {
-  const status = document.getElementById(
-    "vocabulary-sync-status"
-  );
-
-  if (!status) {
-    return;
-  }
-
-  status.textContent = message;
-
-  status.dataset.state = state;
-}
-
-
-/* =========================================================
-   二十二、Cloudflare Worker 请求
-   ========================================================= */
-
-// 统一 API 请求
-async function syncRequest(path, options = {}) {
-  const response = await fetch(
-    `${SYNC_API}${path}`,
-    {
-      credentials: "include",
-      ...options
-    }
-  );
-
-  if (!response.ok) {
-    const message = await response.text();
-
-    throw new Error(
-      `HTTP ${response.status}: ${message || response.statusText}`
-    );
-  }
-
-  const contentType = response.headers.get("content-type") || "";
-
-  if (contentType.includes("application/json")) {
-    return response.json();
-  }
-
-  const text = await response.text();
-
-  return text ? safeJSONParse(text, text) : null;
-}
-
-
-/* =========================================================
-   二十三、云同步工具栏
-   ========================================================= */
-
-// 创建云同步工具栏
-function createSyncControls() {
-  if (!vocabularyList || !vocabularyList.parentElement) {
-    return;
-  }
-
-  if (document.getElementById("vocabulary-sync-toolbar")) {
-    return;
-  }
-
-  const toolbar = document.createElement("div");
-
-  toolbar.id = "vocabulary-sync-toolbar";
-  toolbar.className = "vocabulary-sync-toolbar";
-
-  toolbar.innerHTML = `
-    <button
-      id="vocabulary-cloud-login"
-      class="backup-button"
-      type="button"
-    >
-      ↗ GitHub Login
-    </button>
-
-    <button
-      id="vocabulary-cloud-sync"
-      class="backup-button"
-      type="button"
-    >
-      ↻ Sync Now
-    </button>
-
-    <button
-      id="vocabulary-cloud-logout"
-      class="backup-button"
-      type="button"
-    >
-      Logout
-    </button>
-
-    <span
-      id="vocabulary-sync-status"
-      class="vocabulary-sync-status"
-      data-state="normal"
-    >
-      正在检查云同步状态……
-    </span>
-  `;
-
-  vocabularyList.parentElement.insertBefore(
-    toolbar,
-    vocabularyList
-  );
-
-  const loginButton = toolbar.querySelector(
-    "#vocabulary-cloud-login"
-  );
-
-  const syncButton = toolbar.querySelector(
-    "#vocabulary-cloud-sync"
-  );
-
-  const logoutButton = toolbar.querySelector(
-    "#vocabulary-cloud-logout"
-  );
-
-  loginButton.addEventListener("click", loginCloud);
-
-  syncButton.addEventListener("click", () => {
-    syncQueue = syncQueue
-      .then(() => performCloudSync(true))
-      .catch(error => {
-        console.error("手动同步失败：", error);
-      });
-  });
-
-  logoutButton.addEventListener("click", logoutCloud);
-}
-
-
-/* =========================================================
-   二十四、检查 GitHub 登录状态
-   ========================================================= */
-
-// 检查授权状态
-async function checkCloudAuthStatus() {
-  try {
-    const result = await syncRequest("/auth/status");
-
-    isCloudAuthenticated = Boolean(
-      result &&
-      (
-        result.authenticated ||
-        result.loggedIn ||
-        result.user
-      )
-    );
-
-    updateCloudButtons();
-
-    return isCloudAuthenticated;
-
-  } catch (error) {
-    console.error("检查登录状态失败：", error);
-
-    isCloudAuthenticated = false;
-
-    updateCloudButtons();
-
-    return false;
-  }
-}
-
-
-// 更新云同步按钮
-function updateCloudButtons() {
-  const loginButton = document.getElementById(
-    "vocabulary-cloud-login"
-  );
-
-  const syncButton = document.getElementById(
-    "vocabulary-cloud-sync"
-  );
-
-  const logoutButton = document.getElementById(
-    "vocabulary-cloud-logout"
-  );
-
-  if (loginButton) {
-    loginButton.hidden = isCloudAuthenticated;
-  }
-
-  if (syncButton) {
-    syncButton.disabled = !isCloudAuthenticated;
-  }
-
-  if (logoutButton) {
-    logoutButton.hidden = !isCloudAuthenticated;
-  }
-}
-
-
-/* =========================================================
-   二十五、GitHub 登录与退出
-   ========================================================= */
-
-// 发起 GitHub 登录
-function loginCloud() {
-  window.location.href = `${SYNC_API}/auth/login`;
-}
-
-
-// 退出 GitHub 登录
-async function logoutCloud() {
-  const confirmed = confirm("确定要退出云同步登录吗？");
-
-  if (!confirmed) {
-    return;
-  }
-
-  try {
-    await syncRequest("/auth/logout", {
-      method: "POST"
-    });
-
-    isCloudAuthenticated = false;
-
-    updateCloudButtons();
-
-    setSyncStatus("已退出云同步", "normal");
-
-  } catch (error) {
-    console.error("退出登录失败：", error);
-
-    setSyncStatus("退出失败，请稍后重试", "error");
-  }
-}
-
-
-/* =========================================================
-   二十六、读取云端词汇
-   ========================================================= */
-
-// 获取云端词汇
-async function loadCloudVocabulary() {
-  const result = await syncRequest("/api/vocabulary");
-
-  if (!result || typeof result !== "object") {
-    return null;
-  }
-
-  // 兼容不同版本的返回字段
-  const cloudData = Array.isArray(result.data)
-    ? result.data
-    : Array.isArray(result.vocabulary)
-      ? result.vocabulary
-      : null;
-
-  if (!cloudData) {
-    return null;
-  }
-
-  cloudRevision =
-    result.sha ||
-    result.revision ||
-    null;
-
-  return validateVocabularyData(cloudData);
-}
-
-
-/* =========================================================
-   二十七、写入云端词汇
-   ========================================================= */
-
-// 将本地词汇上传到云端
-async function uploadCloudVocabulary() {
-  const payload = {
-    data: vocabularyData,
-    sha: cloudRevision
-  };
-
-  const result = await syncRequest("/api/vocabulary", {
-    method: "POST",
-
-    headers: {
-      "Content-Type": "text/plain;charset=UTF-8"
-    },
-
-    body: JSON.stringify(payload)
-  });
-
-  if (result && (result.sha || result.revision)) {
-    cloudRevision = result.sha || result.revision;
-  }
-
-  return result;
-}
-
-
-/* =========================================================
-   二十八、云端初始化
-   ========================================================= */
-
-// 初始化云端数据
-async function initializeCloudSync() {
-  if (cloudInitialized) {
-    return;
-  }
-
-  cloudInitialized = true;
-
-  const authenticated = await checkCloudAuthStatus();
-
-  if (!authenticated) {
-    setSyncStatus("本地模式 · 登录 GitHub 开启云同步", "normal");
-    return;
-  }
-
-  try {
-    setSyncStatus("正在读取云端词库……", "normal");
-
-    const cloudData = await loadCloudVocabulary();
-
-    if (!cloudData) {
-      setSyncStatus("云端暂无可用数据", "normal");
-      return;
-    }
-
-    // 本地没有数据时，直接使用云端数据
-    if (!hasLocalData || vocabularyData.length === 0) {
-      vocabularyData = cloudData;
-
-      saveLocalVocabulary();
-
-      renderVocabulary();
-
-      setSyncStatus("已从云端恢复词库", "success");
-
-      return;
-    }
-
-    // 本地和云端都有数据时，不自动覆盖任意一方
-    setSyncStatus(
-      "本地与云端均有数据，请确认后再手动同步",
-      "normal"
-    );
-
-  } catch (error) {
-    console.error("初始化云同步失败：", error);
-
-    setSyncStatus("云端连接失败，请稍后重试", "error");
-  }
-}
-
-
-/* =========================================================
-   二十九、自动云同步
-   ========================================================= */
-
-// 安排自动同步
-function scheduleCloudSync() {
-  if (!isCloudAuthenticated) {
-    return;
-  }
-
-  clearTimeout(syncTimer);
-
-  syncTimer = setTimeout(() => {
-    syncQueue = syncQueue
-      .then(() => performCloudSync(false))
-      .catch(error => {
-        console.error("自动同步失败：", error);
-      });
-
-  }, SYNC_DELAY);
-}
-
-
-// 执行云同步
-async function performCloudSync(manual = false) {
-  if (!isCloudAuthenticated) {
-    setSyncStatus("请先登录 GitHub", "normal");
-    return;
-  }
-
-  if (isSyncing) {
-    return;
-  }
-
-  isSyncing = true;
-
-  try {
-    setSyncStatus("正在同步……", "normal");
-
-    await uploadCloudVocabulary();
-
-    setSyncStatus(
-      manual ? "手动同步成功" : "自动同步成功",
-      "success"
-    );
-
-  } catch (error) {
-    console.error("云同步失败：", error);
-
-    const message = safeString(error.message);
-
-    if (
-      message.includes("409") ||
-      message.toLowerCase().includes("sha") ||
-      message.toLowerCase().includes("conflict")
-    ) {
-      setSyncStatus(
-        "云端版本发生变化，请重新读取云端数据",
-        "error"
-      );
-
-    } else {
-      setSyncStatus("同步失败：" + message, "error");
-    }
-
-  } finally {
-    isSyncing = false;
-  }
-}
-
-
-/* =========================================================
-   三十、手动同步
-   ========================================================= */
-
-// 从云端重新读取
-async function refreshFromCloud() {
-  if (!isCloudAuthenticated) {
-    setSyncStatus("请先登录 GitHub", "normal");
-    return;
-  }
-
-  const confirmed = confirm(
-    "从云端重新读取会覆盖当前本地词库，确定继续吗？建议先导出备份。"
-  );
-
-  if (!confirmed) {
-    return;
-  }
-
-  try {
-    setSyncStatus("正在读取云端数据……", "normal");
-
-    const cloudData = await loadCloudVocabulary();
-
-    if (!cloudData) {
-      setSyncStatus("云端没有可用词汇数据", "normal");
-      return;
-    }
-
-    vocabularyData = cloudData;
-
-    saveLocalVocabulary();
-
-    renderVocabulary();
-
-    setSyncStatus("云端数据读取成功", "success");
-
-  } catch (error) {
-    console.error("读取云端失败：", error);
-
-    setSyncStatus("读取云端失败：" + error.message, "error");
-  }
-}
-
-
-/* =========================================================
-   三十一、动态按钮事件
-   ========================================================= */
-
-// 处理动态添加按钮
-function handleAddFieldClick(event) {
-  const button = event.target.closest(".add-field-button");
-
-  if (!button) {
-    return;
-  }
-
-  const type = button.dataset.type;
-  const target = button.dataset.target;
-
-  if (type === "expression") {
-    const language = Object.keys(WORD_CONTAINER_IDS).find(
-      key => WORD_CONTAINER_IDS[key] === target
-    );
-
-    if (language) {
-      addExpressionField(language);
-    }
-
-    return;
-  }
-
-  if (type === "example") {
-    const language = Object.keys(EXAMPLE_CONTAINER_IDS).find(
-      key => EXAMPLE_CONTAINER_IDS[key] === target
-    );
-
-    if (language) {
-      addExampleField(language);
-    }
-  }
-}
-
-
-/* =========================================================
-   三十二、词条操作事件
-   ========================================================= */
-
-// 处理词条编辑和删除
-function handleVocabularyAction(event) {
-  const editButton = event.target.closest(".edit-entry-button");
-
-  if (editButton) {
-    fillEditForm(editButton.dataset.id);
-    return;
-  }
-
-  const deleteButton = event.target.closest(".delete-entry-button");
-
-  if (deleteButton) {
-    deleteEntry(deleteButton.dataset.id);
-  }
-}
-
-
-/* =========================================================
-   三十三、页面事件绑定
-   ========================================================= */
-
-// 绑定所有页面事件
-function bindEvents() {
-  // 新增词条
-  if (addEntryButton) {
-    addEntryButton.addEventListener(
-      "click",
-      openNewEntryForm
-    );
-  }
-
-  // 取消表单
-  if (cancelEntryButton) {
-    cancelEntryButton.addEventListener(
-      "click",
-      closeEntryForm
-    );
-  }
-
-  // 提交表单
-  if (vocabularyForm) {
-    vocabularyForm.addEventListener(
-      "submit",
-      handleFormSubmit
-    );
-  }
-
-  // 动态增加表达与例句
-  if (entryFormPanel) {
-    entryFormPanel.addEventListener(
-      "click",
-      handleAddFieldClick
-    );
-  }
-
-  // 词条编辑与删除
-  if (vocabularyList) {
-    vocabularyList.addEventListener(
-      "click",
-      handleVocabularyAction
-    );
-  }
-
-  // 搜索
-  if (searchInput) {
-    searchInput.addEventListener("input", () => {
-      renderVocabulary();
-    });
-  }
-
-  // 语言筛选
-  if (languageFilter) {
-    languageFilter.addEventListener("change", () => {
-      activeAlphabet = "all";
-      renderVocabulary();
-    });
-  }
-
-  // A-Z 导航
-  if (alphabetFilter) {
-    alphabetFilter.addEventListener(
-      "click",
-      handleAlphabetClick
-    );
-  }
-
-  // 主题切换
-  if (themeToggle) {
-    themeToggle.addEventListener(
-      "click",
-      toggleVocabularyTheme
-    );
-  }
-}
-
-
-/* =========================================================
-   三十四、URL 语言参数
-   ========================================================= */
-
-// 根据 URL 参数初始化语言筛选
-function initializeLanguageFromURL() {
+// ==================================================
+// 二十五、搜索事件
+// ==================================================
+
+vocabularySearchInput?.addEventListener("input", () => {
+  renderVocabulary();
+});
+
+vocabularySearchLanguage?.addEventListener("change", () => {
+  // 切换语言分类时保留搜索关键词
+  renderVocabulary();
+});
+
+// ==================================================
+// 二十六、URL 语言分类初始化
+// ==================================================
+
+function initializeLanguageFilter() {
   const params = new URLSearchParams(window.location.search);
+  const requestedLanguage = params.get("language");
 
-  const language = params.get("language");
-
-  const allowedLanguages = [
+  const supportedLanguages = [
     "all",
     "english",
     "french",
@@ -2303,56 +1733,27 @@ function initializeLanguageFromURL() {
   ];
 
   if (
-    languageFilter &&
-    language &&
-    allowedLanguages.includes(language)
+    requestedLanguage &&
+    supportedLanguages.includes(requestedLanguage) &&
+    vocabularySearchLanguage
   ) {
-    languageFilter.value = language;
+    vocabularySearchLanguage.value = requestedLanguage;
   }
 }
 
+// ==================================================
+// 二十七、页面初始化
+// ==================================================
 
-/* =========================================================
-   三十五、页面初始化
-   ========================================================= */
+loadVocabularyTheme();
 
-// 页面启动
-function initializeVocabulary() {
-  // 读取本地词汇
-  loadLocalVocabulary();
+initializeLanguageFilter();
 
-  // 恢复主题
-  loadVocabularyTheme();
+createSearchClearButton();
 
-  // 初始化动态表达输入框
-  initializeExpressionFields();
+renderAlphabetFilter();
 
-  // 根据 URL 设置语言筛选
-  initializeLanguageFromURL();
+renderVocabulary();
 
-  // 创建云同步工具栏
-  createSyncControls();
-
-  // 创建 JSON 备份工具栏
-  createBackupControls();
-
-  // 绑定事件
-  bindEvents();
-
-  // 渲染词汇
-  renderVocabulary();
-
-  // 初始化云同步
-  initializeCloudSync();
-}
-
-
-// 等待 DOM 加载完成
-if (document.readyState === "loading") {
-  document.addEventListener(
-    "DOMContentLoaded",
-    initializeVocabulary
-  );
-} else {
-  initializeVocabulary();
-}
+// 检查 GitHub 登录状态并读取云端数据
+initializeCloudSync();
